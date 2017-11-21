@@ -1,21 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pongsys;
 
-/**
- *
- * @author aluno
- */
+import java.util.Scanner;
+
 public class PongSys {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        System.out.println("Heyio :3");
+        
+        cadastrarUsuario();
     }
     
+    public static void cadastrarUsuario() {
+        Scanner scan = new Scanner(System.in);
+        
+        System.out.print("None: ");
+        String nome = scan.nextLine();
+        
+        scan.close();
+    }
 }
