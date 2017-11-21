@@ -2,9 +2,9 @@ package pongsys.model;
 
 public class Usuario {
     
-    private String nome;
-	private String email;
-	private String senha; 
+    private final String nome;
+	private final String email;
+	private final String senha; 
     
     /**
      * Construtor do Usuário
