@@ -1,5 +1,7 @@
 package br.ufla.dcc.ppoo;
 
+import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 import java.util.Scanner;
 
 public class PongSys {
@@ -7,15 +9,10 @@ public class PongSys {
     public static void main(String[] args) {
         System.out.println("Heyio :3");
         
-        cadastrarUsuario();
-    }
-    
-    public static void cadastrarUsuario() {
-        Scanner scan = new Scanner(System.in);
+        UsuarioDAO.getInstancia().visualizaUsuarios();
         
-        System.out.print("None: ");
-        String nome = scan.nextLine();
-        
-        scan.close();
+        UsuarioController.getInstancia().cadastrar("KatoMono", "K4t0mono@gmail.com", "senha");
+        UsuarioController.getInstancia().cadastrar("Silventino", "silventino.gato@gmail.com", "senha");
+        UsuarioDAO.getInstancia().visualizaUsuarios();
     }
 }

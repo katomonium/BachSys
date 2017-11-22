@@ -11,7 +11,7 @@ public class UsuarioDAO {
     private final List<Usuario> usuarios;
     
 //  Única instância da classe
-    private static UsuarioDAO instancia;
+    private static UsuarioDAO instancia = new UsuarioDAO();
     
     private UsuarioDAO() {
         this.usuarios = new ArrayList();
@@ -33,5 +33,15 @@ public class UsuarioDAO {
     
     public void adicionarUsuario(Usuario u) {
         this.usuarios.add(u);
+    }
+    
+    public void visualizaUsuarios() {
+        System.out.println("visualizaUsuarios()");
+        
+        for(Usuario u : this.usuarios) {
+            System.out.println(u);
+        }
+        
+        System.out.println("");
     }
 }
