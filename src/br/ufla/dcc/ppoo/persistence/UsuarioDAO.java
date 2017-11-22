@@ -1,8 +1,5 @@
 package br.ufla.dcc.ppoo.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.ufla.dcc.ppoo.model.Usuario;
 import java.util.HashMap;
 import java.util.Map;
