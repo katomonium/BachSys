@@ -3,7 +3,7 @@ package br.ufla.dcc.ppoo;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 
-public class PongSys {
+public class BachSys {
 
     public static void main(String[] args) {
         System.out.println("Heyio :3");
