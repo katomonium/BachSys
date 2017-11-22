@@ -14,9 +14,11 @@ public class UsuarioController {
     }
     
     public void cadastrar(String nome, String email, String senha) {
+               
         senha = this.hash(senha);
         
         Usuario u = new Usuario(nome, email, senha);
+        
         USUARIO_DAO.adicionarUsuario(u);
     }
     
