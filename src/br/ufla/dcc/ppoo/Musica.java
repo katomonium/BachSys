@@ -1,6 +1,6 @@
-package pongsys;
+package br.ufla.dcc.ppoo;
 
-import pongsys.model.Usuario;
+import br.ufla.dcc.ppoo.model.Usuario;
 
 public class Musica {
 

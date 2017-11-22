@@ -1,4 +1,4 @@
-package pongsys;
+package br.ufla.dcc.ppoo;
 
 public class UI {
 

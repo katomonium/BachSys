@@ -1,9 +1,9 @@
-package pongsys.persistence;
+package br.ufla.dcc.ppoo.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pongsys.model.Usuario;
+import br.ufla.dcc.ppoo.model.Usuario;
 
 public class UsuarioDAO {
     

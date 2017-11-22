@@ -1,4 +1,4 @@
-package pongsys.model;
+package br.ufla.dcc.ppoo.model;
 
 public class Usuario {
     
