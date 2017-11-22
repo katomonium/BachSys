@@ -5,6 +5,7 @@ import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
+import br.ufla.dcc.ppoo.view.TelaPrincipal;
 
 public class BachSys {
 
@@ -18,10 +19,12 @@ public class BachSys {
 //        UsuarioController.getInstancia().cadastrar("Alberto", "alberto.gato@gmail.com", "senha");
 //        UsuarioDAO.getInstancia().visualizaUsuarios();
         
-        Usuario u1 = new Usuario("KatoMono", "k4t0mono@gmail.com", "senha");
-
-        MusicaDAO.getINSTANCIA().visualizarMusicas();
-        MusicaDAO.getINSTANCIA().addMusica(new Musica("çol", "a", "b", 1998, "pumk-funk", u1, null));
-        MusicaDAO.getINSTANCIA().visualizarMusicas();
+//        Usuario u1 = new Usuario("KatoMono", "k4t0mono@gmail.com", "senha");
+//
+//        MusicaDAO.getINSTANCIA().visualizarMusicas();
+//        MusicaDAO.getINSTANCIA().addMusica(new Musica("çol", "a", "b", 1998, "pumk-funk", u1, null));
+//        MusicaDAO.getINSTANCIA().visualizarMusicas();
+        
+        new TelaPrincipal().setVisible(true);
     }
 }
