@@ -16,7 +16,7 @@ public class UsuarioDAO {
         this.usuarios = new HashMap<>();
     }
 
-    public static UsuarioDAO getInstancia() {
+    public static UsuarioDAO getInstancia() {   
         return INSTANCIA;
     }
     
@@ -25,7 +25,7 @@ public class UsuarioDAO {
     }
     
     public void adicionarUsuario(Usuario u) {
-        if(this.usuarios.get(u.getEmail()) == null ) {
+        if(this.usuarios.get(u.getEmail()) == null) {
             this.usuarios.put(u.getEmail(), u);
         } else {
             // TODO: Transformar em um throw
