@@ -5,8 +5,8 @@ import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 
 public class UsuarioController {
     
-    private static UsuarioDAO usuarioDAO = UsuarioDAO.getInstancia();
-    private static UsuarioController instancia = new UsuarioController();
+    private static final UsuarioDAO USUARIO_DAO = UsuarioDAO.getInstancia();
+    private static final UsuarioController INSTANCIA = new UsuarioController();
     
     // TODO: Usar hash de verdade
     public String hash(String senha) {
@@ -17,11 +17,11 @@ public class UsuarioController {
         senha = this.hash(senha);
         
         Usuario u = new Usuario(nome, email, senha);
-        usuarioDAO.adicionarUsuario(u);
+        USUARIO_DAO.adicionarUsuario(u);
     }
     
     public static UsuarioController getInstancia() {
-        return instancia;
+        return INSTANCIA;
     }
         
 }

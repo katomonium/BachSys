@@ -4,42 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufla.dcc.ppoo.model.Usuario;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UsuarioDAO {
     
-//  Lista de usuarios cadastrados
-    private final List<Usuario> usuarios;
+//  HashMap de usuarios cadastrados
+    private final Map<String, Usuario> usuarios;
     
 //  Única instância da classe
-    private static UsuarioDAO instancia = new UsuarioDAO();
+    private static final UsuarioDAO INSTANCIA = new UsuarioDAO();
     
     private UsuarioDAO() {
-        this.usuarios = new ArrayList();
+        this.usuarios = new HashMap<>();
     }
 
     public static UsuarioDAO getInstancia() {
-        return instancia;
+        return INSTANCIA;
     }
     
     public Usuario getUsuario(String email) {
-        for(Usuario u : this.usuarios) {
-            if(email.equals(u.getEmail())) {
-                return u;
-            }
-        }
-        
-        return null;
+        return this.usuarios.get(email);
     }
     
     public void adicionarUsuario(Usuario u) {
-        this.usuarios.add(u);
+        if(this.usuarios.get(u.getEmail()) == null ) {
+            this.usuarios.put(u.getEmail(), u);
+        } else {
+            // TODO: Transformar em um throw
+            System.out.println("ERRO: Usuário já cadastrado");
+        }
     }
     
     public void visualizaUsuarios() {
         System.out.println("visualizaUsuarios()");
         
-        for(Usuario u : this.usuarios) {
-            System.out.println(u);
+        for(Map.Entry m : this.usuarios.entrySet()) {
+            System.out.println(m.getValue());
         }
         
         System.out.println("");
