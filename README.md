@@ -1,2 +1,2 @@
 # PongSys
-Trabalho prático de PPOO - Gerência de troneio de e-sports
+Trabalho prático de PPOO - Gerência de músicas
