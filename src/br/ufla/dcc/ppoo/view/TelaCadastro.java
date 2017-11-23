@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.view;
 
 
+import br.ufla.dcc.ppoo.controller.UsuarioController;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -79,7 +80,18 @@ public class TelaCadastro extends JFrame {
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // IMPLEMENTAR CADASTRO DE USUARIO ###
+                String usuario = txtUsuario.getText();
+                String email = txtEmail.getText();
+                String senha = txtSenha.getText();
+                String confirmarSenha = txtConfirmarSenha.getText();
+                
+                if(senha.equals(confirmarSenha)){
+                    UsuarioController.getInstancia().cadastrar(usuario, email, senha);
+                    setVisible(false);
+                }
+                else{
+                    //IMPLEMENTAR BALAO ERRO
+                }
             }
         });
         
