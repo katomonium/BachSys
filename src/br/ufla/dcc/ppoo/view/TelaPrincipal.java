@@ -25,7 +25,7 @@ public class TelaPrincipal extends JFrame {
         
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setLocationRelativeTo(null);
         
         gbl = new GridBagLayout();
         gbc = new GridBagConstraints();

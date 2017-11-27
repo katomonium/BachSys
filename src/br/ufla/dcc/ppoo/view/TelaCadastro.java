@@ -38,7 +38,7 @@ public class TelaCadastro extends JFrame {
         super("Cadastro");
         
         setSize(600, 400);
-             
+        setLocationRelativeTo(null);
         gbl = new GridBagLayout();
         gbc = new GridBagConstraints();
         

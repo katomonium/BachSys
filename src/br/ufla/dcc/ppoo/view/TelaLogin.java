@@ -31,7 +31,7 @@ public class TelaLogin extends JFrame {
         super("Login");
         
         setSize(600, 400);
-             
+        setLocationRelativeTo(null);
         gbl = new GridBagLayout();
         gbc = new GridBagConstraints();
         
