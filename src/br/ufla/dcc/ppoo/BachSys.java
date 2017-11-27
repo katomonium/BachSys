@@ -5,7 +5,7 @@ import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
-import br.ufla.dcc.ppoo.view.TelaPrincipal;
+import br.ufla.dcc.ppoo.view.TelaInicial;
 
 public class BachSys {
 
@@ -25,6 +25,6 @@ public class BachSys {
 //        MusicaDAO.getINSTANCIA().addMusica(new Musica("çol", "a", "b", 1998, "pumk-funk", u1, null));
 //        MusicaDAO.getINSTANCIA().visualizarMusicas();
         
-        new TelaPrincipal().setVisible(true);
+        new TelaInicial().setVisible(true);
     }
 }

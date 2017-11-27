@@ -29,7 +29,7 @@ public class TelaCadastro extends Tela {
     private JPanel painelBotoes;
     
     public TelaCadastro() {
-        super("Cadastro", 600, 400);
+        super("Cadastro", 500, 300);
         
         this.construirTela();
      

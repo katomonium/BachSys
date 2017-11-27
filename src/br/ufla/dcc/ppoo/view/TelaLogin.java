@@ -32,6 +32,7 @@ public class TelaLogin extends Tela {
      
     }
     
+    @Override
     public void construirTela(){
         
         lbEmail = new JLabel("E-mail");
@@ -45,20 +46,8 @@ public class TelaLogin extends Tela {
         adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.NONE, 1, 1, 1 ,1);
         
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
         
-        btnEnviar = new JButton("Enviar");
-        btnEnviar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // IMPLEMENTAR O LOGIN AQUI
-            }
-        });
+        btnEnviar = new JButton("Enviar");        
         
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
@@ -66,18 +55,35 @@ public class TelaLogin extends Tela {
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
         
         btnRegistrar = new JButton("Não possui conta? Registre-se!");
+        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
+        
+        adicionarAcoes();
+        
+    }
+
+    @Override
+    protected void adicionarAcoes() {
+        
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+        
+        btnEnviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // IMPLEMENTAR O LOGIN AQUI
+            }
+        });
+        
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TelaCadastro().setVisible(true);
             }
         });
-        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
-    }
-
-    @Override
-    protected void adicionarAcoes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
