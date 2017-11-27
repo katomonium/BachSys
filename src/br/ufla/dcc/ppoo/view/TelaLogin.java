@@ -11,13 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class TelaLogin extends JFrame {
-    
-    private GridBagLayout gbl;
-    private GridBagConstraints gbc;
+public class TelaLogin extends Tela {
+
     private JLabel lbSenha;
     private JLabel lbEmail;
     private JTextField txtEmail;
@@ -28,15 +25,9 @@ public class TelaLogin extends JFrame {
     private JPanel painelBotoes;
     
     public TelaLogin() {
-        super("Login");
+        super("Login", 500, 300);
         
-        setSize(600, 400);
-             
-        gbl = new GridBagLayout();
-        gbc = new GridBagConstraints();
-        
-        setLayout(gbl);
-        
+
         this.construirTela();
      
     }
@@ -83,20 +74,12 @@ public class TelaLogin extends JFrame {
         });
         adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
     }
-    
-    private void adicionarComponente(Component comp, int anchor, int fill,
-            int linha, int coluna, int larg, int alt) {
-        
-        gbc.fill = fill;
-        gbc.anchor = anchor;
-        gbc.gridx = coluna;
-        gbc.gridy = linha;
-        gbc.gridwidth = larg;
-        gbc.gridheight = alt;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        gbl.setConstraints(comp, gbc);
-        add(comp);
+
+    @Override
+    protected void adicionarAcoes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
     
 }
 

@@ -95,7 +95,7 @@ public class TelaCadastro extends Tela {
                 }
                 else{
                     if(usuario.length()< 1) {
-                        JOptionPane.showMessageDialog(null, "Digite seu nome!", 
+                        JOptionPane.showMessageDialog(null, "Digite seu nome de usuário!", 
                                 "Usuário inválido", JOptionPane.ERROR_MESSAGE);
                     } else if(!verificarEmail(email)) {
                         JOptionPane.showMessageDialog(null, "Digite um email válido!", 
