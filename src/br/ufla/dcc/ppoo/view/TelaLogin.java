@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.view;
 
-
+import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.model.Usuario;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,37 +11,30 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class TelaLogin extends JFrame {
-    
-    private GridBagLayout gbl;
-    private GridBagConstraints gbc;
+public class TelaLogin extends Tela {
+
     private JLabel lbSenha;
     private JLabel lbEmail;
     private JTextField txtEmail;
-    private JTextField txtSenha;
+    private JPasswordField txtSenha;
     private JButton btnRegistrar;
     private JButton btnCancelar;
     private JButton btnEnviar;
     private JPanel painelBotoes;
     
-    public TelaLogin() {
-        super("Login");
-        
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        gbl = new GridBagLayout();
-        gbc = new GridBagConstraints();
-        
-        setLayout(gbl);
+    public TelaLogin(Tela t) {
+        super("Login", 500, 300, t);
         
         this.construirTela();
      
     }
     
+    @Override
     public void construirTela(){
         
         lbEmail = new JLabel("E-mail");
@@ -50,8 +44,8 @@ public class TelaLogin extends JFrame {
         
         txtEmail = new JTextField(20);
         adicionarComponente(txtEmail, GridBagConstraints.CENTER, GridBagConstraints.NONE, 0, 1, 1 ,1);
-        txtSenha = new JTextField(20);
-        adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.NONE, 1, 1, 1 ,1);
+        txtSenha = new JPasswordField(10);
+        adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 1, 1 ,1);
         
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
@@ -61,13 +55,21 @@ public class TelaLogin extends JFrame {
             }
         });
         
+        Tela t = this;
         btnEnviar = new JButton("Enviar");
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // IMPLEMENTAR O LOGIN AQUI
+                UsuarioController.getInstancia().iniciarSessao(txtEmail.getText(), txtSenha.getText());
+                if(UsuarioController.estaLogado()) {
+                    setVisible(false);
+                    new TelaPrincipal(t).setVisible(true);
+                    getTelaAnterior().setVisible(false);
+                    
+                    
+                }
             }
-        });
+        });  
         
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
@@ -78,25 +80,13 @@ public class TelaLogin extends JFrame {
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastro().setVisible(true);
+                new TelaCadastro(t).setVisible(true);
             }
         });
-        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
-    }
-    
-    private void adicionarComponente(Component comp, int anchor, int fill,
-            int linha, int coluna, int larg, int alt) {
         
-        gbc.fill = fill;
-        gbc.anchor = anchor;
-        gbc.gridx = coluna;
-        gbc.gridy = linha;
-        gbc.gridwidth = larg;
-        gbc.gridheight = alt;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        gbl.setConstraints(comp, gbc);
-        add(comp);
-    }
-    
+        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
+        
+        
+    }   
 }
 
