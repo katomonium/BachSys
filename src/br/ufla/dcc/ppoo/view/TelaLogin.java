@@ -1,17 +1,11 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.UsuarioController;
-import br.ufla.dcc.ppoo.model.Usuario;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -47,16 +41,25 @@ public class TelaLogin extends Tela {
         adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 1, 1 ,1);
 
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
-        
-        
-        Tela t = this;
+
         btnEnviar = new JButton("Enviar");
+
+        painelBotoes = new JPanel();
+        painelBotoes.add(btnCancelar);
+        painelBotoes.add(btnEnviar);
+        adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
+        
+        btnRegistrar = new JButton("Não possui conta? Registre-se!");
+
+        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
+        
+        
+    }   
+
+    @Override
+    protected void adicionarAcoes() {
+        Tela t = this;
+        
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,24 +72,21 @@ public class TelaLogin extends Tela {
                     
                 }
             }
-        });   
+        }); 
         
-        painelBotoes = new JPanel();
-        painelBotoes.add(btnCancelar);
-        painelBotoes.add(btnEnviar);
-        adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
         
-        btnRegistrar = new JButton("Não possui conta? Registre-se!");
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TelaCadastro(t).setVisible(true);
             }
         });
-
-        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
-        
-        
-    }   
+    }
 }
 

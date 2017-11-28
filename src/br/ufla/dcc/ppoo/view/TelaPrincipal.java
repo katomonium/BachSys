@@ -45,5 +45,10 @@ public class TelaPrincipal extends Tela {
         painelDadosUsuario.add(b3);
 
     }
+
+    @Override
+    protected void adicionarAcoes() {
+        
+    }
     
 }
