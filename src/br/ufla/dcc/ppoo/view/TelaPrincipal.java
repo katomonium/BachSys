@@ -1,17 +1,17 @@
 package br.ufla.dcc.ppoo.view;
 
+import br.ufla.dcc.ppoo.controller.UsuarioController;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 
 public class TelaPrincipal extends Tela {
     
-    private JPanel painelDadosUsuario;
-    private JPanel painelAcoes;
-    private JPanel painelListaMusica;
+    private Painel painelDadosUsuario;
+    private Painel painelAcoes;
+    private Painel painelListaMusica;
     
     public TelaPrincipal(Tela t) {
         super("BachSys", 800, 600, t);
@@ -24,25 +24,47 @@ public class TelaPrincipal extends Tela {
     
     @Override
     protected void construirTela() {
-        painelAcoes = new JPanel();
-        painelAcoes.setPreferredSize(new Dimension(100,100));
+        painelAcoes = new Painel(150, 400);
         painelAcoes.setBackground(Color.yellow);
         adicionarComponente(painelAcoes, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
-        painelDadosUsuario = new JPanel();
-        painelDadosUsuario.setPreferredSize(new Dimension(100, 200));
-        painelDadosUsuario.setBackground(Color.blue);
+        painelDadosUsuario = new Painel(150, 150);
+        painelDadosUsuario.setBackground(Color.white);
         adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
-        painelListaMusica = new JPanel();
-        painelListaMusica.setPreferredSize(new Dimension(400,100));
+        painelListaMusica = new Painel(600, 550);
         adicionarComponente(painelListaMusica, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 1, 1, 2);
         painelListaMusica.setBackground(Color.red);
         
-        JButton b = new JButton("TESTE");
-        painelAcoes.add(b);
-        JButton b2 = new JButton("TESTE");
-        painelListaMusica.add(b2);
-        JButton b3 = new JButton("TESTE");
-        painelDadosUsuario.add(b3);
+        if(UsuarioController.getInstancia().estaLogado()) {
+            String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
+            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+            Integer qtdMusicas = UsuarioController.getInstancia().getQtdMusicas();
+            JLabel lbNome = new JLabel("Bem vindo, " + nome);
+            JLabel lbEmail = new JLabel("Email: " + email);
+            JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
+                                            + " músicas cadastradas: " + qtdMusicas + "</body></html>");
+            
+            painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
+            painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+            painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 2, 0, 1, 4);
+        }
+        
+        
+        
+        
+        JButton b1 = new JButton("TESTE1");
+        JButton b2 = new JButton("TESTE2");
+        JButton b3 = new JButton("TESTE3");
+        
+        painelListaMusica.adicionarComponente(b1, GridBagConstraints.WEST, 
+                                                GridBagConstraints.CENTER, 0, 1, 1, 1);
+        painelListaMusica.adicionarComponente(b2, GridBagConstraints.WEST, 
+                                                GridBagConstraints.CENTER, 0, 2, 1, 1);
+        painelListaMusica.adicionarComponente(b3, GridBagConstraints.WEST, 
+                                                GridBagConstraints.CENTER, 0, 3, 1, 1);
+
 
     }
 

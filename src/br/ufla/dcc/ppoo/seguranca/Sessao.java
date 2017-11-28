@@ -30,5 +30,21 @@ public class Sessao {
         return true;
     }
     
+    public String getNomeUsuario() {
+        if(usuario == null) {
+            // TODO: Excecao "Não há usuario logado"
+            return "";
+        }
+        return usuario.getNome();
+    }
+    
+    public String getEmailUsuario() {
+        if(usuario == null) {
+            // TODO: Excecao "Não há usuario logado"
+            return "";
+        }
+        return usuario.getEmail();
+    }
+    
     
 }

@@ -25,6 +25,8 @@ public class TelaLogin extends Tela {
         super("Login", 500, 300, t);
         
         this.construirTela();
+        
+        adicionarAcoes();
     }
     
     @Override
@@ -66,7 +68,7 @@ public class TelaLogin extends Tela {
                 UsuarioController.getInstancia().iniciarSessao(txtEmail.getText(), txtSenha.getText());
                 if(UsuarioController.estaLogado()) {
                     setVisible(false);
-                    new TelaPrincipal(t).setVisible(true);
+                    new TelaPrincipal(getTelaAnterior()).setVisible(true);
                     getTelaAnterior().setVisible(false);
                     
                     
