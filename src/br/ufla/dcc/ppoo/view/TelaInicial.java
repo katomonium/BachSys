@@ -1,6 +1,5 @@
 package br.ufla.dcc.ppoo.view;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,6 @@ public class TelaInicial extends Tela {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         this.construirTela();
-     
         adicionarAcoes();
     }
     
@@ -50,7 +48,5 @@ public class TelaInicial extends Tela {
                 new TelaLogin(t).setVisible(true);
             }
         });
-    }
-
-    
+    } 
 }
