@@ -32,6 +32,8 @@ public class TelaCadastro extends Tela {
         super("Cadastro", 500, 300, t);
         
         this.construirTela();
+        
+        adicionarAcoes();
      
     }
     
@@ -57,48 +59,9 @@ public class TelaCadastro extends Tela {
         adicionarComponente(txtConfirmarSenha, GridBagConstraints.CENTER, GridBagConstraints.NONE, 2, 3, 1 ,1);
         
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
         
         btnRegistrar = new JButton("Enviar");
-        btnRegistrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String usuario = txtUsuario.getText();
-                String email = txtEmail.getText();
-                String senha = txtSenha.getText();
-                String confirmarSenha = txtConfirmarSenha.getText();
-                
-                if((senha.length() >= 4) && (senha.equals(confirmarSenha))
-                    && (usuario.length() >= 1) && (verificarEmail(email))
-                    ){
-                  
-                    UsuarioController.getInstancia().cadastrar(usuario, email, senha);
-                    setVisible(false);
-                }
-                else{
 
-                    if(usuario.length()< 1) {
-                        JOptionPane.showMessageDialog(null, "Digite seu nome de usuário!", 
-                                "Usuário inválido", JOptionPane.ERROR_MESSAGE);
-                    } else if(!verificarEmail(email)) {
-                        JOptionPane.showMessageDialog(null, "Digite um email válido!", 
-                                "Email inválido", JOptionPane.ERROR_MESSAGE);
-                    } else if(senha.length() < 4) {
-                        JOptionPane.showMessageDialog(null, "A senha deve conter no mínimo 4 catacteres!",
-                                "Senha inválida", JOptionPane.ERROR_MESSAGE);
-                    } else if(!senha.equals(confirmarSenha)) {
-                        JOptionPane.showMessageDialog(null, "A senha está diferente da confirmação de senha!", 
-                                "Confirmação de senha errada", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        });
-        
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
         painelBotoes.add(btnRegistrar);
@@ -133,6 +96,50 @@ public class TelaCadastro extends Tela {
         }
         return true;   
     }
+    
+    @Override
+    protected void adicionarAcoes() {
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+        
+        
+        
+        btnRegistrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String usuario = txtUsuario.getText();
+                String email = txtEmail.getText();
+                String senha = txtSenha.getText();
+                String confirmarSenha = txtConfirmarSenha.getText();
+                
+                if((senha.length() >= 4) && (senha.equals(confirmarSenha))
+                    && (usuario.length() >= 1) && (verificarEmail(email))
+                    ){
+                  
+                    UsuarioController.getInstancia().cadastrar(usuario, email, senha);
+                    setVisible(false);
+                }
+                else{
 
+                    if(usuario.length()< 1) {
+                        JOptionPane.showMessageDialog(null, "Digite seu nome de usuário!", 
+                                "Usuário inválido", JOptionPane.ERROR_MESSAGE);
+                    } else if(!verificarEmail(email)) {
+                        JOptionPane.showMessageDialog(null, "Digite um email válido!", 
+                                "Email inválido", JOptionPane.ERROR_MESSAGE);
+                    } else if(senha.length() < 4) {
+                        JOptionPane.showMessageDialog(null, "A senha deve conter no mínimo 4 catacteres!",
+                                "Senha inválida", JOptionPane.ERROR_MESSAGE);
+                    } else if(!senha.equals(confirmarSenha)) {
+                        JOptionPane.showMessageDialog(null, "A senha está diferente da confirmação de senha!", 
+                                "Confirmação de senha errada", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+    }
 }
-

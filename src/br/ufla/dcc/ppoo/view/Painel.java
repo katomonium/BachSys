@@ -1,32 +1,27 @@
-
 package br.ufla.dcc.ppoo.view;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public abstract class Tela extends JFrame {
+public class Painel extends JPanel {
     private GridBagLayout gbl;
     private GridBagConstraints gbc;
-    private Tela telaAnterior;
-    
-    public Tela(String titulo, int x, int y, Tela t) {
-        super(titulo);
-        setSize(x, y);
-        setLocationRelativeTo(null);
+
+    public Painel(int x, int y) {
+        super();
         
-        telaAnterior = t;
+        setPreferredSize(new Dimension(x, y));
         
-        gbc = new GridBagConstraints();
         gbl = new GridBagLayout();
+        gbc = new GridBagConstraints();
         
         setLayout(gbl);
-
     }
-   
-      
+    
     protected void adicionarComponente(Component comp, int anchor, int fill,
             int linha, int coluna, int larg, int alt) {
         
@@ -42,12 +37,5 @@ public abstract class Tela extends JFrame {
         add(comp);
     }
     
-    
-    protected abstract void construirTela();
-    protected abstract void adicionarAcoes();
-
-    public Tela getTelaAnterior() {
-        return telaAnterior;
-    }
     
 }
