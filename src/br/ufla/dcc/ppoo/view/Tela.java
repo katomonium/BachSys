@@ -44,7 +44,6 @@ public abstract class Tela extends JFrame {
     
     
     protected abstract void construirTela();
-    protected abstract void adicionarAcoes();
 
     public Tela getTelaAnterior() {
         return telaAnterior;
