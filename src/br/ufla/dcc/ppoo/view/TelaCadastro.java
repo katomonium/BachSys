@@ -76,6 +76,7 @@ public class TelaCadastro extends Tela {
                 if((senha.length() >= 4) && (senha.equals(confirmarSenha))
                     && (usuario.length() >= 1) && (verificarEmail(email))
                     ){
+                  
                     UsuarioController.getInstancia().cadastrar(usuario, email, senha);
                     setVisible(false);
                 }

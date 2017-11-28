@@ -43,6 +43,7 @@ public class TelaPrincipal extends Tela {
         painelListaMusica.add(b2);
         JButton b3 = new JButton("TESTE");
         painelDadosUsuario.add(b3);
+
     }
     
 }

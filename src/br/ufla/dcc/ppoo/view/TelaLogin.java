@@ -1,6 +1,5 @@
 package br.ufla.dcc.ppoo.view;
 
-
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Usuario;
 import java.awt.Component;
@@ -32,7 +31,6 @@ public class TelaLogin extends Tela {
         super("Login", 500, 300, t);
         
         this.construirTela();
-     
     }
     
     @Override
@@ -47,8 +45,7 @@ public class TelaLogin extends Tela {
         adicionarComponente(txtEmail, GridBagConstraints.CENTER, GridBagConstraints.NONE, 0, 1, 1 ,1);
         txtSenha = new JPasswordField(10);
         adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 1, 1 ,1);
-        
-        
+
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             @Override
@@ -79,7 +76,6 @@ public class TelaLogin extends Tela {
         painelBotoes.add(btnEnviar);
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
         
-        
         btnRegistrar = new JButton("Não possui conta? Registre-se!");
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
@@ -87,7 +83,7 @@ public class TelaLogin extends Tela {
                 new TelaCadastro(t).setVisible(true);
             }
         });
-        
+
         adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
         
         

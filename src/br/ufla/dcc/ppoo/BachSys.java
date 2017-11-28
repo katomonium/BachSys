@@ -27,9 +27,7 @@ public class BachSys {
 //        MusicaDAO.getINSTANCIA().visualizarMusicas();
 
         UsuarioController.getInstancia().cadastrar("thuza", "a@a.a", "1234");
-        
 //        new TelaInicial(null).setVisible(true);
         new TelaPrincipal(null).setVisible(true);
-        
     }
 }
