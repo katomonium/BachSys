@@ -6,7 +6,10 @@ import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 import br.ufla.dcc.ppoo.view.TelaInicial;
+<<<<<<< HEAD
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
+=======
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
 
 public class BachSys {
 
@@ -31,5 +34,9 @@ public class BachSys {
 //        new TelaInicial(null).setVisible(true);
         new TelaPrincipal(null).setVisible(true);
         
+<<<<<<< HEAD
+=======
+        new TelaInicial().setVisible(true);
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
     }
 }

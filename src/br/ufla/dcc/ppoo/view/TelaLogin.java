@@ -14,7 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 import javax.swing.JPasswordField;
+=======
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
 import javax.swing.JTextField;
 
 public class TelaLogin extends Tela {
@@ -28,9 +31,15 @@ public class TelaLogin extends Tela {
     private JButton btnEnviar;
     private JPanel painelBotoes;
     
+<<<<<<< HEAD
     public TelaLogin(Tela t) {
         super("Login", 500, 300, t);
+=======
+    public TelaLogin() {
+        super("Login", 500, 300);
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
         
+
         this.construirTela();
      
     }
@@ -50,6 +59,24 @@ public class TelaLogin extends Tela {
         
         
         btnCancelar = new JButton("Cancelar");
+        
+        btnEnviar = new JButton("Enviar");        
+        
+        painelBotoes = new JPanel();
+        painelBotoes.add(btnCancelar);
+        painelBotoes.add(btnEnviar);
+        adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
+        
+        btnRegistrar = new JButton("Não possui conta? Registre-se!");
+        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
+        
+        adicionarAcoes();
+        
+    }
+
+    @Override
+    protected void adicionarAcoes() {
+        
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,9 +84,12 @@ public class TelaLogin extends Tela {
             }
         });
         
+<<<<<<< HEAD
         
         Tela t = this;
         btnEnviar = new JButton("Enviar");
+=======
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +104,7 @@ public class TelaLogin extends Tela {
             }
         });   
         
+<<<<<<< HEAD
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
         painelBotoes.add(btnEnviar);
@@ -81,16 +112,24 @@ public class TelaLogin extends Tela {
         
         
         btnRegistrar = new JButton("Não possui conta? Registre-se!");
+=======
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TelaCadastro(t).setVisible(true);
             }
         });
+<<<<<<< HEAD
         
         adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 2,1);
         
         
     }   
+=======
+    }
+    
+    
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
 }
 

@@ -28,8 +28,13 @@ public class TelaCadastro extends Tela {
     private JButton btnCancelar;
     private JPanel painelBotoes;
     
+<<<<<<< HEAD
     public TelaCadastro(Tela t) {
         super("Cadastro", 500, 300, t);
+=======
+    public TelaCadastro() {
+        super("Cadastro", 500, 300);
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
         
         this.construirTela();
      
@@ -57,6 +62,21 @@ public class TelaCadastro extends Tela {
         adicionarComponente(txtConfirmarSenha, GridBagConstraints.CENTER, GridBagConstraints.NONE, 2, 3, 1 ,1);
         
         btnCancelar = new JButton("Cancelar");
+        
+        
+        btnRegistrar = new JButton("Enviar");
+        
+        
+        painelBotoes = new JPanel();
+        painelBotoes.add(btnCancelar);
+        painelBotoes.add(btnRegistrar);
+        adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 4,1);
+        
+        adicionarAcoes();
+    }
+
+    @Override
+    protected void adicionarAcoes() {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +84,6 @@ public class TelaCadastro extends Tela {
             }
         });
         
-        btnRegistrar = new JButton("Enviar");
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,12 +115,15 @@ public class TelaCadastro extends Tela {
                 }
             }
         });
+<<<<<<< HEAD
         
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
         painelBotoes.add(btnRegistrar);
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 4,1);
         
+=======
+>>>>>>> 1e7be4f04d1b7a67df079e8e6bfcc12a6fcb7c19
     }
     
     private Boolean verificarEmail(String email) {
