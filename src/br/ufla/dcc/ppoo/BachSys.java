@@ -30,6 +30,5 @@ public class BachSys {
         
 //        new TelaInicial(null).setVisible(true);
         new TelaPrincipal(null).setVisible(true);
-        
     }
 }

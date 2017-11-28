@@ -1,6 +1,5 @@
 package br.ufla.dcc.ppoo.view;
 
-
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -43,7 +42,6 @@ public class TelaLogin extends Tela {
         txtSenha = new JPasswordField(10);
         adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 1, 1 ,1);
         
-        
         btnCancelar = new JButton("Cancelar");
                 
         btnEnviar = new JButton("Enviar");
@@ -68,28 +66,6 @@ public class TelaLogin extends Tela {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-            }
-        });
-
-        
-        btnEnviar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UsuarioController.getInstancia().iniciarSessao(txtEmail.getText(), txtSenha.getText());
-                if(UsuarioController.estaLogado()) {
-                    setVisible(false);
-                    new TelaPrincipal(t).setVisible(true);
-                    getTelaAnterior().setVisible(false);
-                    
-                    
-                }
-            }
-        });
-        
-        btnRegistrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new TelaCadastro(t).setVisible(true);
             }
         });
     }
