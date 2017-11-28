@@ -76,10 +76,12 @@ public class TelaCadastro extends Tela {
                 if((senha.length() >= 4) && (senha.equals(confirmarSenha))
                     && (usuario.length() >= 1) && (verificarEmail(email))
                     ){
+                  
                     UsuarioController.getInstancia().cadastrar(usuario, email, senha);
                     setVisible(false);
                 }
                 else{
+
                     if(usuario.length()< 1) {
                         JOptionPane.showMessageDialog(null, "Digite seu nome de usuário!", 
                                 "Usuário inválido", JOptionPane.ERROR_MESSAGE);
@@ -101,7 +103,6 @@ public class TelaCadastro extends Tela {
         painelBotoes.add(btnCancelar);
         painelBotoes.add(btnRegistrar);
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 4,1);
-        
     }
     
     private Boolean verificarEmail(String email) {
@@ -132,5 +133,6 @@ public class TelaCadastro extends Tela {
         }
         return true;   
     }
+
 }
 
