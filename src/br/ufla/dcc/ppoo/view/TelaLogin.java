@@ -43,8 +43,9 @@ public class TelaLogin extends Tela {
         adicionarComponente(txtSenha, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 1, 1 ,1);
         
         btnCancelar = new JButton("Cancelar");
-                
+        
         btnEnviar = new JButton("Enviar");
+
         
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);

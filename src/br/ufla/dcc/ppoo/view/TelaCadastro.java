@@ -61,13 +61,11 @@ public class TelaCadastro extends Tela {
         btnCancelar = new JButton("Cancelar");
         
         btnRegistrar = new JButton("Enviar");
-        
-        
+
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
         painelBotoes.add(btnRegistrar);
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 4,1);
-        
     }
     
     private Boolean verificarEmail(String email) {
