@@ -1,10 +1,6 @@
 package br.ufla.dcc.ppoo;
 
 import br.ufla.dcc.ppoo.controller.UsuarioController;
-import br.ufla.dcc.ppoo.model.Musica;
-import br.ufla.dcc.ppoo.model.Usuario;
-import br.ufla.dcc.ppoo.persistence.MusicaDAO;
-import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
 
@@ -27,7 +23,12 @@ public class BachSys {
 //        MusicaDAO.getINSTANCIA().visualizarMusicas();
 
         UsuarioController.getInstancia().cadastrar("thuza", "a@a.a", "1234");
-//        new TelaInicial(null).setVisible(true);
-        new TelaPrincipal(null).setVisible(true);
+        TelaInicial telaIni = new TelaInicial(null);
+//        telaIni.setVisible(true);        
+
+        
+        UsuarioController.getInstancia().iniciarSessao("a@a.a", "1234");
+        new TelaPrincipal(telaIni).setVisible(true);
+        
     }
 }

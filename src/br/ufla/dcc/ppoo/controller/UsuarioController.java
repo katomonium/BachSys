@@ -36,12 +36,27 @@ public class UsuarioController {
         }
     }
     
+    
     public static Boolean estaLogado() {
         return SESSAO.estaLogado();
     }
     
+    public String getNomeUsuarioLogado() {
+        return SESSAO.getNomeUsuario();
+    }
+    
+    public String getEmailUsuarioLogado() {
+        return SESSAO.getEmailUsuario();
+    }
+    
+    
     public Usuario getUsuario(String email) {
         return USUARIO_DAO.getUsuario(email);
+    }
+    
+    public Integer getQtdMusicas() {
+        //TODO: retornar a quantidade de musicas
+        return 0;
     }
     
     public static UsuarioController getInstancia() {
