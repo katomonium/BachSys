@@ -42,11 +42,13 @@ public abstract class Tela extends JFrame {
         add(comp);
     }
     
-    
-    protected abstract void construirTela();
-
     public Tela getTelaAnterior() {
         return telaAnterior;
     }
+    
+    protected abstract void construirTela();
+    protected abstract void adicionarAcoes();
+
+    
     
 }

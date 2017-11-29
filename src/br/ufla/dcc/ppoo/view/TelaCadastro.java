@@ -32,6 +32,8 @@ public class TelaCadastro extends Tela {
         super("Cadastro", 500, 300, t);
         
         this.construirTela();
+        
+        this.adicionarAcoes();
      
     }
     
@@ -56,7 +58,49 @@ public class TelaCadastro extends Tela {
         txtConfirmarSenha = new JPasswordField(10);
         adicionarComponente(txtConfirmarSenha, GridBagConstraints.CENTER, GridBagConstraints.NONE, 2, 3, 1 ,1);
         
-        btnCancelar = new JButton("Cancelar");
+        btnCancelar = new JButton("Cancelar");        
+        btnRegistrar = new JButton("Enviar");
+        
+        painelBotoes = new JPanel();
+        painelBotoes.add(btnCancelar);
+        painelBotoes.add(btnRegistrar);
+        adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 4,1);
+        
+        
+    }
+    
+    private Boolean verificarEmail(String email) {
+        if(email.length() < 5) {
+            return false;
+        }
+        Boolean achou = false;
+        int posAchou = -1;
+        for(int i = 0; (i < email.length()) && (!achou); i++) {
+            if(email.charAt(i) == '@') {
+                achou = true;
+                posAchou = i;
+            }
+        }
+        if(!achou) {
+            return false;
+        }
+        
+        achou = false;
+        for(int i = posAchou; (i < email.length() - 1) && (!achou); i++) {
+            if(email.charAt(i) == '.') {
+                achou = true;
+            }
+        }
+        
+        if(!achou) {
+            return false;
+        }
+        return true;   
+    }
+    
+    @Override
+    protected void adicionarAcoes() {
+        
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +108,6 @@ public class TelaCadastro extends Tela {
             }
         });
         
-        btnRegistrar = new JButton("Enviar");
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,41 +140,6 @@ public class TelaCadastro extends Tela {
                 }
             }
         });
-        
-        painelBotoes = new JPanel();
-        painelBotoes.add(btnCancelar);
-        painelBotoes.add(btnRegistrar);
-        adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 3, 0, 4,1);
-        
-    }
-    
-    private Boolean verificarEmail(String email) {
-        if(email.length() < 5) {
-            return false;
-        }
-        Boolean achou = false;
-        int posAchou = -1;
-        for(int i = 0; (i < email.length()) && (!achou); i++) {
-            if(email.charAt(i) == '@') {
-                achou = true;
-                posAchou = i;
-            }
-        }
-        if(!achou) {
-            return false;
-        }
-        
-        achou = false;
-        for(int i = posAchou; (i < email.length() - 1) && (!achou); i++) {
-            if(email.charAt(i) == '.') {
-                achou = true;
-            }
-        }
-        
-        if(!achou) {
-            return false;
-        }
-        return true;   
     }
 }
 

@@ -1,10 +1,6 @@
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.controller.UsuarioController;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -23,13 +19,27 @@ public class TelaInicial extends Tela {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         this.construirTela();
+        
+        this.adicionarAcoes();
     }
     
     @Override
     public void construirTela(){
-        Tela t = this;
         btnLogin = new JButton("Login");
         adicionarComponente(btnLogin, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
+        
+        
+        
+        btnRegistrar = new JButton("Não possui conta? Registre-se!");
+        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 0, 1,1);
+        
+    }
+
+    @Override
+    protected void adicionarAcoes() {
+        
+        Tela t = this;
+        
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,9 +47,6 @@ public class TelaInicial extends Tela {
             }
         });
         
-        
-        btnRegistrar = new JButton("Não possui conta? Registre-se!");
-        adicionarComponente(btnRegistrar, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 1, 0, 1,1);
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
