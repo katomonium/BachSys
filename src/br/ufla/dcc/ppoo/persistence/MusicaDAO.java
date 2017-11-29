@@ -32,6 +32,10 @@ public class MusicaDAO {
         }
     }
     
+    public int getSize() {
+        return this.musicas.size();
+    }
+    
     public void visualizarMusicas() {
         System.out.println("visualizarMusicas()");
         
