@@ -25,17 +25,29 @@ public class Painel extends JPanel {
     protected void adicionarComponente(Component comp, int anchor, int fill,
             int linha, int coluna, int larg, int alt) {
         
+        
         gbc.fill = fill;
         gbc.anchor = anchor;
         gbc.gridx = coluna;
         gbc.gridy = linha;
         
+       
+        
         gbc.gridwidth = larg;
         gbc.gridheight = alt;
-        gbc.insets = new Insets(3, 3, 3, 3);
+        gbc.insets = new Insets(1, 1, 1, 1);
         gbl.setConstraints(comp, gbc);
         add(comp);
     }
     
-    
+    protected void adicionarComponente(Component comp, int anchor, int fill,
+            int linha, int coluna, int larg, int alt, double weightx, double weighty) {
+        
+        gbc.weightx = weightx;
+        gbc.weighty = weighty;
+        
+        adicionarComponente(comp, anchor, fill, linha, coluna, larg, alt);
+        
+    }
+        
 }

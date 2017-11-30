@@ -42,4 +42,8 @@ public class MusicaDAO {
         System.out.println("");
     }
     
+    public Integer getQtdMusicas() {
+        return musicas.size();
+    }
+    
 }

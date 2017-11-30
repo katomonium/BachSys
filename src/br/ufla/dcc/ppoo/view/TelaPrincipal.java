@@ -24,10 +24,10 @@ public class TelaPrincipal extends Tela {
     
     @Override
     protected void construirTela() {
-        painelAcoes = new Painel(150, 400);
+        painelAcoes = new Painel(150, 350);
         painelAcoes.setBackground(Color.yellow);
         adicionarComponente(painelAcoes, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
-        painelDadosUsuario = new Painel(150, 150);
+        painelDadosUsuario = new Painel(150, 200);
         painelDadosUsuario.setBackground(Color.white);
         adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
         painelListaMusica = new Painel(600, 550);
@@ -35,6 +35,7 @@ public class TelaPrincipal extends Tela {
         painelListaMusica.setBackground(Color.red);
         
         if(UsuarioController.getInstancia().estaLogado()) {
+            // Adicionar os dados do usuario na tabela
             String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
             String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
             Integer qtdMusicas = UsuarioController.getInstancia().getQtdMusicas();
@@ -43,12 +44,33 @@ public class TelaPrincipal extends Tela {
             JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
                                             + " músicas cadastradas: " + qtdMusicas + "</body></html>");
             
+            
             painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
             painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
             painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 2, 0, 1, 4);
+            
+            
+            JButton btnAdicionarMusica = new JButton("Adicionar");
+            btnAdicionarMusica.setToolTipText("Adicionar uma musica ao catalogo");
+            painelAcoes.adicionarComponente(btnAdicionarMusica, GridBagConstraints.CENTER,
+                                            GridBagConstraints.BOTH, 0, 0, 1, 1, 0.5, 0);
+            
+            
+            JButton btnEditarMusica = new JButton("Editar");
+            btnEditarMusica.setToolTipText("Editar musicas do catalogo");
+            
+            painelAcoes.adicionarComponente(btnEditarMusica, GridBagConstraints.CENTER,
+                                            GridBagConstraints.BOTH, 1, 0, 1, 1, 0.5, 0);
+            
+            JButton btnRemoverMusica = new JButton("Remover");
+            btnRemoverMusica.setToolTipText("Remover mussicas do catalogo");
+            painelAcoes.adicionarComponente(btnRemoverMusica, GridBagConstraints.CENTER,
+                                            GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
+            
+            
         }
         
         
