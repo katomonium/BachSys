@@ -36,6 +36,12 @@ public class UsuarioController {
         }
     }
     
+    public void finalizarSessao() {
+        if(estaLogado()) {
+            SESSAO.finalizar();
+        }
+    }
+    
     
     public static Boolean estaLogado() {
         return SESSAO.estaLogado();

@@ -22,7 +22,7 @@ public class Painel extends JPanel {
         setLayout(gbl);
     }
     
-    protected void adicionarComponente(Component comp, int anchor, int fill,
+    public void adicionarComponente(Component comp, int anchor, int fill,
             int linha, int coluna, int larg, int alt) {
         
         
@@ -30,9 +30,7 @@ public class Painel extends JPanel {
         gbc.anchor = anchor;
         gbc.gridx = coluna;
         gbc.gridy = linha;
-        
-       
-        
+
         gbc.gridwidth = larg;
         gbc.gridheight = alt;
         gbc.insets = new Insets(1, 1, 1, 1);
@@ -40,7 +38,7 @@ public class Painel extends JPanel {
         add(comp);
     }
     
-    protected void adicionarComponente(Component comp, int anchor, int fill,
+    public void adicionarComponente(Component comp, int anchor, int fill,
             int linha, int coluna, int larg, int alt, double weightx, double weighty) {
         
         gbc.weightx = weightx;
@@ -49,5 +47,5 @@ public class Painel extends JPanel {
         adicionarComponente(comp, anchor, fill, linha, coluna, larg, alt);
         
     }
-        
+    
 }
