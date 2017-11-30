@@ -1,7 +1,9 @@
 package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.model.Musica;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MusicaDAO {
@@ -32,6 +34,10 @@ public class MusicaDAO {
         }
     }
     
+    public int getSize() {
+        return this.musicas.size();
+    }
+    
     public void visualizarMusicas() {
         System.out.println("visualizarMusicas()");
         
@@ -42,8 +48,25 @@ public class MusicaDAO {
         System.out.println("");
     }
     
-    public Integer getQtdMusicas() {
+    public int getQtdMusicas() {
         return musicas.size();
+    }
+    
+    public int getQtdMusicas(String email) {
+        return this.getMusicas(email).size();
+    }
+    
+    public List<Musica> getMusicas(String email) {
+        ArrayList<Musica> musicasDoUsuario = new ArrayList<>();
+                
+        for (Map.Entry<String, Musica> entry : musicas.entrySet()) {
+            Musica musica = entry.getValue();
+            if(musica.getUsuario().getEmail().equals(email)) {
+                musicasDoUsuario.add(musica);
+            }
+        }
+        
+        return musicasDoUsuario;
     }
     
 }
