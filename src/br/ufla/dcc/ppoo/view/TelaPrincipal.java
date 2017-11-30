@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 
 public class TelaPrincipal extends Tela {
@@ -22,13 +24,13 @@ public class TelaPrincipal extends Tela {
     private JButton btnRemoverMusica;
     private JButton btnLogout;
     private JButton btnSair;
+    private JTable tblMusicas;
+    private JScrollPane painelDeRolagem;
     
     public TelaPrincipal(Tela t) {
         super("BachSys", 800, 600, t);
         construirTela();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
-
         
     }
     
@@ -95,20 +97,17 @@ public class TelaPrincipal extends Tela {
         }
         
         
+        String[] colunas = {"Nome", "Autor", "Album", "Gênero" };
         
+        //podemos implementar um método obterMusicas aqui
         
-        JButton b1 = new JButton("TESTE1");
-        JButton b2 = new JButton("TESTE2");
-        JButton b3 = new JButton("TESTE3");
-        
-        painelListaMusica.adicionarComponente(b1, GridBagConstraints.WEST, 
-                                                GridBagConstraints.CENTER, 0, 1, 1, 1);
-        painelListaMusica.adicionarComponente(b2, GridBagConstraints.WEST, 
-                                                GridBagConstraints.CENTER, 0, 2, 1, 1);
-        painelListaMusica.adicionarComponente(b3, GridBagConstraints.WEST, 
-                                                GridBagConstraints.CENTER, 0, 3, 1, 1);
-
-
+        Object[][] musicas = {{"lala", "hoho", "hehe", "hihi"}};
+        tblMusicas = new JTable(musicas, colunas);
+        painelListaMusica.add(tblMusicas);
+        painelDeRolagem = new JScrollPane();
+        painelDeRolagem.setViewportView(tblMusicas);
+        painelListaMusica.adicionarComponente(painelDeRolagem, GridBagConstraints.CENTER,
+                                            GridBagConstraints.BOTH, 0, 0, 1, 1);
     }
 
     @Override
