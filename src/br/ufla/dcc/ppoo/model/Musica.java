@@ -23,9 +23,9 @@ public class Musica {
     public Musica(String nome, String autor, String album, int ano,
             String genero, Usuario usuario, String[] tags) {
         
-        if(tags == null || tags.length < 2) {
-            System.out.println("Excecao: nao ha tags");
-        }
+//        if(tags == null || tags.length < 2) {
+//            System.out.println("Excecao: nao ha tags");
+//        }
         
         this.nome = nome;
         this.autor = autor;
@@ -68,7 +68,7 @@ public class Musica {
     public String toString() {
         return "Musica{" + "nome=" + nome + ", autor=" + autor + ", album="
                 + album + ", ano=" + ano + ", genero=" + genero + ", usuario="
-                + usuario + ", tags=" + tags + '}';
+                + usuario.getEmail() + ", tags=" + tags + '}';
     }
     
 }
