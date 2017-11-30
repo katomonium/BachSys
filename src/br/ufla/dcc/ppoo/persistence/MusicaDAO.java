@@ -69,4 +69,8 @@ public class MusicaDAO {
         return musicasDoUsuario;
     }
     
+    public void editarMusica(String nomeDaMusica, Musica m) {
+        this.musicas.put(nomeDaMusica, m);
+    }
+    
 }

@@ -22,10 +22,6 @@ public class MusicaController {
         return INSTANCIA;
     }
     
-    public Musica getMusica(String nome) {
-        return MUSICA_DAO.getMusica(nome);
-    }
-    
     public int getQtdMusicas() {
         return MUSICA_DAO.getQtdMusicas();
     }
@@ -36,6 +32,12 @@ public class MusicaController {
     
     public List<Musica> getMusicas(String email) {
         return MUSICA_DAO.getMusicas(email);
+    }
+    
+    public void editarMusica(String nome, String autor, String album,
+            int ano, String genero, Usuario usuario, String[] tags) {
+        
+        
     }
     
 }

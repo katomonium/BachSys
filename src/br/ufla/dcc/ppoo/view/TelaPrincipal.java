@@ -50,11 +50,11 @@ public class TelaPrincipal extends Tela {
             // Adicionar os dados do usuario na tabela
             String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
             String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-            Integer qtdMusicas = UsuarioController.getInstancia().getQtdMusicas();
+//            Integer qtdMusicas = UsuarioController.getInstancia().getQtdMusicas();
             JLabel lbNome = new JLabel("Bem vindo, " + nome);
             JLabel lbEmail = new JLabel("Email: " + email);
             JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
-                                            + " músicas cadastradas: " + qtdMusicas + "</body></html>");
+                                            + " músicas cadastradas: " + "</body></html>");
             
             
             painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 

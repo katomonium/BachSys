@@ -60,11 +60,6 @@ public class UsuarioController {
         return USUARIO_DAO.getUsuario(email);
     }
     
-    public Integer getQtdMusicas() {
-        //TODO: retornar a quantidade de musicas
-        return 0;
-    }
-    
     public static UsuarioController getInstancia() {
         return INSTANCIA;
     }
