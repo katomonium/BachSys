@@ -23,6 +23,15 @@ public class Sessao {
         System.out.println("Logou carai");
     }
     
+    public void finalizar() {
+        if(usuario == null) {
+            System.out.println("Ninguem ta logado poarr");
+            return;
+        }
+        this.usuario = null;
+        System.out.println("Deslogou carai");
+    }
+    
     public Boolean estaLogado() {
         if(usuario == null) {
             return false;
