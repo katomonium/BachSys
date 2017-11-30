@@ -69,4 +69,15 @@ public class MusicaDAO {
         return musicasDoUsuario;
     }
     
+    public List<Musica> getMusicas() {
+        ArrayList<Musica> musicasDoUsuario = new ArrayList<>();
+                
+        for (Map.Entry<String, Musica> entry : musicas.entrySet()) {
+            Musica musica = entry.getValue();
+            musicasDoUsuario.add(musica);
+        }
+        
+        return musicasDoUsuario;
+    }
+    
 }

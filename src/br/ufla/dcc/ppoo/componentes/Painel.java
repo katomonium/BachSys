@@ -1,4 +1,4 @@
-package br.ufla.dcc.ppoo.view;
+package br.ufla.dcc.ppoo.componentes;
 
 import java.awt.Component;
 import java.awt.Dimension;

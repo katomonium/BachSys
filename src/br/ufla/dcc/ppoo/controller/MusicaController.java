@@ -18,7 +18,7 @@ public class MusicaController {
         );
     }
 
-    public static MusicaController getINSTANCIA() {
+    public static MusicaController getInstancia() {
         return INSTANCIA;
     }
     
@@ -36,6 +36,10 @@ public class MusicaController {
     
     public List<Musica> getMusicas(String email) {
         return MUSICA_DAO.getMusicas(email);
+    }
+    
+    public List<Musica> getMusicas() {
+        return MUSICA_DAO.getMusicas();
     }
     
 }
