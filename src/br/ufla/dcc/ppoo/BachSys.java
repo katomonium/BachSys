@@ -2,6 +2,7 @@ package br.ufla.dcc.ppoo;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
 
 public class BachSys {
@@ -42,6 +43,7 @@ public class BachSys {
         }
         
         UCtrl.iniciarSessao("ff@ff.com", "1235");
-        new TelaPrincipal(null).setVisible(true);
+        TelaInicial ti = new TelaInicial(null);
+        new TelaPrincipal(ti).setVisible(true);
     }
 }
