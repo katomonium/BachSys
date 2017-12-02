@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -139,9 +141,10 @@ public class TelaPrincipal extends Tela {
                 criaTabelaMusicas(musicas);
             }
         });
+        
     }
     
-    public Integer confirmarSaida() {
+    private Integer confirmarSaida() {
         Integer opcao = JOptionPane.showConfirmDialog(null, "Desja realizar login em outra conta?", "Realizar novo login?",
                                             JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
         
@@ -170,6 +173,8 @@ public class TelaPrincipal extends Tela {
         painelAcoes.setBackground(Color.yellow);
         adicionarComponente(painelAcoes, GridBagConstraints.WEST, 
                 GridBagConstraints.NONE, 1, 0, 1, 1);
+        
+        
         
         btnAdicionarMusica = new JButton("Adicionar");
         btnAdicionarMusica.setToolTipText("Adicionar uma musica ao catalogo");
@@ -241,7 +246,7 @@ public class TelaPrincipal extends Tela {
     }
     
     
-    public void criaTabelaMusicas(List<Musica> musicas) {
+    private void criaTabelaMusicas(List<Musica> musicas) {
         
         if(painelDeRolagem != null) {
             painelDeRolagem.removeAll();
@@ -262,5 +267,49 @@ public class TelaPrincipal extends Tela {
         
         painelListaMusica.revalidate();
         
+        adicionarAcoesTabela();
+        
+    }
+    
+    private void adicionarAcoesTabela() {
+        Tela t = this;
+        
+        tblMusicas.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                int row = tblMusicas.getSelectedRow();
+                String[] c = {"Nome", "Autor", "Album", "Gênero", "Ano" };
+                Musica musica = new Musica(tblMusicas.getValueAt(row, 0).toString(),
+                                            tblMusicas.getValueAt(row, 1).toString(),
+                                            tblMusicas.getValueAt(row, 2).toString(), 
+                                            Integer.parseInt(tblMusicas.getValueAt(row, 4).toString()),
+                                            tblMusicas.getValueAt(row, 3).toString(),
+                                            null, null);
+                
+                
+                new TelaDadosMusica(musica, t).setVisible(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+                return;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                return;
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                return;
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+                return;
+            }
+            
+        });
     }
 }
