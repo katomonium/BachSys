@@ -16,7 +16,7 @@ public class Comentario {
         this.comentario = comentario;
     }
 
-    public String getUsiarioEmail() {
+    public String getUsuarioEmail() {
         return usuarioEmail;
     }
 
