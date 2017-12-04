@@ -99,7 +99,6 @@ public class TelaPrincipal extends Tela {
         btnSair.setToolTipText("Fazer logout e finalizar o programa");
         painelAcoes.adicionarComponente(btnSair, GridBagConstraints.CENTER,
                                         GridBagConstraints.HORIZONTAL, 4, 0, 1, 1, 0.5, 0);
-     
         
         List<Musica> musicas = MusicaController.getInstancia().getMusicas();
         
