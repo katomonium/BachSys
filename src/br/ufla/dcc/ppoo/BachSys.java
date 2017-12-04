@@ -3,12 +3,12 @@ package br.ufla.dcc.ppoo;
 import br.ufla.dcc.ppoo.controller.ComentarioController;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.ComentarioDAO;
-import br.ufla.dcc.ppoo.view.TelaInicial;
+import br.ufla.dcc.ppoo.view.TelaInicial;r
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
-import java.util.List;
 
 public class BachSys {
 

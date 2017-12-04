@@ -18,7 +18,7 @@ public class MusicaController {
         );
     }
 
-    public static MusicaController getINSTANCIA() {
+    public static MusicaController getInstancia() {
         return INSTANCIA;
     }
     
@@ -34,10 +34,8 @@ public class MusicaController {
         return MUSICA_DAO.getMusicas(email);
     }
     
-    public void editarMusica(String nome, String autor, String album,
-            int ano, String genero, Usuario usuario, String[] tags) {
-        
-        
+    public List<Musica> getMusicas() {
+        return MUSICA_DAO.getMusicas();
     }
     
 }
