@@ -3,11 +3,7 @@ package br.ufla.dcc.ppoo;
 import br.ufla.dcc.ppoo.controller.ComentarioController;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
-
-import br.ufla.dcc.ppoo.model.Musica;
-import br.ufla.dcc.ppoo.model.Usuario;
-import br.ufla.dcc.ppoo.persistence.ComentarioDAO;
-import br.ufla.dcc.ppoo.view.TelaInicial;r
+import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
 
 public class BachSys {
@@ -42,7 +38,8 @@ public class BachSys {
         
         CCtrl.visualizarComentarios();
         
-        CCtrl.addComentario("a@a.a", "Time", "Lorem ipsum");
-        CCtrl.visualizarComentarios();
+        UCtrl.iniciarSessao("ff@ff.com", "1235");
+        TelaInicial ti = new TelaInicial(null);
+        new TelaPrincipal(ti).setVisible(true);
     }
 }
