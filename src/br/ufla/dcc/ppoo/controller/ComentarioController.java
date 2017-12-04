@@ -8,12 +8,12 @@ public class ComentarioController {
     private static final ComentarioDAO COMENTARIO_DAO = ComentarioDAO.getINSTANCIA();
     private static final ComentarioController INSTANCIA = new ComentarioController();
 
-    public static ComentarioController getINSTANCIA() {
+    public static ComentarioController getIntancia() {
         return INSTANCIA;
     }
 
     public void addComentario(String usuarioEmail, String musicaNome,
-            String comentario) {
+            String comentario) throws Exception {
         
         COMENTARIO_DAO.addComentario(
                 usuarioEmail, musicaNome,
