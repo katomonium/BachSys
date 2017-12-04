@@ -22,10 +22,6 @@ public class MusicaController {
         return INSTANCIA;
     }
     
-    public Musica getMusica(String nome) {
-        return MUSICA_DAO.getMusica(nome);
-    }
-    
     public int getQtdMusicas() {
         return MUSICA_DAO.getQtdMusicas();
     }

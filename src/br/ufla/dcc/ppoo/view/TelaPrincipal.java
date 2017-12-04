@@ -49,7 +49,6 @@ public class TelaPrincipal extends Tela {
     
     @Override
     protected void construirTela() {
-        
         adicionaPainelAcoes();
         adicionarPainelDadosUsuario();
         adicionarPainelListaMusica();
