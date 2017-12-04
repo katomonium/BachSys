@@ -7,10 +7,12 @@ import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -21,6 +23,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 
 public class TelaPrincipal extends Tela {
@@ -131,13 +134,15 @@ public class TelaPrincipal extends Tela {
             public void itemStateChanged(ItemEvent ie) {
                 String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                 List<Musica> musicas;
+                Boolean mostrarCheckBox;
                 if (ie.getStateChange() == ItemEvent.SELECTED) {
                     musicas = MusicaController.getInstancia().getMusicas(email);
-                    
+                    mostrarCheckBox = true;
                 } else {
                     musicas = MusicaController.getInstancia().getMusicas();
+                    mostrarCheckBox = false;
                 }
-                criaTabelaMusicas(musicas);
+                criaTabelaMusicas(musicas, mostrarCheckBox);
             }
         });
         
@@ -238,14 +243,14 @@ public class TelaPrincipal extends Tela {
         
         List<Musica> musicas = MusicaController.getInstancia().getMusicas();
         
-        criaTabelaMusicas(musicas);
+        criaTabelaMusicas(musicas, false);
         boxMusicasUsuario = new JCheckBox("Ver apenas minhas músicas");
         painelListaMusica.adicionarComponente(boxMusicasUsuario,GridBagConstraints.WEST,
                                             GridBagConstraints.NONE, 0, 0, 1, 1, 0.1, 0.1);
     }
     
     
-    private void criaTabelaMusicas(List<Musica> musicas) {
+    private void criaTabelaMusicas(List<Musica> musicas, Boolean mostrarCheckBox) {
         
         if(painelDeRolagem != null) {
             painelDeRolagem.removeAll();
@@ -255,7 +260,7 @@ public class TelaPrincipal extends Tela {
         String[] colunas = {"Nome", "Autor", "Album", "Gênero", "Ano" };
         
         
-        tblMusicas = new Tabela(musicas, colunas);
+        tblMusicas = new Tabela(musicas, colunas, mostrarCheckBox);
         
         
         painelDeRolagem = new JScrollPane();
@@ -276,7 +281,12 @@ public class TelaPrincipal extends Tela {
         tblMusicas.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {
+                int column = tblMusicas.getSelectedColumn();
                 int row = tblMusicas.getSelectedRow();
+                if(column == tblMusicas.getColunaCheckBox()) {
+                    return;
+                }
+                
                 String[] c = {"Nome", "Autor", "Album", "Gênero", "Ano" };
                 Musica musica = new Musica(tblMusicas.getValueAt(row, 0).toString(),
                                             tblMusicas.getValueAt(row, 1).toString(),
@@ -311,4 +321,6 @@ public class TelaPrincipal extends Tela {
             
         });
     }
+    
+    
 }
