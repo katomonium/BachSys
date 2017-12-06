@@ -3,13 +3,17 @@ package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class TelaCadastroMusica extends Tela{
@@ -157,8 +161,13 @@ public class TelaCadastroMusica extends Tela{
                 }
                 
                 String usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                MusicaController.getInstancia().addMusica(nome, autor, album, 
-                                            ano, genero, usuario, aux);
+                try {
+                    MusicaController.getInstancia().addMusica(nome, autor, album,
+                            ano, genero, usuario, aux);
+                    System.out.println(nome + " cadastrada");
+                } catch (MusicaJaCadastradaException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
                 
                 t.setVisible(false);
             }
