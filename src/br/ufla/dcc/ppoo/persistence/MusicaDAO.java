@@ -27,16 +27,11 @@ public class MusicaDAO {
         return this.musicas.get(Arrays.asList(nome, email));
     }
     
-    public void addMusica(Musica m, String email) throws MusicaJaCadastradaException {
+    public void addMusica(Musica m, String email)
+            throws MusicaJaCadastradaException {
+        
         List<String> key = Arrays.asList(m.getNome(), email);
-        
-        if(this.musicas.get(key) != null) {
-            System.out.println("Eu ja existo!!!!");
-            throw new MusicaJaCadastradaException();
-        }
-        
         this.musicas.put(key, m);
-        
     }
     
     public int getSize() {

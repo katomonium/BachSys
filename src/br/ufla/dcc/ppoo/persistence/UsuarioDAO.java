@@ -25,12 +25,7 @@ public class UsuarioDAO {
     }
     
     public void adicionarUsuario(Usuario u) {
-        if(this.usuarios.get(u.getEmail()) == null) {
-            this.usuarios.put(u.getEmail(), u);
-        } else {
-            // TODO: Transformar em um throw
-            System.out.println("ERRO: Usuário já cadastrado");
-        }
+        this.usuarios.put(u.getEmail(), u);
     }
     
     public void visualizaUsuarios() {

@@ -3,6 +3,7 @@ package br.ufla.dcc.ppoo.controller;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
+import java.util.Arrays;
 import java.util.List;
 
 public class MusicaController {
@@ -13,6 +14,10 @@ public class MusicaController {
     public void addMusica(String nome, String autor, String album,
             int ano, String genero, String usuario, String[] tags)
             throws MusicaJaCadastradaException {
+        
+        if(MUSICA_DAO.getMusica(nome, usuario) != null) {
+            throw new MusicaJaCadastradaException();
+        }
         
         MUSICA_DAO.addMusica(
                 new Musica(nome, autor, album, ano, genero, usuario, tags), usuario

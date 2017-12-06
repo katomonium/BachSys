@@ -1,6 +1,7 @@
 
 package br.ufla.dcc.ppoo.seguranca;
 
+import br.ufla.dcc.ppoo.exceptions.NaoHaUsuarioLogadoException;
 import br.ufla.dcc.ppoo.model.Usuario;
 
 public class Sessao {
@@ -20,37 +21,30 @@ public class Sessao {
             return;
         }
         this.usuario = u;
-        System.out.println("Logou carai");
     }
     
-    public void finalizar() {
+    public void finalizar() throws NaoHaUsuarioLogadoException {
         if(usuario == null) {
-            System.out.println("Ninguem ta logado poarr");
-            return;
+            throw new NaoHaUsuarioLogadoException();
         }
         this.usuario = null;
         System.out.println("Deslogou carai");
     }
     
     public Boolean estaLogado() {
-        if(usuario == null) {
-            return false;
-        }
-        return true;
+        return usuario != null;
     }
     
-    public String getNomeUsuario() {
+    public String getNomeUsuario() throws NaoHaUsuarioLogadoException {
         if(usuario == null) {
-            // TODO: Excecao "Não há usuario logado"
-            return "";
+            throw new NaoHaUsuarioLogadoException();
         }
         return usuario.getNome();
     }
     
-    public String getEmailUsuario() {
+    public String getEmailUsuario() throws NaoHaUsuarioLogadoException {
         if(usuario == null) {
-            // TODO: Excecao "Não há usuario logado"
-            return "";
+            throw new NaoHaUsuarioLogadoException();
         }
         return usuario.getEmail();
     }
