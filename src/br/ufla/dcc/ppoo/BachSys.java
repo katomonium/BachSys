@@ -3,6 +3,8 @@ package br.ufla.dcc.ppoo;
 import br.ufla.dcc.ppoo.controller.ComentarioController;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.model.Musica;
+import br.ufla.dcc.ppoo.view.TelaEditarMusica;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.ConfirmacaoDeSenhaException;
 import br.ufla.dcc.ppoo.exceptions.EmailInvalidoException;
@@ -42,14 +44,14 @@ public class BachSys {
         for (int i = 0; i < 50; i++) {
             MCtrl.addMusica(
                     "Time1" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-                    null
+                    UsuarioController.getInstancia().getUsuario("k4t0mono@gmail.com").getEmail(),
+                    new String[] {"arroz", "feijao"}
             );
 
             MCtrl.addMusica(
                     "Time2" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
                     UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-                    null
+                    new String[] {"a", "b"}
             );
 
             MCtrl.addMusica(
@@ -62,7 +64,7 @@ public class BachSys {
         
         CCtrl.visualizarComentarios();
         
-        UCtrl.iniciarSessao("k4t0mono@gmail.com", "KohZahv8");
+        UCtrl.iniciarSessao("ff@ff.com", "1235");
         TelaInicial ti = new TelaInicial(null);
         ti.setVisible(false);
         new TelaPrincipal(ti).setVisible(true);

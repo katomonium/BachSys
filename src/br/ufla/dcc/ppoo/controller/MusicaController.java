@@ -46,5 +46,9 @@ public class MusicaController {
             new Musica(nome, autor, album, ano, genero, usuario, tags), usuario
         );
     }
+
+    public Musica getMusica(String nome, String email) {
+        return MUSICA_DAO.getMusica(nome, email);
+    }
     
 }
