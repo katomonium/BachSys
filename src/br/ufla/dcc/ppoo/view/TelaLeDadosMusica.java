@@ -104,13 +104,8 @@ public abstract class TelaLeDadosMusica  extends Tela {
                 String autor = txtAutor.getText();
                 String genero = txtGenero.getText();
                 ArrayList<String> tags = new ArrayList<String>();
-                String[] aux = txtTags.getText().split(" ");
-                for(int i = 0; i < aux.length; i++) {
-                    if(!aux[i].equals("")) {
-                        tags.add(aux[i]);
-                    }
-                }
-                
+                String[] aux = txtTags.getText().split(" ", -1);
+
                 if(nome.equals("")) {
                     System.out.println("NOME");
                     return;

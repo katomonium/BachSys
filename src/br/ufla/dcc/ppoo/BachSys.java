@@ -20,7 +20,7 @@ public class BachSys {
         for (int i = 0; i < 50; i++) {
             MCtrl.addMusica(
                     "Time1" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+                    UsuarioController.getInstancia().getUsuario("k4t0mono@gmail.com").getEmail(),
                     new String[] {"arroz", "feijao"}
             );
 
