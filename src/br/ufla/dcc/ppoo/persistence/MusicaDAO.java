@@ -1,6 +1,11 @@
 package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.model.Musica;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,17 +15,31 @@ import java.util.Map;
 public class MusicaDAO {
 
 //    private String caminho;
-    private static final MusicaDAO INSTANCIA = new MusicaDAO();
+    private static MusicaDAO INSTANCIA;
     
     // Map<NomeDaMusica, Musica>
     private final Map<String[], Musica> musicas;
 
-    private MusicaDAO() {
-        this.musicas = new HashMap<>();
+    public MusicaDAO() throws IOException, ClassNotFoundException {
+        
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("musica.bin"));
+        this.musicas = (Map<String[], Musica>) ois.readObject();
+        ois.close();
+        
     }
 
-    public static MusicaDAO getINSTANCIA() {
+    public static MusicaDAO getINSTANCIA() throws IOException, ClassNotFoundException {
+        if(INSTANCIA == null) {
+            INSTANCIA = new MusicaDAO();
+        }
         return INSTANCIA;
+    }
+    
+    public void escreverNoArquivo() throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream(new 
+        FileOutputStream("musica.bin"));
+        oos.writeObject(this.musicas);
+        oos.close();
     }
     
     public Musica getMusica(String nome, String email) {
@@ -28,7 +47,7 @@ public class MusicaDAO {
         return this.musicas.get(key);
     }
     
-    public void addMusica(Musica m, String email) {
+    public void addMusica(Musica m, String email) throws IOException {
         String[] key = new String[] {email, m.getNome()};
         
         if(this.musicas.get(key) == null) {
@@ -37,6 +56,7 @@ public class MusicaDAO {
         } else {
             System.out.println("ERROR: Música já cadastrada");
         }
+        escreverNoArquivo();
     }
     
     public int getSize() {
