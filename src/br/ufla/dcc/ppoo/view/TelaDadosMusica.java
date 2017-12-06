@@ -5,6 +5,7 @@
  */
 package br.ufla.dcc.ppoo.view;
 
+import br.ufla.dcc.ppoo.componentes.Painel;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
@@ -21,6 +22,8 @@ import javax.swing.JLabel;
  * @author dell
  */
 public class TelaDadosMusica extends Tela {
+    
+    private Painel painel;
     
     private JLabel lbNome;
     private JLabel lbAutor;
@@ -45,12 +48,12 @@ public class TelaDadosMusica extends Tela {
 
     public TelaDadosMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
+        painel = null;
         this.musica = musica;
         
         construirTela();
         adicionarAcoes();
         
-        System.out.println(Arrays.toString(musica.getTags()));
         if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
             adicionarBotaoEditar();
         }
@@ -67,7 +70,7 @@ public class TelaDadosMusica extends Tela {
         lbGenero = new JLabel("Gênero:");
         lbTags = new JLabel("Tags:");
         
-        adicionarValores();
+        
         
         adicionarComponente(lbNome, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 1, 0, 1, 1);
@@ -92,10 +95,16 @@ public class TelaDadosMusica extends Tela {
         adicionarComponente(btnFechar, GridBagConstraints.EAST, 
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
         
-        
+        adicionarValores();
     }
     
     private void adicionarValores() {
+        if(painel != null) {
+            remove(painel);
+        }
+        
+        painel = new Painel(100, 200);
+        
         lbValorNome = new JLabel(musica.getNome());
         lbValorUsuario = new JLabel(
                             UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
@@ -103,23 +112,34 @@ public class TelaDadosMusica extends Tela {
         lbValorAlbum = new JLabel(musica.getAlbum());
         lbValorAno = new JLabel(Integer.toString(musica.getAno()));
         lbValorAutor = new JLabel(musica.getAutor());
-        lbValorTags = new JLabel(Arrays.toString(musica.getTags()));
+        String[] aux = musica.getTags();
+        String concatenacaoTags = "";
+        for(int i = 0; i < aux.length - 1; i++) {
+            concatenacaoTags += aux[i] + " ";
+        }
+        concatenacaoTags += aux[aux.length - 1];
+        
+        lbValorTags = new JLabel(concatenacaoTags);
+        
         lbValorGenero = new JLabel(musica.getGenero());
         
-        adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 0, 1, 1, 1);
+        painel.adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 1, 1, 1, 1);
-        adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 2, 1, 1, 1);
-        adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 3, 1, 1, 1);
-        adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 4, 1, 1, 1);
-        adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 5, 1, 1, 1);
-        adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 6, 1, 1, 1);
-        adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 7, 1, 1, 1);
+        
+        adicionarComponente(painel, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 1, 1, 1, 7);
         this.revalidate();
     }
 

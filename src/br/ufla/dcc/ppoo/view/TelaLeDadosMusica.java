@@ -3,6 +3,7 @@ package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,8 +104,7 @@ public abstract class TelaLeDadosMusica  extends Tela {
                 String album = txtAlbum.getText();
                 String autor = txtAutor.getText();
                 String genero = txtGenero.getText();
-                ArrayList<String> tags = new ArrayList<String>();
-                String[] aux = txtTags.getText().split(" ", -1);
+                String[] tags = txtTags.getText().split(" ", -1);
 
                 if(nome.equals("")) {
                     System.out.println("NOME");
@@ -127,7 +127,7 @@ public abstract class TelaLeDadosMusica  extends Tela {
 
                 }
                 
-                if(tags.size() < 2) {
+                if(tags.length < 2) {
                     System.out.println("TAGS");
                     return;
                 }
@@ -141,8 +141,7 @@ public abstract class TelaLeDadosMusica  extends Tela {
                 }
                 
                 String usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                MusicaController.getInstancia().addMusica(nome, autor, album, 
-                                            ano, genero, usuario, aux);
+                executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags);
                 
                 t.setVisible(false);
             }
@@ -155,6 +154,10 @@ public abstract class TelaLeDadosMusica  extends Tela {
             }
         });
     }
+    
+    
+    protected abstract void executarAcaoSalvar(String nome, String autor, 
+                                 String album, Integer ano, String genero, String usuario, String[] tags);
     
     public void setTxtNome(JTextField txtNome) {
         this.txtNome = txtNome;

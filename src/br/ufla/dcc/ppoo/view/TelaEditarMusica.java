@@ -1,6 +1,7 @@
 
 package br.ufla.dcc.ppoo.view;
 
+import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.model.Musica;
 import javax.swing.JTextField;
 
@@ -32,6 +33,11 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
         
         super.construirTela();
         
+    }
+
+    @Override
+    protected void executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
+        MusicaController.getInstancia().modificarMusica(nome, autor, album, ano, genero, usuario, tags);
     }
     
     
