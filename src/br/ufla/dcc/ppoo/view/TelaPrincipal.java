@@ -7,12 +7,12 @@ import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
@@ -23,7 +23,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 
 public class TelaPrincipal extends Tela {
@@ -39,15 +38,25 @@ public class TelaPrincipal extends Tela {
     private Tabela tblMusicas;
     private JScrollPane painelDeRolagem;
     private JCheckBox boxMusicasUsuario;
+    private List<Musica> musicas;
     
     public TelaPrincipal(Tela t) {
         super("BachSys", 800, 600, t);
+        atualizarListaMusicas();
         painelDeRolagem = null;
         construirTela();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         adicionarAcoes();
         
         
+    }
+    
+    private void atualizarListaMusicas() {
+        musicas = MusicaController.getInstancia().getMusicas();
+    }
+    
+    private void atualizarListaMusicas(List<Musica> ms) {
+        musicas = ms;
     }
     
     @Override
@@ -63,12 +72,26 @@ public class TelaPrincipal extends Tela {
     @Override
     protected void adicionarAcoes() {
         Tela t = this;
+        
         btnAdicionarMusica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                new TelaCadastroMusica(t).setVisible(true);
+                TelaCadastroMusica tcm = new TelaCadastroMusica(t);
+                tcm.setVisible(true);
+                tcm.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+                        if(boxMusicasUsuario.isSelected()) {
+                            boxMusicasUsuario.setSelected(false);
+                        }
+                        
+                        boxMusicasUsuario.setSelected(true);
+                    }
+                });
             }
         });
+        
+        
         btnEditarMusica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -125,6 +148,9 @@ public class TelaPrincipal extends Tela {
                 } else {
                     musicas = MusicaController.getInstancia().getMusicas();
                     mostrarCheckBox = false;
+                }
+                for(Musica m : musicas) {
+                    System.out.println(m);
                 }
                 criaTabelaMusicas(musicas, mostrarCheckBox);
             }
@@ -225,7 +251,7 @@ public class TelaPrincipal extends Tela {
         adicionarComponente(painelListaMusica, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 1, 1, 2);
         painelListaMusica.setBackground(Color.red);
         
-        List<Musica> musicas = MusicaController.getInstancia().getMusicas();
+        
         
         criaTabelaMusicas(musicas, false);
         boxMusicasUsuario = new JCheckBox("Ver apenas minhas músicas");
@@ -254,6 +280,7 @@ public class TelaPrincipal extends Tela {
                                             GridBagConstraints.BOTH, 1, 0, 1, 1, 1,1);
         
         painelListaMusica.revalidate();
+        atualizarListaMusicas(musicas);
         
         adicionarAcoesTabela();
         
@@ -265,22 +292,15 @@ public class TelaPrincipal extends Tela {
         tblMusicas.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {
-                int column = tblMusicas.getSelectedColumn();
-                int row = tblMusicas.getSelectedRow();
-                if(column == tblMusicas.getColunaCheckBox()) {
-                    return;
+                if(me.getClickCount() == 2){
+                    int column = tblMusicas.getSelectedColumn();
+                    int row = tblMusicas.getSelectedRow();
+                    if(column == tblMusicas.getColunaCheckBox()) {
+                        return;
+                    }
+                    
+                    new TelaDadosMusica(musicas.get(row), t).setVisible(true);
                 }
-                
-                String[] c = {"Nome", "Autor", "Album", "Gênero", "Ano" };
-                Musica musica = new Musica(tblMusicas.getValueAt(row, 0).toString(),
-                                            tblMusicas.getValueAt(row, 1).toString(),
-                                            tblMusicas.getValueAt(row, 2).toString(), 
-                                            Integer.parseInt(tblMusicas.getValueAt(row, 4).toString()),
-                                            tblMusicas.getValueAt(row, 3).toString(),
-                                            null, null);
-                
-                
-                new TelaDadosMusica(musica, t).setVisible(true);
             }
 
             @Override

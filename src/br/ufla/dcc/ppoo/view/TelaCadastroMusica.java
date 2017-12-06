@@ -1,10 +1,14 @@
 
 package br.ufla.dcc.ppoo.view;
 
+import br.ufla.dcc.ppoo.controller.MusicaController;
+import br.ufla.dcc.ppoo.controller.UsuarioController;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -106,7 +110,57 @@ public class TelaCadastroMusica extends Tela{
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                String nome = txtNome.getText();
+                String album = txtAlbum.getText();
+                String autor = txtAutor.getText();
+                String genero = txtGenero.getText();
+                ArrayList<String> tags = new ArrayList<String>();
+                String[] aux = txtTags.getText().split(" ");
+                for(int i = 0; i < aux.length; i++) {
+                    if(!aux[i].equals("")) {
+                        tags.add(aux[i]);
+                    }
+                }
                 
+                if(nome.equals("")) {
+                    System.out.println("NOME");
+                    return;
+                }
+                
+                if(album.equals("")) {
+                    System.out.println("ALBUM");
+                    return;
+                }
+                
+                if(autor.equals("")) {
+                    System.out.println("AUTOR");
+                    return;
+                }
+                
+                if(genero.equals("")) {
+                    System.out.println("GENERO");
+                    return;
+
+                }
+                
+                if(tags.size() < 2) {
+                    System.out.println("TAGS");
+                    return;
+                }
+                
+                Integer ano = -1;
+                
+                try {
+                    ano = Integer.parseInt(txtAno.getText());
+                } catch (RuntimeException rtm) {
+                    System.out.println("ANO");
+                }
+                
+                String usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                MusicaController.getInstancia().addMusica(nome, autor, album, 
+                                            ano, genero, usuario, aux);
+                
+                t.setVisible(false);
             }
         });
         
