@@ -18,27 +18,27 @@ public class BachSys {
         for (int i = 0; i < 50; i++) {
             MCtrl.addMusica(
                     "Time1" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("k4t0mono@gmail.com"),
+                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
                     null
             );
 
             MCtrl.addMusica(
                     "Time2" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("k4t0mono@gmail.com"),
+                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
                     null
             );
 
             MCtrl.addMusica(
-                    "Time3" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("ff@ff.com"),
-                    null
+                    "silva" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
+                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+                    new String[] {"fff", "ggg"}
             );
         }
         ComentarioController CCtrl = ComentarioController.getIntancia();
         
         CCtrl.visualizarComentarios();
         
-        UCtrl.iniciarSessao("ff@ff.com", "1235");
+        UCtrl.iniciarSessao("k4t0mono@gmail.com", "KohZahv8");
         TelaInicial ti = new TelaInicial(null);
         new TelaPrincipal(ti).setVisible(true);
     }

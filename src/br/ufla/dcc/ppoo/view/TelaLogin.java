@@ -86,7 +86,7 @@ public class TelaLogin extends Tela {
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastro(t).setVisible(true);
+                new TelaCadastroUsuario(t).setVisible(true);
             }
         });
     }

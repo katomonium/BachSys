@@ -1,5 +1,7 @@
 package br.ufla.dcc.ppoo.model;
 
+import java.util.Arrays;
+
 public class Musica {
 
     private final String nome;
@@ -7,7 +9,7 @@ public class Musica {
     private final String album;
     private final int ano;
     private final String genero;
-    private final Usuario usuario;
+    private final String email;
     private final String[] tags;
     
     /**
@@ -17,11 +19,11 @@ public class Musica {
      * @param album
      * @param ano
      * @param genero
-     * @param usuario
+     * @param email
      * @param tags 
      */
     public Musica(String nome, String autor, String album, int ano,
-            String genero, Usuario usuario, String[] tags) {
+            String genero, String email, String[] tags) {
         
 //        if(tags == null || tags.length < 2) {
 //            System.out.println("Excecao: nao ha tags");
@@ -32,8 +34,10 @@ public class Musica {
         this.album = album;
         this.ano = ano;
         this.genero = genero;
-        this.usuario = usuario;
+        this.email = email;
         this.tags = tags;
+        
+//        System.out.println(Arrays.toString(this.tags));
     }
     
     public String getNome() {
@@ -56,8 +60,8 @@ public class Musica {
         return genero;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getEmail() {
+        return email;
     }
 
     public String[] getTags() {
@@ -68,7 +72,7 @@ public class Musica {
     public String toString() {
         return "Musica{" + "nome=" + nome + ", autor=" + autor + ", album="
                 + album + ", ano=" + ano + ", genero=" + genero + ", usuario="
-                + usuario.getEmail() + ", tags=" + tags + '}';
+                + email + ", tags=" + tags + '}';
     }
     
 }
