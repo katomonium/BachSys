@@ -1,8 +1,9 @@
 package br.ufla.dcc.ppoo.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Musica {
+public class Musica implements Serializable{
 
     private final String nome;
     private final String autor;

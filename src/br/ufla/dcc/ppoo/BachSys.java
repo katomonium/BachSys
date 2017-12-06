@@ -12,8 +12,18 @@ import br.ufla.dcc.ppoo.exceptions.EmailJaCadastradoException;
 import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
+import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +32,7 @@ import java.util.Map;
 
 public class BachSys {
 
-    public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, MusicaJaCadastradaException {
+    public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
         UsuarioController UCtrl = UsuarioController.getInstancia();
 
         try{
@@ -39,51 +49,63 @@ public class BachSys {
             System.out.println("hoho");
         }
         
-        
-        MusicaController MCtrl = MusicaController.getInstancia();
-        for (int i = 0; i < 50; i++) {
-            MCtrl.addMusica(
-                    "Time1" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("k4t0mono@gmail.com").getEmail(),
-                    new String[] {"arroz", "feijao"}
-            );
-
-            MCtrl.addMusica(
-                    "Time2" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-                    new String[] {"a", "b"}
-            );
-
-            MCtrl.addMusica(
-                    "silva" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-                    new String[] {"fff", "ggg"}
-            );
-        }
+//        MusicaController MCtrl = MusicaController.getInstancia();
+//        for (int i = 0; i < 50; i++) {
+//            MCtrl.addMusica(
+//                    "Time1" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
+//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+//                    null
+//            );
+//
+//            MCtrl.addMusica(
+//                    "Time2" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
+//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+//                    null
+//            );
+//
+//            MCtrl.addMusica(
+//                    "silva" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
+//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+//                    new String[] {"fff", "ggg"}
+//            );
+//        }
         ComentarioController CCtrl = ComentarioController.getIntancia();
         
         CCtrl.visualizarComentarios();
         
         UCtrl.iniciarSessao("ff@ff.com", "1235");
         TelaInicial ti = new TelaInicial(null);
-        ti.setVisible(false);
+//        Musica m = new Musica("Uauu", "Epic Mountain", "Kurzgesast 1", 2014, "",
+//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+//                    null);
+//        Musica m2 = new Musica("YEAH", "Epic Mountain", "Kurzgesast 1", 2014, "",
+//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
+//                    null);
+//        
+//        Map<String[], Musica> lista = new HashMap<>();
+//        String[] key = new String[] {"silsilsil", m.getNome()};
+//        lista.put(key,m);
+//        
+//        String[] key2 = new String[] {"silsilsil", m2.getNome()};
+//        lista.put(key2, m2);
+//        
+//        ObjectOutputStream oos = new ObjectOutputStream(new 
+//        FileOutputStream("musica.bin"));
+//          
+//        oos.writeObject(lista);
+//        
+//        oos.close();
+//        
+//        ObjectInputStream ois = new ObjectInputStream(new 
+//        FileInputStream("musica.bin"));
+//          
+//        Map<String[], Musica> teste = (Map<String[], Musica>) ois.readObject();
+//        
+//        ois.close();
+//        
+//        System.out.println(teste);
+
         new TelaPrincipal(ti).setVisible(true);
 
-//        Map<String, String> map = new HashMap<>();
-//        map.put("oi", "heyio");
-//        System.out.println(map.get("oi"));
-//        
-//        Map<String[], String> map2 = new HashMap<>();
-//        
-//        String[] k = {"2", "s"};
-//        map2.put(k, "beta");
-//        System.out.println(map2.get(k));
-//        
-//        map2.put(new String[] {"1", "a"}, "alfa");
-//        System.out.println(map2.get(new String[] {"1", "a"}));
-//        
-//        Map<List<String>, String> map3 = new HashMap<>();
-//        map3.put(Arrays.asList("1", "2"), "gamma");
-//        System.out.println(map3.get(Arrays.asList("1", "2")));
     }
 }

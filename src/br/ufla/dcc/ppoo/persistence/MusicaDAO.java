@@ -2,6 +2,11 @@ package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,33 +15,45 @@ import java.util.Map;
 
 public class MusicaDAO {
 
-    private static final MusicaDAO INSTANCIA = new MusicaDAO();
-     
+    private static MusicaDAO INSTANCIA;
     // Map<NomeDaMusica, Musica>
     private final Map<List<String>, Musica> musicas;
 
-    private MusicaDAO() {
-        this.musicas = new HashMap<>();
+    public MusicaDAO() throws IOException, ClassNotFoundException {
+        
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("musica.bin"));
+        this.musicas = (Map<String[], Musica>) ois.readObject();
+        ois.close();
+        
     }
 
-    public static MusicaDAO getINSTANCIA() {
+    public static MusicaDAO getINSTANCIA() throws IOException, ClassNotFoundException {
+        if(INSTANCIA == null) {
+            INSTANCIA = new MusicaDAO();
+        }
         return INSTANCIA;
+    }
+    
+    public void escreverNoArquivo() throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream(new 
+        FileOutputStream("musica.bin"));
+        oos.writeObject(this.musicas);
+        oos.close();
     }
     
     public Musica getMusica(String nome, String email) {
         return this.musicas.get(Arrays.asList(nome, email));
     }
     
-    public void addMusica(Musica m, String email) throws MusicaJaCadastradaException {
+    public void addMusica(Musica m, String email) throws MusicaJaCadastradaException, IOException {
         List<String> key = Arrays.asList(m.getNome(), email);
         
         if(this.musicas.get(key) != null) {
             System.out.println("Eu ja existo!!!!");
             throw new MusicaJaCadastradaException();
         }
-        
+        escreverNoArquivo();
         this.musicas.put(key, m);
-        
     }
     
     public int getSize() {
