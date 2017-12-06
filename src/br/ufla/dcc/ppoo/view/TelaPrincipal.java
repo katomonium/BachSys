@@ -58,31 +58,15 @@ public class TelaPrincipal extends Tela {
         
     }
     
-   
-    
-    private Object[][] formatarMusicas(String email){
-        List<Musica> musicas = MusicaController.getInstancia().getMusicas(email);
-        
-        Object objetos[][] = new Object[musicas.size()][5];
-        
-        for(int i = 0; i < musicas.size(); i++){
-            objetos[i][0] = musicas.get(i).getNome();
-            objetos[i][1] = musicas.get(i).getAutor();
-            objetos[i][2] = musicas.get(i).getAlbum();
-            objetos[i][3] = musicas.get(i).getGenero();
-            objetos[i][4] = musicas.get(i).getAno();
-        }
-        return objetos;
-    } 
-    
     
     
     @Override
     protected void adicionarAcoes() {
+        Tela t = this;
         btnAdicionarMusica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                //TODO: Chamar janela de cadastro de musicas
+                new TelaCadastroMusica(t).setVisible(true);
             }
         });
         btnEditarMusica.addActionListener(new ActionListener() {
