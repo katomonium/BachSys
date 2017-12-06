@@ -2,6 +2,11 @@ package br.ufla.dcc.ppoo.view;
 
 
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.ConfirmacaoDeSenhaException;
+import br.ufla.dcc.ppoo.exceptions.EmailInvalidoException;
+import br.ufla.dcc.ppoo.exceptions.EmailJaCadastradoException;
+import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -114,30 +119,34 @@ public class TelaCadastroUsuario extends Tela {
                 String usuario = txtUsuario.getText();
                 String email = txtEmail.getText();
                 String senha = txtSenha.getText();
-                String confirmarSenha = txtConfirmarSenha.getText();
+                String confirmacaoSenha = txtConfirmarSenha.getText();
                 
-                if((senha.length() >= 4) && (senha.equals(confirmarSenha))
-                    && (usuario.length() >= 1) && (verificarEmail(email))
-                    ){
-                  
-                    UsuarioController.getInstancia().cadastrar(usuario, email, senha);
+                try{                    
+                    UsuarioController.getInstancia().cadastrar(usuario, email, senha, confirmacaoSenha);
                     setVisible(false);
                 }
-                else{
-                    if(usuario.length()< 1) {
-                        JOptionPane.showMessageDialog(null, "Digite seu nome de usuário!", 
-                                "Usuário inválido", JOptionPane.ERROR_MESSAGE);
-                    } else if(!verificarEmail(email)) {
-                        JOptionPane.showMessageDialog(null, "Digite um email válido!", 
-                                "Email inválido", JOptionPane.ERROR_MESSAGE);
-                    } else if(senha.length() < 4) {
-                        JOptionPane.showMessageDialog(null, "A senha deve conter no mínimo 4 catacteres!",
-                                "Senha inválida", JOptionPane.ERROR_MESSAGE);
-                    } else if(!senha.equals(confirmarSenha)) {
-                        JOptionPane.showMessageDialog(null, "A senha está diferente da confirmação de senha!", 
-                                "Confirmação de senha errada", JOptionPane.ERROR_MESSAGE);
-                    }
+                catch(CampoVazioException cv){
+                    JOptionPane.showMessageDialog(null, cv.getMessage(), 
+                                "Erro", JOptionPane.ERROR_MESSAGE);
                 }
+                catch(ConfirmacaoDeSenhaException s){
+                    JOptionPane.showMessageDialog(null, s.getMessage(), 
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(EmailJaCadastradoException ej){
+                    JOptionPane.showMessageDialog(null, ej.getMessage(), 
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(SenhaCurtaException c){
+                    JOptionPane.showMessageDialog(null, c.getMessage(), 
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(EmailInvalidoException ei){
+                    JOptionPane.showMessageDialog(null, ei.getMessage(), 
+                                "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                
+               
             }
         });
     }
