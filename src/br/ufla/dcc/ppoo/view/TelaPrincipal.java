@@ -284,16 +284,18 @@ public class TelaPrincipal extends Tela {
                     if(column == tblMusicas.getColunaCheckBox()) {
                         return;
                     }
-                    TelaDadosMusica tcm = new TelaDadosMusica(musicas.get(row), t);
-                    tcm.setVisible(true);
-                    tcm.addComponentListener(new ComponentAdapter() {
+                    TelaDadosMusica tdm = new TelaDadosMusica(musicas.get(row), t);
+                    tdm.setVisible(true);
+                    tdm.addComponentListener(new ComponentAdapter() {
                         @Override
                         public void componentHidden(ComponentEvent e) {
-                            if(boxMusicasUsuario.isSelected()) {
-                                boxMusicasUsuario.setSelected(false);
-                            }
+                            if(tdm.musicaAlterada()) {
+                                if(boxMusicasUsuario.isSelected()) {
+                                    boxMusicasUsuario.setSelected(false);
+                                }
 
-                            boxMusicasUsuario.setSelected(true);
+                                boxMusicasUsuario.setSelected(true);
+                            }
                         }
                     });
 
