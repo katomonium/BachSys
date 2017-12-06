@@ -149,9 +149,9 @@ public class TelaPrincipal extends Tela {
                     musicas = MusicaController.getInstancia().getMusicas();
                     mostrarCheckBox = false;
                 }
-                for(Musica m : musicas) {
-                    System.out.println(m);
-                }
+//                for(Musica m : musicas) {
+//                    System.out.println(m);
+//                }
                 criaTabelaMusicas(musicas, mostrarCheckBox);
             }
         });
