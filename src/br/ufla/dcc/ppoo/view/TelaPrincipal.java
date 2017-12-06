@@ -31,7 +31,6 @@ public class TelaPrincipal extends Tela {
     private Painel painelAcoes;
     private Painel painelListaMusica;
     private JButton btnAdicionarMusica;
-    private JButton btnEditarMusica;
     private JButton btnRemoverMusica;
     private JButton btnLogout;
     private JButton btnSair;
@@ -91,13 +90,7 @@ public class TelaPrincipal extends Tela {
             }
         });
         
-        
-        btnEditarMusica.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                //TODO: Abrir janela de edicao de musica
-            }
-        });
+       
         btnRemoverMusica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -195,25 +188,20 @@ public class TelaPrincipal extends Tela {
         painelAcoes.adicionarComponente(btnAdicionarMusica, GridBagConstraints.CENTER,
                                         GridBagConstraints.BOTH, 0, 0, 1, 1, 0.5, 0);
 
-        btnEditarMusica = new JButton("Editar");
-        btnEditarMusica.setToolTipText("Editar musicas do catalogo");
-        painelAcoes.adicionarComponente(btnEditarMusica, GridBagConstraints.CENTER,
-                                        GridBagConstraints.BOTH, 1, 0, 1, 1, 0.5, 0);
-
         btnRemoverMusica = new JButton("Remover");
         btnRemoverMusica.setToolTipText("Remover mussicas do catalogo");
         painelAcoes.adicionarComponente(btnRemoverMusica, GridBagConstraints.CENTER,
-                                        GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
+                                        GridBagConstraints.BOTH, 1, 0, 1, 1, 0.5, 0);
 
         btnLogout = new JButton("Logout");
         btnLogout.setToolTipText("Fazer Logout do sistema");
         painelAcoes.adicionarComponente(btnLogout, GridBagConstraints.CENTER,
-                                        GridBagConstraints.BOTH, 3, 0, 1, 1, 0.5, 0);
+                                        GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
 
         btnSair = new JButton("Sair");
         btnSair.setToolTipText("Fazer logout e finalizar o programa");
         painelAcoes.adicionarComponente(btnSair, GridBagConstraints.CENTER,
-                                        GridBagConstraints.HORIZONTAL, 4, 0, 1, 1, 0.5, 0);
+                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1, 0.5, 0);
      
     }
 
