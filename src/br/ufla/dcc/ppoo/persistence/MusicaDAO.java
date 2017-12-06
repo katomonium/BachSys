@@ -33,7 +33,6 @@ public class MusicaDAO {
         
         if(this.musicas.get(key) == null) {
             this.musicas.put(key, m);
-            System.out.println("MusicaDAO" + Arrays.toString(m.getTags()));
         } else {
             System.out.println("ERROR: Música já cadastrada");
         }
@@ -81,6 +80,11 @@ public class MusicaDAO {
         }
         
         return musicasDoUsuario;
+    }
+    
+    public void editarMusica(Musica m, String email) {
+        String[] key = new String[] {email, m.getNome()};
+        this.musicas.put(key, m);
     }
     
 }
