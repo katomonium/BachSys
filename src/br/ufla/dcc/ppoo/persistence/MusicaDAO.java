@@ -3,6 +3,7 @@ package br.ufla.dcc.ppoo.persistence;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,7 @@ public class MusicaDAO {
     }
     
     public void editarMusica(Musica m, String email) {
-        List<String> key = Arrays.asList(email, m.getNome());
+        List<String> key = Arrays.asList(m.getNome(), email);
         this.musicas.put(key, m);
     }
     
