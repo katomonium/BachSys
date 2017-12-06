@@ -30,10 +30,7 @@ public class TelaCadastroMusica extends TelaLeDadosMusica {
     @Override
     protected void executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
         MusicaController.getInstancia().addMusica(nome, autor, album, ano, genero, usuario, tags);
+
     }
-
-   
-
-    
-    
+  
 }
