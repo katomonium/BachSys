@@ -22,9 +22,7 @@ import javax.swing.JLabel;
  * @author dell
  */
 public class TelaDadosMusica extends Tela {
-    
-    private Painel painel;
-    
+
     private JLabel lbNome;
     private JLabel lbAutor;
     private JLabel lbAlbum;
@@ -46,9 +44,11 @@ public class TelaDadosMusica extends Tela {
     
     private Musica musica;
 
+    private Boolean editou;
+    
     public TelaDadosMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
-        painel = null;
+        editou = false;
         this.musica = musica;
         
         construirTela();
@@ -178,10 +178,15 @@ public class TelaDadosMusica extends Tela {
                     @Override
                     public void componentHidden(ComponentEvent e) {
                         musica = MusicaController.getInstancia().getMusica(musica.getNome(), musica.getEmail());
+                        editou = true;
                         adicionarValores();
                     }
                 });
             }
         });
     } 
+
+    boolean musicaAlterada() {
+        return editou;
+    }
 }
