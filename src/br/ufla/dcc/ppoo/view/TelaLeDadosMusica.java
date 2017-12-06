@@ -1,13 +1,10 @@
 
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
-import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -190,6 +187,11 @@ public abstract class TelaLeDadosMusica  extends Tela {
     public void setBtnCancelar(JButton btnCancelar) {
         this.btnCancelar = btnCancelar;
     }
+
+    public JTextField getTxtNome() {
+        return txtNome;
+    }
+    
     
     
     

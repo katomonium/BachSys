@@ -3,7 +3,6 @@ package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.model.Musica;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
 public class TelaEditarMusica extends TelaLeDadosMusica {
@@ -18,6 +17,8 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
 
         
         setTxtNome(new JTextField(m.getNome(), 10));
+        getTxtNome().setEnabled(false);
+        getTxtNome().setEditable(false);
         setTxtAlbum(new JTextField(m.getAlbum(), 10));
         setTxtAno(new JTextField(Integer.toString(m.getAno()), 10));
         setTxtAutor(new JTextField(m.getAutor(), 10));
