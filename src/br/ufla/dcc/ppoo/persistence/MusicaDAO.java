@@ -2,7 +2,6 @@ package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.model.Musica;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

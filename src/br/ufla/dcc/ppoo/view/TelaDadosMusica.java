@@ -6,6 +6,7 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.componentes.Painel;
+import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
@@ -13,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -70,7 +70,13 @@ public class TelaDadosMusica extends Tela {
         lbGenero = new JLabel("Gênero:");
         lbTags = new JLabel("Tags:");
         
-        
+        lbValorNome = new JLabel();
+        lbValorAutor = new JLabel();
+        lbValorAlbum = new JLabel();
+        lbValorAno = new JLabel();
+        lbValorGenero = new JLabel();
+        lbValorTags = new JLabel();
+        lbValorUsuario = new JLabel();
         
         adicionarComponente(lbNome, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 1, 0, 1, 1);
@@ -95,23 +101,37 @@ public class TelaDadosMusica extends Tela {
         adicionarComponente(btnFechar, GridBagConstraints.EAST, 
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
         
+        adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 1, 1, 1, 1);
+        adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 2, 1, 1, 1);
+        adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 3, 1, 1, 1);
+        adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 4, 1, 1, 1);
+        adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 5, 1, 1, 1);
+        adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 6, 1, 1, 1);
+        adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 7, 1, 1, 1);
+        
         adicionarValores();
     }
     
     private void adicionarValores() {
-        if(painel != null) {
-            remove(painel);
+        
+        if(musica == null) {
+            return;
         }
         
-        painel = new Painel(100, 200);
-        
-        lbValorNome = new JLabel(musica.getNome());
-        lbValorUsuario = new JLabel(
+        lbValorNome.setText(musica.getNome());
+        lbValorUsuario.setText(
                             UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
                         );
-        lbValorAlbum = new JLabel(musica.getAlbum());
-        lbValorAno = new JLabel(Integer.toString(musica.getAno()));
-        lbValorAutor = new JLabel(musica.getAutor());
+        lbValorAlbum.setText(musica.getAlbum());
+        lbValorAno.setText(Integer.toString(musica.getAno()));
+        lbValorAutor.setText(musica.getAutor());
         String[] aux = musica.getTags();
         String concatenacaoTags = "";
         for(int i = 0; i < aux.length - 1; i++) {
@@ -119,28 +139,11 @@ public class TelaDadosMusica extends Tela {
         }
         concatenacaoTags += aux[aux.length - 1];
         
-        lbValorTags = new JLabel(concatenacaoTags);
+        lbValorTags.setText(concatenacaoTags);
         
-        lbValorGenero = new JLabel(musica.getGenero());
-        
-        painel.adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 0, 1, 1, 1);
-        painel.adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 1, 1, 1);
-        painel.adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 2, 1, 1, 1);
-        painel.adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 3, 1, 1, 1);
-        painel.adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 1, 1, 1);
-        painel.adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 1, 1, 1);
-        painel.adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 1, 1, 1);
-        
-        adicionarComponente(painel, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 1, 1, 7);
-        this.revalidate();
+        lbValorGenero.setText(musica.getGenero());
+
+        System.out.println(lbValorGenero.getText());
     }
 
     @Override
@@ -174,6 +177,7 @@ public class TelaDadosMusica extends Tela {
                 tem.addComponentListener(new ComponentAdapter() {
                     @Override
                     public void componentHidden(ComponentEvent e) {
+                        musica = MusicaController.getInstancia().getMusica(musica.getNome(), musica.getEmail());
                         adicionarValores();
                     }
                 });

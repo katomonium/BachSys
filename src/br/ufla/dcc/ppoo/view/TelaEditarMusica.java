@@ -3,6 +3,7 @@ package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.model.Musica;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
 public class TelaEditarMusica extends TelaLeDadosMusica {
@@ -13,7 +14,6 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
         super.adicionarAcoes();
     }
 
-    
     protected void construirTela(Musica m) {
 
         
