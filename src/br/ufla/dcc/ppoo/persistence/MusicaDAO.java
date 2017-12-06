@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.persistence;
 
+import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,11 +15,9 @@ import java.util.Map;
 
 public class MusicaDAO {
 
-//    private String caminho;
     private static MusicaDAO INSTANCIA;
-    
     // Map<NomeDaMusica, Musica>
-    private final Map<String[], Musica> musicas;
+    private final Map<List<String>, Musica> musicas;
 
     public MusicaDAO() throws IOException, ClassNotFoundException {
         
@@ -43,20 +42,18 @@ public class MusicaDAO {
     }
     
     public Musica getMusica(String nome, String email) {
-        String[] key = new String[] {email, nome};
-        return this.musicas.get(key);
+        return this.musicas.get(Arrays.asList(nome, email));
     }
     
-    public void addMusica(Musica m, String email) throws IOException {
-        String[] key = new String[] {email, m.getNome()};
+    public void addMusica(Musica m, String email) throws MusicaJaCadastradaException, IOException {
+        List<String> key = Arrays.asList(m.getNome(), email);
         
-        if(this.musicas.get(key) == null) {
-            this.musicas.put(key, m);
-            System.out.println("MusicaDAO" + Arrays.toString(m.getTags()));
-        } else {
-            System.out.println("ERROR: Música já cadastrada");
+        if(this.musicas.get(key) != null) {
+            System.out.println("Eu ja existo!!!!");
+            throw new MusicaJaCadastradaException();
         }
         escreverNoArquivo();
+        this.musicas.put(key, m);
     }
     
     public int getSize() {
@@ -82,7 +79,7 @@ public class MusicaDAO {
     public List<Musica> getMusicas(String email) {
         ArrayList<Musica> musicasDoUsuario = new ArrayList<>();
                 
-        for (Map.Entry<String[],Musica> entry : musicas.entrySet()) {
+        for (Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
             Musica musica = entry.getValue();
             if(musica.getEmail().equals(email)) {
                 musicasDoUsuario.add(musica);
@@ -95,12 +92,17 @@ public class MusicaDAO {
     public List<Musica> getMusicas() {
         ArrayList<Musica> musicasDoUsuario = new ArrayList<>();
                 
-        for (Map.Entry<String[],Musica> entry : musicas.entrySet()) {
+        for (Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
             Musica musica = entry.getValue();
             musicasDoUsuario.add(musica);
         }
         
         return musicasDoUsuario;
+    }
+    
+    public void editarMusica(Musica m, String email) {
+        List<String> key = Arrays.asList(m.getNome(), email);
+        this.musicas.put(key, m);
     }
     
 }

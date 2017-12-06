@@ -3,11 +3,14 @@ package br.ufla.dcc.ppoo;
 import br.ufla.dcc.ppoo.controller.ComentarioController;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.model.Musica;
+import br.ufla.dcc.ppoo.view.TelaEditarMusica;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.ConfirmacaoDeSenhaException;
 import br.ufla.dcc.ppoo.exceptions.EmailInvalidoException;
 import br.ufla.dcc.ppoo.exceptions.EmailJaCadastradoException;
 import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.view.TelaInicial;
@@ -21,6 +24,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +48,6 @@ public class BachSys {
         catch(Exception e1){
             System.out.println("hoho");
         }
-        
         
 //        MusicaController MCtrl = MusicaController.getInstancia();
 //        for (int i = 0; i < 50; i++) {
@@ -69,13 +73,8 @@ public class BachSys {
         
         CCtrl.visualizarComentarios();
         
-        UCtrl.iniciarSessao("k4t0mono@gmail.com", "KohZahv8");
+        UCtrl.iniciarSessao("ff@ff.com", "1235");
         TelaInicial ti = new TelaInicial(null);
-        
-        
-        
-        
-        
 //        Musica m = new Musica("Uauu", "Epic Mountain", "Kurzgesast 1", 2014, "",
 //                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
 //                    null);
@@ -105,13 +104,8 @@ public class BachSys {
 //        ois.close();
 //        
 //        System.out.println(teste);
-    
 
-
-        
         new TelaPrincipal(ti).setVisible(true);
-        
-        
-        
+
     }
 }

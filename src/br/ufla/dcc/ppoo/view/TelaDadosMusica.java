@@ -5,10 +5,16 @@
  */
 package br.ufla.dcc.ppoo.view;
 
+import br.ufla.dcc.ppoo.componentes.Painel;
+import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 /**
@@ -16,6 +22,8 @@ import javax.swing.JLabel;
  * @author dell
  */
 public class TelaDadosMusica extends Tela {
+    
+    private Painel painel;
     
     private JLabel lbNome;
     private JLabel lbAutor;
@@ -31,65 +39,149 @@ public class TelaDadosMusica extends Tela {
     private JLabel lbValorGenero;
     private JLabel lbValorTags;
     private JLabel lbValorUsuario;
+    
+    private JButton btnEditar;
+    private JButton btnComentar;
+    private JButton btnFechar;
+    
+    private Musica musica;
 
     public TelaDadosMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
+        painel = null;
+        this.musica = musica;
         
-        construirTela(musica);
-        System.out.println(Arrays.toString(musica.getTags()));
+        construirTela();
+        adicionarAcoes();
+        
+        if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
+            adicionarBotaoEditar();
+        }
     }
 
     
-    
-    protected void construirTela(Musica musica) {
+    @Override
+    protected void construirTela() {
         lbNome = new JLabel("Nome:");
-        lbValorNome = new JLabel(musica.getNome());
-        
         lbUsuario = new JLabel("Usuario:");
-        lbValorUsuario = new JLabel(
-                UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
-        );
-        
         lbAlbum = new JLabel("Album:");
-        lbValorAlbum = new JLabel(musica.getAlbum());
-        
         lbAno = new JLabel("Ano:");
-        lbValorAno = new JLabel(Integer.toString(musica.getAno()));
-        
         lbAutor = new JLabel("Autor:");
-        lbValorAutor = new JLabel(musica.getAutor());
-        
         lbGenero = new JLabel("Gênero:");
-        lbValorGenero = new JLabel(musica.getGenero());
-        
         lbTags = new JLabel("Tags:");
-        lbValorTags = new JLabel(Arrays.toString(musica.getTags()));
         
-        adicionarComponente(lbNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
-        adicionarComponente(lbAlbum, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
-        adicionarComponente(lbAno, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);
-        adicionarComponente(lbAutor, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
-        adicionarComponente(lbGenero, GridBagConstraints.WEST, GridBagConstraints.NONE, 4, 0, 1, 1);
-        adicionarComponente(lbTags, GridBagConstraints.WEST, GridBagConstraints.NONE, 5, 0, 1, 1);
-        adicionarComponente(lbUsuario, GridBagConstraints.WEST, GridBagConstraints.NONE, 6, 0, 1, 1);
+        lbValorNome = new JLabel();
+        lbValorAutor = new JLabel();
+        lbValorAlbum = new JLabel();
+        lbValorAno = new JLabel();
+        lbValorGenero = new JLabel();
+        lbValorTags = new JLabel();
+        lbValorUsuario = new JLabel();
         
-        adicionarComponente(lbValorNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 1, 1, 1);
-        adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 1, 1, 1);
-        adicionarComponente(lbValorAno, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 1, 1, 1);
-        adicionarComponente(lbValorAutor, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 1, 1, 1);
-        adicionarComponente(lbValorGenero, GridBagConstraints.WEST, GridBagConstraints.NONE, 4, 1, 1, 1);
-        adicionarComponente(lbValorTags, GridBagConstraints.WEST, GridBagConstraints.NONE, 5, 1, 1, 1);
-        adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, GridBagConstraints.NONE, 6, 1, 1, 1);
+        adicionarComponente(lbNome, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 1, 0, 1, 1);
+        adicionarComponente(lbAlbum, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 2, 0, 1, 1);
+        adicionarComponente(lbAno, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 3, 0, 1, 1);
+        adicionarComponente(lbAutor, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 4, 0, 1, 1);
+        adicionarComponente(lbGenero, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 5, 0, 1, 1);
+        adicionarComponente(lbTags, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 6, 0, 1, 1);
+        adicionarComponente(lbUsuario, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 7, 0, 1, 1);
+        
+        btnComentar = new JButton("Comentar");
+        btnFechar = new JButton("Fechar");
+        
+        adicionarComponente(btnComentar, GridBagConstraints.EAST, 
+                            GridBagConstraints.HORIZONTAL, 8, 0, 1, 1);
+        adicionarComponente(btnFechar, GridBagConstraints.EAST, 
+                    GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
+        
+        adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 1, 1, 1, 1);
+        adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 2, 1, 1, 1);
+        adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 3, 1, 1, 1);
+        adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 4, 1, 1, 1);
+        adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 5, 1, 1, 1);
+        adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 6, 1, 1, 1);
+        adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 7, 1, 1, 1);
+        
+        adicionarValores();
+    }
+    
+    private void adicionarValores() {
+        
+        if(musica == null) {
+            return;
+        }
+        
+        lbValorNome.setText(musica.getNome());
+        lbValorUsuario.setText(
+                            UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
+                        );
+        lbValorAlbum.setText(musica.getAlbum());
+        lbValorAno.setText(Integer.toString(musica.getAno()));
+        lbValorAutor.setText(musica.getAutor());
+        String[] aux = musica.getTags();
+        String concatenacaoTags = "";
+        for(int i = 0; i < aux.length - 1; i++) {
+            concatenacaoTags += aux[i] + " ";
+        }
+        concatenacaoTags += aux[aux.length - 1];
+        
+        lbValorTags.setText(concatenacaoTags);
+        
+        lbValorGenero.setText(musica.getGenero());
+
+        System.out.println(lbValorGenero.getText());
     }
 
     @Override
     protected void adicionarAcoes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void construirTela() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        btnFechar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                setVisible(false);
+            }
+        });
+        
+        btnComentar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                //TODO: Comentar
+            }
+        });
+        
     }
     
+    private void adicionarBotaoEditar() {
+        Tela t = this;
+        btnEditar = new JButton("Editar");
+        adicionarComponente(btnEditar, GridBagConstraints.EAST, 
+                    GridBagConstraints.NONE, 0, 0, 2, 1);
+        btnEditar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                TelaEditarMusica tem = new TelaEditarMusica(musica, t);
+                tem.setVisible(true);
+                tem.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+                        musica = MusicaController.getInstancia().getMusica(musica.getNome(), musica.getEmail());
+                        adicionarValores();
+                    }
+                });
+            }
+        });
+    } 
 }
