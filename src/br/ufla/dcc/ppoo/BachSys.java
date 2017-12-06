@@ -3,12 +3,13 @@ package br.ufla.dcc.ppoo;
 import br.ufla.dcc.ppoo.controller.ComentarioController;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
 
 public class BachSys {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LoginInvalidoException {
         UsuarioController UCtrl = UsuarioController.getInstancia();
 
         UCtrl.cadastrar("k4t0mono", "k4t0mono@gmail.com", "KohZahv8");

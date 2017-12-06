@@ -1,5 +1,8 @@
 package br.ufla.dcc.ppoo.controller;
 
+import br.ufla.dcc.ppoo.exceptions.ConfirmacaoDeSenhaException;
+import br.ufla.dcc.ppoo.exceptions.EmailJaCadastradoException;
+import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 import br.ufla.dcc.ppoo.seguranca.Sessao;
@@ -15,7 +18,7 @@ public class UsuarioController {
         return senha;
     }
     
-    public void cadastrar(String nome, String email, String senha) {
+    public void cadastrar(String nome, String email, String senha) throws EmailJaCadastradoException, ConfirmacaoDeSenhaException{
                
         senha = this.hash(senha);
         
@@ -25,14 +28,17 @@ public class UsuarioController {
     }
     
     
-    public void iniciarSessao(String email, String senha){
+    public void iniciarSessao(String email, String senha) throws LoginInvalidoException{
         Usuario u = getUsuario(email);
         if(u == null) {
-            return;
+            throw new LoginInvalidoException();
         }
         if(hash(senha).equals(u.getSenha())) {
             System.out.println("aqui");
             SESSAO.alterarSessao(u);
+        }
+        else{
+            throw new LoginInvalidoException();
         }
     }
     

@@ -1,11 +1,13 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -65,13 +67,19 @@ public class TelaLogin extends Tela {
         btnEnviar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UsuarioController.getInstancia().iniciarSessao(txtEmail.getText(), txtSenha.getText());
-                if(UsuarioController.estaLogado()) {
-                    setVisible(false);
-                    new TelaPrincipal(getTelaAnterior()).setVisible(true);
-                    getTelaAnterior().setVisible(false);
-                    
-                    
+                
+                try{
+                    UsuarioController.getInstancia().iniciarSessao(txtEmail.getText(), txtSenha.getText());
+                }
+                catch(LoginInvalidoException li){
+                    JOptionPane.showMessageDialog(null, li.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(UsuarioController.estaLogado()) {
+                        setVisible(false);
+                        new TelaPrincipal(getTelaAnterior()).setVisible(true);
+                        getTelaAnterior().setVisible(false);
+                    }
                 }
             }
         }); 
