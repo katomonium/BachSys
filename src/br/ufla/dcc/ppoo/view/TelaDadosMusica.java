@@ -137,11 +137,12 @@ public class TelaDadosMusica extends Tela {
         lbValorAutor.setText(musica.getAutor());
         String[] aux = musica.getTags();
         String concatenacaoTags = "";
-        for(int i = 0; i < aux.length - 1; i++) {
-            concatenacaoTags += aux[i] + " ";
+        if(aux != null && aux.length > 0){
+            for(int i = 0; i < aux.length - 1; i++) {
+                concatenacaoTags += aux[i] + " ";
+            }
+            concatenacaoTags += aux[aux.length - 1];
         }
-        concatenacaoTags += aux[aux.length - 1];
-        
         lbValorTags.setText(concatenacaoTags);
         
         lbValorGenero.setText(musica.getGenero());
