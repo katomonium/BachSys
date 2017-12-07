@@ -46,62 +46,12 @@ public class BachSys {
         catch(Exception e1){
             System.out.println("hoho");
         }
-        
-//        MusicaController MCtrl = MusicaController.getInstancia();
-//        for (int i = 0; i < 50; i++) {
-//            MCtrl.addMusica(
-//                    "Time1" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-//                    null
-//            );
-//
-//            MCtrl.addMusica(
-//                    "Time2" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-//                    null
-//            );
-//
-//            MCtrl.addMusica(
-//                    "silva" + i, "Epic Mountain", "Kurzgesast 1", 2014, "",
-//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-//                    new String[] {"fff", "ggg"}
-//            );
-//        }
         ComentarioController CCtrl = ComentarioController.getIntancia();
         
         CCtrl.visualizarComentarios();
         
         UCtrl.iniciarSessao("ff@ff.com", "1235");
         TelaInicial ti = new TelaInicial(null);
-//        Musica m = new Musica("Uauu", "Epic Mountain", "Kurzgesast 1", 2014, "",
-//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-//                    null);
-//        Musica m2 = new Musica("YEAH", "Epic Mountain", "Kurzgesast 1", 2014, "",
-//                    UsuarioController.getInstancia().getUsuario("ff@ff.com").getEmail(),
-//                    null);
-//        
-//        Map<String[], Musica> lista = new HashMap<>();
-//        String[] key = new String[] {"silsilsil", m.getNome()};
-//        lista.put(key,m);
-//        
-//        String[] key2 = new String[] {"silsilsil", m2.getNome()};
-//        lista.put(key2, m2);
-//        
-//        ObjectOutputStream oos = new ObjectOutputStream(new 
-//        FileOutputStream("musica.bin"));
-//          
-//        oos.writeObject(lista);
-//        
-//        oos.close();
-//        
-//        ObjectInputStream ois = new ObjectInputStream(new 
-//        FileInputStream("musica.bin"));
-//          
-//        Map<String[], Musica> teste = (Map<String[], Musica>) ois.readObject();
-//        
-//        ois.close();
-//        
-//        System.out.println(teste);
 
         new TelaPrincipal(ti).setVisible(true);
 

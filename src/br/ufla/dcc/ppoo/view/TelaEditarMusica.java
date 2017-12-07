@@ -40,14 +40,16 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
     }
 
     @Override
-    protected void executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
+    protected boolean executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
         try {
             MusicaController.getInstancia().modificarMusica(nome, autor, album, ano, genero, usuario, tags);
+            return true;
         } catch (IOException ex) {
             Logger.getLogger(TelaEditarMusica.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TelaEditarMusica.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
     
     

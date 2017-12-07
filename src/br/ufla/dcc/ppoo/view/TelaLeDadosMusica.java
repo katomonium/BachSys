@@ -103,31 +103,31 @@ public abstract class TelaLeDadosMusica  extends Tela {
                 String genero = txtGenero.getText();
                 String[] tags = txtTags.getText().split(" ", -1);
 
-                if(nome.equals("")) {
-                    System.out.println("NOME");
-                    return;
-                }
-                
-                if(album.equals("")) {
-                    System.out.println("ALBUM");
-                    return;
-                }
-                
-                if(autor.equals("")) {
-                    System.out.println("AUTOR");
-                    return;
-                }
-                
-                if(genero.equals("")) {
-                    System.out.println("GENERO");
-                    return;
-
-                }
-                
-                if(tags.length < 2) {
-                    System.out.println("TAGS");
-                    return;
-                }
+//                if(nome.equals("")) {
+//                    System.out.println("NOME");
+//                    return;
+//                }
+//                
+//                if(album.equals("")) {
+//                    System.out.println("ALBUM");
+//                    return;
+//                }
+//                
+//                if(autor.equals("")) {
+//                    System.out.println("AUTOR");
+//                    return;
+//                }
+//                
+//                if(genero.equals("")) {
+//                    System.out.println("GENERO");
+//                    return;
+//
+//                }
+//                
+//                if(tags.length < 2) {
+//                    System.out.println("TAGS");
+//                    return;
+//                }
                 
                 Integer ano = -1;
                 
@@ -138,9 +138,11 @@ public abstract class TelaLeDadosMusica  extends Tela {
                 }
                 
                 String usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags);
+                if(executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags)){
+                    t.setVisible(false);
+                }
                 
-                t.setVisible(false);
+                
             }
         });
         
@@ -153,7 +155,7 @@ public abstract class TelaLeDadosMusica  extends Tela {
     }
     
     
-    protected abstract void executarAcaoSalvar(String nome, String autor, 
+    protected abstract boolean executarAcaoSalvar(String nome, String autor, 
                                  String album, Integer ano, String genero, String usuario, String[] tags);
     
     public void setTxtNome(JTextField txtNome) {

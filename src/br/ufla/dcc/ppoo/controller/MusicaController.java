@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.controller;
 
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
@@ -16,8 +17,25 @@ public class MusicaController {
     }
     
     public void addMusica(String nome, String autor, String album,
-            Integer ano, String genero, String usuario, String[] tags) throws IOException, MusicaJaCadastradaException {
-        
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, MusicaJaCadastradaException, CampoVazioException {
+        if(nome.equals("")){
+            throw new CampoVazioException("nome");
+        }
+        if(autor.equals("")){
+            throw new CampoVazioException("autor");
+        }
+        if(album.equals("")){
+            throw new CampoVazioException("album");
+        }
+        if(ano == null){
+            throw new CampoVazioException("ano");
+        }
+        if(genero.equals("")){
+            throw new CampoVazioException("gênero");
+        }
+        if(tags.length == 0){
+            throw new CampoVazioException("tags");
+        }
         MUSICA_DAO.addMusica(
                 new Musica(nome, autor, album, ano, genero, usuario, tags), usuario
         );
