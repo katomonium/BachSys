@@ -1,6 +1,8 @@
 package br.ufla.dcc.ppoo.model;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable{
     
     private final String nome;
     private final String email;

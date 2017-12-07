@@ -14,6 +14,7 @@ public class MusicaController {
     
     private MusicaController() throws IOException, ClassNotFoundException{
         MUSICA_DAO = MusicaDAO.getINSTANCIA();
+        
     }
     
     public void addMusica(String nome, String autor, String album,
@@ -42,9 +43,11 @@ public class MusicaController {
     }
 
     public static MusicaController getInstancia() throws IOException, ClassNotFoundException {
+        
         if(INSTANCIA == null){
             INSTANCIA = new MusicaController();
         }
+        
         return INSTANCIA;
     }
     
@@ -66,7 +69,7 @@ public class MusicaController {
     }
     
     public void modificarMusica(String nome, String autor, String album,
-            int ano, String genero, String usuario, String[] tags) {
+            int ano, String genero, String usuario, String[] tags) throws IOException {
         
         MUSICA_DAO.editarMusica(
             new Musica(nome, autor, album, ano, genero, usuario, tags), usuario

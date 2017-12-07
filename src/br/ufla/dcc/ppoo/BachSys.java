@@ -31,29 +31,10 @@ import java.util.Map;
 public class BachSys {
 
     public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
-        UsuarioController UCtrl = UsuarioController.getInstancia();
 
-        try{
-            UCtrl.cadastrar("k4t0mono", "k4t0mono@gmail.com", "KohZahv8", "KohZahv8");
-        }
-        catch(Exception e1){
-            System.out.println("hoho");
-        }
-
-        try{
-            UCtrl.cadastrar("aa", "ff@ff.com", "1235", "1235");
-        }
-        catch(Exception e1){
-            System.out.println("hoho");
-        }
-        ComentarioController CCtrl = ComentarioController.getIntancia();
-        
-        CCtrl.visualizarComentarios();
-        
-        UCtrl.iniciarSessao("ff@ff.com", "1235");
         TelaInicial ti = new TelaInicial(null);
-
-        new TelaPrincipal(ti).setVisible(true);
+//        ti.setVisible(true);
+        ti.setVisible(true);
 
     }
 }

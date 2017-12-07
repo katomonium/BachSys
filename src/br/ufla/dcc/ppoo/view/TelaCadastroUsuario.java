@@ -10,6 +10,9 @@ import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -144,6 +147,10 @@ public class TelaCadastroUsuario extends Tela {
                 catch(EmailInvalidoException ei){
                     JOptionPane.showMessageDialog(null, ei.getMessage(), 
                                 "Erro", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    Logger.getLogger(TelaCadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(TelaCadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                

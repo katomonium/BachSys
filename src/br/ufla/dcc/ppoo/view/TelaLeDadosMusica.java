@@ -5,6 +5,9 @@ import br.ufla.dcc.ppoo.controller.UsuarioController;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -137,10 +140,18 @@ public abstract class TelaLeDadosMusica  extends Tela {
                     System.out.println("ANO");
                 }
                 
-                String usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                if(executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags)){
-                    t.setVisible(false);
+                String usuario;
+                try {
+                    usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    if(executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags)){
+                        t.setVisible(false);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(TelaLeDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(TelaLeDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 
                 
             }

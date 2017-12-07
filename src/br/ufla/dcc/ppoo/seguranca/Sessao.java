@@ -16,20 +16,16 @@ public class Sessao {
     
     public void alterarSessao(Usuario u) {
         if((u == null) || (usuario != null)) {
-            System.out.println("Não logou");
             return;
         }
         this.usuario = u;
-        System.out.println("Logou carai");
     }
     
     public void finalizar() {
         if(usuario == null) {
-            System.out.println("Ninguem ta logado poarr");
             return;
         }
         this.usuario = null;
-        System.out.println("Deslogou carai");
     }
     
     public Boolean estaLogado() {

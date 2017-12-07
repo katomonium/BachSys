@@ -9,12 +9,17 @@ import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 import br.ufla.dcc.ppoo.seguranca.Sessao;
+import java.io.IOException;
 
 public class UsuarioController {
     
-    private static final UsuarioDAO USUARIO_DAO = UsuarioDAO.getInstancia();
-    private static final UsuarioController INSTANCIA = new UsuarioController();
+    private static UsuarioDAO USUARIO_DAO;
+    private static UsuarioController INSTANCIA;
     private static final Sessao SESSAO = Sessao.getInstancia();
+    
+    private UsuarioController() throws IOException, ClassNotFoundException{
+            USUARIO_DAO = UsuarioDAO.getInstancia();
+    }
     
     // TODO: Usar hash de verdade
     public String hash(String senha) {
@@ -23,7 +28,7 @@ public class UsuarioController {
     
     public void cadastrar(String nome, String email, String senha, String confirmacaoSenha) 
             throws EmailJaCadastradoException, ConfirmacaoDeSenhaException,
-            SenhaCurtaException, CampoVazioException, EmailInvalidoException{
+            SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException{
         if(nome.isEmpty()){
             throw new CampoVazioException("usuário");
         }
@@ -86,7 +91,6 @@ public class UsuarioController {
             throw new LoginInvalidoException();
         }
         if(hash(senha).equals(u.getSenha())) {
-            System.out.println("aqui");
             SESSAO.alterarSessao(u);
         }
         else{
@@ -118,7 +122,10 @@ public class UsuarioController {
         return USUARIO_DAO.getUsuario(email);
     }
     
-    public static UsuarioController getInstancia() {
+    public static UsuarioController getInstancia() throws IOException, ClassNotFoundException {
+        if(INSTANCIA == null){
+            INSTANCIA = new UsuarioController();
+        }
         return INSTANCIA;
     }
         

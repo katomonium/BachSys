@@ -57,8 +57,14 @@ public class TelaDadosMusica extends Tela {
         construirTela();
         adicionarAcoes();
         
-        if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
-            adicionarBotaoEditar();
+        try {
+            if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
+                adicionarBotaoEditar();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -129,9 +135,16 @@ public class TelaDadosMusica extends Tela {
         }
         
         lbValorNome.setText(musica.getNome());
-        lbValorUsuario.setText(
-                            UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
-                        );
+        System.out.println(musica.getEmail());
+        try {
+            lbValorUsuario.setText(
+                    UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
+            );
+        } catch (IOException ex) {
+            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        }
         lbValorAlbum.setText(musica.getAlbum());
         lbValorAno.setText(Integer.toString(musica.getAno()));
         lbValorAutor.setText(musica.getAutor());

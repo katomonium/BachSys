@@ -55,9 +55,10 @@ public class TelaPrincipal extends Tela {
     
     private void atualizarListaMusicas() {
         try {
+            
             musicas = MusicaController.getInstancia().getMusicas();
             
-            System.out.println("ljhiyg");
+            
         } catch (ClassNotFoundException cnfe) {
             JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
                                                                 "Erro", JOptionPane.ERROR_MESSAGE);
@@ -113,15 +114,21 @@ public class TelaPrincipal extends Tela {
         btnLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                if(UsuarioController.getInstancia().estaLogado()) {
-                    Integer opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente realizar logout?", "Realizar logout?",
-                                                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                    
-                    if(opcao == JOptionPane.YES_OPTION) {
-                        getTelaAnterior().setVisible(true);
-                        UsuarioController.getInstancia().finalizarSessao();
-                        setVisible(false);
+                try {
+                    if(UsuarioController.getInstancia().estaLogado()) {
+                        Integer opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente realizar logout?", "Realizar logout?",
+                                                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                        if(opcao == JOptionPane.YES_OPTION) {
+                            getTelaAnterior().setVisible(true);
+                            UsuarioController.getInstancia().finalizarSessao();
+                            setVisible(false);
+                        }
                     }
+                } catch (ClassNotFoundException cnfe) {
+                    
+                } catch (IOException ioe) {
+                    
                 }
             }
         });
@@ -144,10 +151,11 @@ public class TelaPrincipal extends Tela {
         boxMusicasUsuario.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent ie) {
-                String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                
                 List<Musica> musicas;
                 Boolean mostrarCheckBox;
                 try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     if (ie.getStateChange() == ItemEvent.SELECTED) {
                         musicas = MusicaController.getInstancia().getMusicas(email);
                         mostrarCheckBox = true;
@@ -174,12 +182,25 @@ public class TelaPrincipal extends Tela {
         
         switch (opcao) {
             case JOptionPane.NO_OPTION:
-                UsuarioController.getInstancia().finalizarSessao();
-                System.exit(0);
+                try {
+                    UsuarioController.getInstancia().finalizarSessao();
+                    System.exit(0);
+                } catch(ClassNotFoundException ex){
+                    System.out.println("flag1");  
+                } catch(IOException ex){
+                    System.out.println("flag2");
+                }
             case JOptionPane.YES_OPTION:
-                UsuarioController.getInstancia().finalizarSessao();
-                setVisible(false);
-                getTelaAnterior().setVisible(true);
+                try{
+                    UsuarioController.getInstancia().finalizarSessao();
+                    setVisible(false);
+                    getTelaAnterior().setVisible(true);
+                } catch(ClassNotFoundException ex){
+                    System.out.println("flag3");
+                } catch(IOException ex){
+                    System.out.println("flag4");
+                }
+                
                 return DO_NOTHING_ON_CLOSE;
             case JOptionPane.CANCEL_OPTION:
                 return DO_NOTHING_ON_CLOSE;
@@ -268,9 +289,9 @@ public class TelaPrincipal extends Tela {
         painelListaMusica.setBackground(Color.red);
         
         
-        if(musicas != null) {
-            criaTabelaMusicas(musicas, false);
-        }
+       
+        criaTabelaMusicas(musicas, false);
+
         boxMusicasUsuario = new JCheckBox("Ver apenas minhas músicas");
         painelListaMusica.adicionarComponente(boxMusicasUsuario,GridBagConstraints.WEST,
                                             GridBagConstraints.NONE, 0, 0, 1, 1, 0.1, 0.1);
@@ -315,7 +336,6 @@ public class TelaPrincipal extends Tela {
                     if(column == tblMusicas.getColunaCheckBox()) {
                         return;
                     }
-                    System.out.println(musicas.get(row));
                     TelaDadosMusica tdm = new TelaDadosMusica(musicas.get(row), t);
                     
                     tdm.setVisible(true);

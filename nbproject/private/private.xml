@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/view/TelaPrincipal.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/exceptions/SenhaCurtaException.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/exceptions/EmailInvalidoException.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/controller/UsuarioController.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/view/TelaLogin.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/view/TelaCadastroUsuario.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/persistence/MusicaDAO.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/exceptions/LoginInvalidoException.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/controller/MusicaController.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/view/TelaCadastroMusica.java</file>
-            <file>file:/home/silventino/Desktop/Bachsys/src/br/ufla/dcc/ppoo/BachSys.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
