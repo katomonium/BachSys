@@ -29,6 +29,10 @@ public class Tabela extends JTable {
             esconderColuna(colunaCheckBox);
         }
         
+        for(int row = 0; row < getRowCount(); ++row) {
+            setValueAt(false, row, colunaCheckBox);
+        }
+        
     }
     
     private static String[] formataColunas(String[] col) {
@@ -36,7 +40,7 @@ public class Tabela extends JTable {
         for(int i = 0; i < col.length; i++) {
             colunas[i] = col[i]; 
         }
-        colunas[colunas.length - 1] = "";
+        colunas[colunas.length - 1] = "Selecionadas";
         
         return colunas;
     }
@@ -88,5 +92,5 @@ public class Tabela extends JTable {
         }
         return String.class;
     }
-    
+
 }

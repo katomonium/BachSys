@@ -33,8 +33,9 @@ public class BachSys {
     public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
 
         TelaInicial ti = new TelaInicial(null);
-//        ti.setVisible(true);
         ti.setVisible(true);
+
+        
 
     }
 }

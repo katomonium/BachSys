@@ -107,5 +107,11 @@ public class MusicaDAO extends DAO{
         this.musicas.put(key, m);
         escreverNoArquivo();
     }
+
+    public void remover(String nome, String email) throws IOException {
+        List<String> key = Arrays.asList(nome, email);
+        musicas.remove(key);
+        escreverNoArquivo();
+    }
     
 }

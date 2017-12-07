@@ -79,5 +79,9 @@ public class MusicaController {
     public Musica getMusica(String nome, String email) {
         return MUSICA_DAO.getMusica(nome, email);
     }
+
+    public void removerMusica(String nome, String email) throws IOException, ClassNotFoundException {
+        MUSICA_DAO.remover(nome, email);
+    }
     
 }

@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,10 +56,7 @@ public class TelaPrincipal extends Tela {
     
     private void atualizarListaMusicas() {
         try {
-            
             musicas = MusicaController.getInstancia().getMusicas();
-            
-            
         } catch (ClassNotFoundException cnfe) {
             JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
                                                                 "Erro", JOptionPane.ERROR_MESSAGE);
@@ -80,6 +78,13 @@ public class TelaPrincipal extends Tela {
     }
     
     
+    private void setBoxMusicasTrue() {
+        if(boxMusicasUsuario.isSelected()) {
+            boxMusicasUsuario.setSelected(false);
+        }
+
+        boxMusicasUsuario.setSelected(true);
+    }
     
     @Override
     protected void adicionarAcoes() {
@@ -93,11 +98,7 @@ public class TelaPrincipal extends Tela {
                 tcm.addComponentListener(new ComponentAdapter() {
                     @Override
                     public void componentHidden(ComponentEvent e) {
-                        if(boxMusicasUsuario.isSelected()) {
-                            boxMusicasUsuario.setSelected(false);
-                        }
-                        
-                        boxMusicasUsuario.setSelected(true);
+                        setBoxMusicasTrue();
                     }
                 });
             }
@@ -107,7 +108,26 @@ public class TelaPrincipal extends Tela {
         btnRemoverMusica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                // TODO: Remover item
+                if(boxMusicasUsuario.isSelected()) {
+                    int colCheckBox = Tabela.getColunaCheckBox();
+                    for(int row = 0; row < tblMusicas.getRowCount(); row++) {
+                        if((Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox))) {
+                            String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
+                            
+                            try {
+                                String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                                MusicaController.getInstancia().removerMusica(nome, email);
+                                musicas = MusicaController.getInstancia().getMusicas(email);
+                                tblMusicas.removeRowSelectionInterval(row, row);
+                            } catch (IOException ex) {
+                                System.out.println("deu rui no arquivo 1");
+                            } catch (ClassNotFoundException ex) {
+                                System.out.println("deu rui no arquivo 2");
+                            }
+                        }
+                    }
+                    setBoxMusicasTrue();
+                }
             }
         });
         
@@ -152,7 +172,6 @@ public class TelaPrincipal extends Tela {
             @Override
             public void itemStateChanged(ItemEvent ie) {
                 
-                List<Musica> musicas;
                 Boolean mostrarCheckBox;
                 try {
                     String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
@@ -318,7 +337,7 @@ public class TelaPrincipal extends Tela {
                                             GridBagConstraints.BOTH, 1, 0, 1, 1, 1,1);
         
         painelListaMusica.revalidate();
-        atualizarListaMusicas(musicas);
+//        atualizarListaMusicas(musicas);
         
         adicionarAcoesTabela();
         
@@ -343,11 +362,7 @@ public class TelaPrincipal extends Tela {
                         @Override
                         public void componentHidden(ComponentEvent e) {
                             if(tdm.musicaAlterada()) {
-                                if(boxMusicasUsuario.isSelected()) {
-                                    boxMusicasUsuario.setSelected(false);
-                                }
-
-                                boxMusicasUsuario.setSelected(true);
+                                setBoxMusicasTrue();
                             }
                         }
                     });
