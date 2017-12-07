@@ -15,8 +15,6 @@ import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;

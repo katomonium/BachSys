@@ -4,7 +4,6 @@ import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class MusicaController {

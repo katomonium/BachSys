@@ -3,6 +3,9 @@ package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.model.Musica;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 public class TelaEditarMusica extends TelaLeDadosMusica {
@@ -38,7 +41,13 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
 
     @Override
     protected void executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
-        MusicaController.getInstancia().modificarMusica(nome, autor, album, ano, genero, usuario, tags);
+        try {
+            MusicaController.getInstancia().modificarMusica(nome, autor, album, ano, genero, usuario, tags);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaEditarMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaEditarMusica.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

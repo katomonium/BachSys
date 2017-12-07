@@ -17,7 +17,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -51,7 +54,15 @@ public class TelaPrincipal extends Tela {
     }
     
     private void atualizarListaMusicas() {
-        musicas = MusicaController.getInstancia().getMusicas();
+        try {
+            musicas = MusicaController.getInstancia().getMusicas();
+        } catch (ClassNotFoundException cnfe) {
+            JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
+                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null, ioe.getMessage() + ". Recomendados chamar um técnico.", 
+                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void atualizarListaMusicas(List<Musica> ms) {
@@ -135,15 +146,23 @@ public class TelaPrincipal extends Tela {
                 String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                 List<Musica> musicas;
                 Boolean mostrarCheckBox;
-                if (ie.getStateChange() == ItemEvent.SELECTED) {
-                    musicas = MusicaController.getInstancia().getMusicas(email);
-                    mostrarCheckBox = true;
-                } else {
-                    musicas = MusicaController.getInstancia().getMusicas();
-                    mostrarCheckBox = false;
+                try {
+                    if (ie.getStateChange() == ItemEvent.SELECTED) {
+                        musicas = MusicaController.getInstancia().getMusicas(email);
+                        mostrarCheckBox = true;
+                    } else {
+                        musicas = MusicaController.getInstancia().getMusicas();
+                        mostrarCheckBox = false;
+                    }
+
+                    criaTabelaMusicas(musicas, mostrarCheckBox);
+                } catch (ClassNotFoundException cnfe) {
+                    JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
+                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ioe) {
+                    JOptionPane.showMessageDialog(null, ioe.getMessage() + ". Recomendados chamar um técnico.", 
+                                                                "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-              
-                criaTabelaMusicas(musicas, mostrarCheckBox);
             }
         });
         
@@ -206,27 +225,39 @@ public class TelaPrincipal extends Tela {
     
     
     private void adicionarPainelDadosUsuario() {
-        painelDadosUsuario = new Painel(150, 200);
-        painelDadosUsuario.setBackground(Color.white);
-        adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, 
-                GridBagConstraints.NONE, 0, 0, 1, 1);
+        try {
+            painelDadosUsuario = new Painel(150, 200);
         
-        String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
-        JLabel lbNome = new JLabel("Bem vindo, " + nome);
-        painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
-                                    GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
-        
-        String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-        
-        JLabel lbEmail = new JLabel("Email: " + email);
-        painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
-                                    GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
-        
-        Integer qtdMusicas = MusicaController.getInstancia().getQtdMusicas(email);
-        JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
-                                        + " músicas cadastradas: " + qtdMusicas + "</body></html>");
-        painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
+            painelDadosUsuario.setBackground(Color.white);
+            adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, 
+                    GridBagConstraints.NONE, 0, 0, 1, 1);
+
+            String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
+            JLabel lbNome = new JLabel("Bem vindo, " + nome);
+            painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
+
+            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+
+            JLabel lbEmail = new JLabel("Email: " + email);
+            painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+
+            Integer qtdMusicas;
+
+            qtdMusicas = MusicaController.getInstancia().getQtdMusicas(email);
+
+            JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
+                                            + " músicas cadastradas: " + qtdMusicas + "</body></html>");
+            painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
                                     GridBagConstraints.HORIZONTAL, 2 , 0, 1, 4);
+        } catch (ClassNotFoundException cnfe) {
+            JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
+                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null, ioe.getMessage() + ". Recomendados chamar um técnico.", 
+                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+        }
         
     }
 
@@ -284,7 +315,9 @@ public class TelaPrincipal extends Tela {
                     if(column == tblMusicas.getColunaCheckBox()) {
                         return;
                     }
+                    System.out.println(musicas.get(row));
                     TelaDadosMusica tdm = new TelaDadosMusica(musicas.get(row), t);
+                    
                     tdm.setVisible(true);
                     tdm.addComponentListener(new ComponentAdapter() {
                         @Override

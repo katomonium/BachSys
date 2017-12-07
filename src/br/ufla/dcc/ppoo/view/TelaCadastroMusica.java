@@ -47,43 +47,11 @@ public class TelaCadastroMusica extends TelaLeDadosMusica {
             MusicaController.getInstancia().addMusica(nome, autor, album, ano, genero, usuario, tags);
         } catch (MusicaJaCadastradaException ex) {
             Logger.getLogger(TelaCadastroMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TelaCadastroMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaCadastroMusica.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-                }
-                
-                if(tags.size() < 2) {
-                    System.out.println("TAGS");
-                    return;
-                }
-                
-                Integer ano = -1;
-                
-                try {
-                    ano = Integer.parseInt(txtAno.getText());
-                } catch (RuntimeException rtm) {
-                    System.out.println("ANO");
-                }
-                
-                String usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                try {
-                    MusicaController.getInstancia().addMusica(nome, autor, album,
-                            ano, genero, usuario, aux);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Não foi possível escrever no arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
-                } catch (ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(null, "Não foi possível escrever no arquivo.", "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                
-                t.setVisible(false);
-            }
-        });
-        
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                t.setVisible(false);
-            }
-        });
     }
   
 }

@@ -14,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -177,7 +180,13 @@ public class TelaDadosMusica extends Tela {
                 tem.addComponentListener(new ComponentAdapter() {
                     @Override
                     public void componentHidden(ComponentEvent e) {
-                        musica = MusicaController.getInstancia().getMusica(musica.getNome(), musica.getEmail());
+                        try {
+                            musica = MusicaController.getInstancia().getMusica(musica.getNome(), musica.getEmail());
+                        } catch (IOException ex) {
+                            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         editou = true;
                         adicionarValores();
                     }
