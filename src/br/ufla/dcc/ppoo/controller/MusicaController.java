@@ -61,6 +61,7 @@ public class MusicaController {
     }
     
     public List<Musica> getMusicas() {
+        
         return MUSICA_DAO.getMusicas();
     }
     

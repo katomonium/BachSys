@@ -44,6 +44,13 @@ public class Tabela extends JTable {
     private static Object[][] formatarMusicas(List<Musica> musicas, String[] col){ 
         colunaCheckBox = col.length;
         
+        if(musicas == null){
+            Object objetos[][] = new Object[1][colunaCheckBox + 1];
+            System.out.println("Chegou null");
+            return objetos;
+        }
+        
+        
         Object objetos[][] = new Object[musicas.size()][colunaCheckBox + 1];
         
         for(int i = 0; i < musicas.size(); i++){

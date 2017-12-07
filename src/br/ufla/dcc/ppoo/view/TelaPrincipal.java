@@ -56,12 +56,13 @@ public class TelaPrincipal extends Tela {
     private void atualizarListaMusicas() {
         try {
             musicas = MusicaController.getInstancia().getMusicas();
+            
+            System.out.println("ljhiyg");
         } catch (ClassNotFoundException cnfe) {
             JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
                                                                 "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ioe) {
-            JOptionPane.showMessageDialog(null, ioe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+            System.out.println("ATUALIZAR MUSICAS DEU RUIM");
         }
     }
     
@@ -160,8 +161,7 @@ public class TelaPrincipal extends Tela {
                     JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
                                                                 "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ioe) {
-                    JOptionPane.showMessageDialog(null, ioe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Box musicas deu ruim");
                 }
             }
         });
@@ -255,8 +255,7 @@ public class TelaPrincipal extends Tela {
             JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
                                                                 "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ioe) {
-            JOptionPane.showMessageDialog(null, ioe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
+            System.out.println("adicionar painel erro");
         }
         
     }
@@ -269,8 +268,9 @@ public class TelaPrincipal extends Tela {
         painelListaMusica.setBackground(Color.red);
         
         
-        
-        criaTabelaMusicas(musicas, false);
+        if(musicas != null) {
+            criaTabelaMusicas(musicas, false);
+        }
         boxMusicasUsuario = new JCheckBox("Ver apenas minhas músicas");
         painelListaMusica.adicionarComponente(boxMusicasUsuario,GridBagConstraints.WEST,
                                             GridBagConstraints.NONE, 0, 0, 1, 1, 0.1, 0.1);
