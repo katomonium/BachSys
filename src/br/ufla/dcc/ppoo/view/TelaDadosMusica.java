@@ -9,6 +9,8 @@ import br.ufla.dcc.ppoo.componentes.Painel;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +19,10 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -45,12 +49,14 @@ public class TelaDadosMusica extends Tela {
     private JButton btnComentar;
     private JButton btnFechar;
     
+    private Painel painel;
+    
     private Musica musica;
 
     private Boolean editou;
     
     public TelaDadosMusica(Musica musica, Tela t) {
-        super(musica.getNome(), t);
+        super(musica.getNome(),350,300, t);
         editou = false;
         this.musica = musica;
         
@@ -72,8 +78,9 @@ public class TelaDadosMusica extends Tela {
     
     @Override
     protected void construirTela() {
+
 //        lbNome = new JLabel("Nome:");
-        lbUsuario = new JLabel("Usuario:");
+//        lbUsuario = new JLabel("Usuario:");
         lbAlbum = new JLabel("Album:");
         lbAno = new JLabel("Ano:");
         lbAutor = new JLabel("Autor:");
@@ -81,6 +88,11 @@ public class TelaDadosMusica extends Tela {
         lbTags = new JLabel("Tags:");
         
         lbValorNome = new JLabel();
+        lbValorNome.setFont(new Font("Ubuntu", 0, 30));
+        lbValorNome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbValorNome.setToolTipText("");
+        
+        
         lbValorAutor = new JLabel();
         lbValorAlbum = new JLabel();
         lbValorAno = new JLabel();
@@ -88,44 +100,51 @@ public class TelaDadosMusica extends Tela {
         lbValorTags = new JLabel();
         lbValorUsuario = new JLabel();
         
+        
+        painel = new Painel(400, 300);
 //        adicionarComponente(lbNome, GridBagConstraints.WEST, 
-//                            GridBagConstraints.NONE, 1, 0, 1, 1);
-        adicionarComponente(lbAlbum, GridBagConstraints.WEST, 
+//                            GridBagConstraints.NONE, 0, 0, 1, 1);       
+        painel.adicionarComponente(lbAutor, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 0, 0, 1, 1);
+        painel.adicionarComponente(lbAlbum, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 1, 0, 1, 1);
+        painel.adicionarComponente(lbAno, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 2, 0, 1, 1);
-        adicionarComponente(lbAno, GridBagConstraints.WEST, 
+
+        painel.adicionarComponente(lbGenero, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 2, 2, 1, 1);
+        painel.adicionarComponente(lbTags, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 3, 0, 1, 1);
-        adicionarComponente(lbAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 0, 1, 1);
-        adicionarComponente(lbGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 0, 1, 1);
-        adicionarComponente(lbTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 0, 1, 1);
-        adicionarComponente(lbUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 7, 0, 1, 1);
+//        painel.adicionarComponente(lbUsuario, GridBagConstraints.WEST, 
+//                            GridBagConstraints.NONE, 4, 0, 1, 1);
         
         btnComentar = new JButton("Comentar");
         btnFechar = new JButton("Fechar");
         
-        adicionarComponente(btnComentar, GridBagConstraints.EAST, 
-                            GridBagConstraints.HORIZONTAL, 8, 0, 1, 1);
-        adicionarComponente(btnFechar, GridBagConstraints.EAST, 
-                    GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
+//        adicionarComponente(btnComentar, GridBagConstraints.EAST, 
+//                            GridBagConstraints.HORIZONTAL, 8, 0, 1, 1);
+//        adicionarComponente(btnFechar, GridBagConstraints.CENTER, 
+//                    GridBagConstraints.NONE, 9, 0, 1, 1);
+//        
         
-        adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 0, 2, 1, 2, 5, 5, 10);
-        adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
+        painel.adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 0, 1, 2, 1);
+        painel.adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 1, 1, 1, 1);
+        painel.adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 2, 1, 1, 1);
-        adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 3, 1, 1, 1);
-        adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 1, 1, 1);
-        adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 1, 1, 1);
-        adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 1, 1, 1);
-        adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 7, 1, 1, 1);
         
+        painel.adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 2, 3, 1, 1);
+        painel.adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
+                            GridBagConstraints.NONE, 4, 0, 1, 1);
+//        painel.adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
+//                            GridBagConstraints.NONE, 7, 1, 1, 1);
+        
+        adicionarComponente(painel, GridBagConstraints.CENTER, 
+                            GridBagConstraints.BOTH, 1, 0, 1, 1);
+        adicionarComponente(lbValorNome, GridBagConstraints.CENTER, 
+                            GridBagConstraints.NONE, 0, 0, 2, 1);
         adicionarValores();
     }
     
@@ -135,8 +154,8 @@ public class TelaDadosMusica extends Tela {
             return;
         }
         
-        lbValorNome.setText("<html><body><h2>" + musica.getNome() + "</h2></body></html>");
-//        lbValorNome.setText(musica.getNome());
+//        lbValorNome.setText(musica.getNome() + "</h2></body></html>");
+        lbValorNome.setText(musica.getNome());
         System.out.println(musica.getEmail());
         try {
             lbValorUsuario.setText(
@@ -185,9 +204,12 @@ public class TelaDadosMusica extends Tela {
     
     private void adicionarBotaoEditar() {
         Tela t = this;
-        btnEditar = new JButton("Editar");
+        
+        ImageIcon edit = new ImageIcon("edit2.png");
+        btnEditar = new JButton(edit);
+        btnEditar.setPreferredSize(new Dimension(5, 5));
         adicionarComponente(btnEditar, GridBagConstraints.EAST, 
-                    GridBagConstraints.NONE, 0, 0, 2, 1);
+                    GridBagConstraints.NONE, 1, 1, 1, 1);
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {

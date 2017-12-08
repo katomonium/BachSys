@@ -21,7 +21,7 @@ public class UsuarioDAO extends DAO{
     private static UsuarioDAO INSTANCIA;
     
     private UsuarioDAO() throws IOException, ClassNotFoundException {
-        super("src/br/ufla/dcc/ppoo/arquivos/usuarios.bin");
+        super("./usuarios.bin");
         FileInputStream fis = new FileInputStream(getNomeArquivo());
         try (ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.usuarios = (Map<String, Usuario>) ois.readObject();

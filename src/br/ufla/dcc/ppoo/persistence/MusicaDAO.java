@@ -21,7 +21,7 @@ public class MusicaDAO extends DAO{
     private Map<List<String>, Musica> musicas;
 
     public MusicaDAO() throws IOException, ClassNotFoundException {
-        super("src/br/ufla/dcc/ppoo/arquivos/musicas.bin");
+        super("./musicas.bin");
         FileInputStream fis = new FileInputStream(getNomeArquivo());
         try (ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.musicas = (Map<List<String>, Musica>) ois.readObject();

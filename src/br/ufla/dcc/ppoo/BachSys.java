@@ -13,6 +13,8 @@ import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import br.ufla.dcc.ppoo.model.Musica;
+import br.ufla.dcc.ppoo.model.Usuario;
+import br.ufla.dcc.ppoo.seguranca.Sessao;
 import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
 import java.io.FileInputStream;
@@ -33,6 +35,8 @@ public class BachSys {
     public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
 
         TelaInicial ti = new TelaInicial(null);
+        Usuario u = new Usuario("teste", "t@t.c", "teste");
+        Sessao.getInstancia().alterarSessao(u);
         TelaPrincipal t = new TelaPrincipal(ti);
         t.setVisible(true);
 
