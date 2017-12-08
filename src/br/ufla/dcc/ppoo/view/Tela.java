@@ -25,6 +25,20 @@ public abstract class Tela extends JFrame {
         setLayout(gbl);
 
     }
+    
+    public Tela(String titulo, Tela t) {
+        super(titulo);
+        
+        setLocationRelativeTo(null);
+        
+        telaAnterior = t;
+        
+        gbc = new GridBagConstraints();
+        gbl = new GridBagLayout();
+        
+        setLayout(gbl);
+
+    }
    
       
     protected void adicionarComponente(Component comp, int anchor, int fill,
@@ -44,6 +58,20 @@ public abstract class Tela extends JFrame {
     
     public Tela getTelaAnterior() {
         return telaAnterior;
+    }
+    protected void adicionarComponente(Component comp, int anchor, int fill,
+            int linha, int coluna, int larg, int alt, int bordaCima, int bordaBaixo, int bordaEsquerda, int bordaDireita) {
+        
+        gbc.fill = fill;
+        gbc.anchor = anchor;
+        gbc.gridx = coluna;
+        gbc.gridy = linha;
+        
+        gbc.gridwidth = larg;
+        gbc.gridheight = alt;
+        gbc.insets = new Insets(bordaCima, bordaEsquerda, bordaBaixo, bordaDireita);
+        gbl.setConstraints(comp, gbc);
+        add(comp);
     }
     
     protected abstract void construirTela();

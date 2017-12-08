@@ -26,7 +26,7 @@ import javax.swing.JLabel;
  */
 public class TelaDadosMusica extends Tela {
 
-    private JLabel lbNome;
+//    private JLabel lbNome;
     private JLabel lbAutor;
     private JLabel lbAlbum;
     private JLabel lbAno;
@@ -50,12 +50,13 @@ public class TelaDadosMusica extends Tela {
     private Boolean editou;
     
     public TelaDadosMusica(Musica musica, Tela t) {
-        super(musica.getNome(), 350, 450, t);
+        super(musica.getNome(), t);
         editou = false;
         this.musica = musica;
         
         construirTela();
         adicionarAcoes();
+        pack();
         
         try {
             if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
@@ -71,7 +72,7 @@ public class TelaDadosMusica extends Tela {
     
     @Override
     protected void construirTela() {
-        lbNome = new JLabel("Nome:");
+//        lbNome = new JLabel("Nome:");
         lbUsuario = new JLabel("Usuario:");
         lbAlbum = new JLabel("Album:");
         lbAno = new JLabel("Ano:");
@@ -87,8 +88,8 @@ public class TelaDadosMusica extends Tela {
         lbValorTags = new JLabel();
         lbValorUsuario = new JLabel();
         
-        adicionarComponente(lbNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 0, 1, 1);
+//        adicionarComponente(lbNome, GridBagConstraints.WEST, 
+//                            GridBagConstraints.NONE, 1, 0, 1, 1);
         adicionarComponente(lbAlbum, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 2, 0, 1, 1);
         adicionarComponente(lbAno, GridBagConstraints.WEST, 
@@ -111,7 +112,7 @@ public class TelaDadosMusica extends Tela {
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
         
         adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 1, 1, 1);
+                            GridBagConstraints.NONE, 1, 0, 2, 1, 2, 5, 5, 10);
         adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 2, 1, 1, 1);
         adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
@@ -134,7 +135,8 @@ public class TelaDadosMusica extends Tela {
             return;
         }
         
-        lbValorNome.setText(musica.getNome());
+        lbValorNome.setText("<html><body><h2>" + musica.getNome() + "</h2></body></html>");
+//        lbValorNome.setText(musica.getNome());
         System.out.println(musica.getEmail());
         try {
             lbValorUsuario.setText(
