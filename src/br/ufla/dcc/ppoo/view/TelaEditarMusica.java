@@ -2,10 +2,13 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
+import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class TelaEditarMusica extends TelaLeDadosMusica {
@@ -45,9 +48,13 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
             MusicaController.getInstancia().modificarMusica(nome, autor, album, ano, genero, usuario, tags);
             return true;
         } catch (IOException ex) {
-            Logger.getLogger(TelaEditarMusica.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaEditarMusica.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (CampoVazioException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (CampoMinimoException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }

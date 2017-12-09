@@ -6,6 +6,7 @@ import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,9 +25,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 
 public class TelaPrincipal extends Tela {
@@ -42,6 +45,9 @@ public class TelaPrincipal extends Tela {
     private JScrollPane painelDeRolagem;
     private JCheckBox boxMusicasUsuario;
     private List<Musica> musicas;
+    private JTextField txtBusca;
+    private JButton btnBuscar;
+    
     
     public TelaPrincipal(Tela t) {
         super("BachSys", 800, 600, t);
@@ -312,8 +318,9 @@ public class TelaPrincipal extends Tela {
         criaTabelaMusicas(musicas, false);
 
         boxMusicasUsuario = new JCheckBox("Ver apenas minhas músicas");
-        painelListaMusica.adicionarComponente(boxMusicasUsuario,GridBagConstraints.WEST,
-                                            GridBagConstraints.NONE, 0, 0, 1, 1, 0.1, 0.1);
+        painelListaMusica.adicionarComponente(boxMusicasUsuario, GridBagConstraints.WEST,
+                                            GridBagConstraints.NONE, 0, 2, 1, 1, 0.1, 0.1);
+        adicionarBarraBusca();
     }
     
     
@@ -334,7 +341,7 @@ public class TelaPrincipal extends Tela {
         painelDeRolagem.setViewportView(tblMusicas);
         
         painelListaMusica.adicionarComponente(painelDeRolagem, GridBagConstraints.CENTER,
-                                            GridBagConstraints.BOTH, 1, 0, 1, 1, 1,1);
+                                            GridBagConstraints.BOTH, 1, 0, 3, 1, 1, 1);
         
         painelListaMusica.revalidate();
 //        atualizarListaMusicas(musicas);
@@ -392,6 +399,32 @@ public class TelaPrincipal extends Tela {
             
         });
     }
+
+    private void adicionarBarraBusca() {
+        txtBusca = new JTextField(20);
+        
+
+        
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if(txtBusca.getText().equals("")) {
+                    return;
+                }
+                //TODO: buscar
+            }
+        });
+        
+        
+        
+        painelListaMusica.adicionarComponente(txtBusca, GridBagConstraints.CENTER,
+                                        GridBagConstraints.NONE, 0, 0, 1, 1);
+    
+        painelListaMusica.adicionarComponente(btnBuscar, GridBagConstraints.CENTER,
+                                        GridBagConstraints.NONE, 0, 1, 1, 1);
+    }
+    
     
     
 }

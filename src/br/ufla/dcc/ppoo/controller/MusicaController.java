@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.controller;
 
+import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
@@ -18,7 +19,7 @@ public class MusicaController {
     }
     
     public void addMusica(String nome, String autor, String album,
-            Integer ano, String genero, String usuario, String[] tags) throws IOException, MusicaJaCadastradaException, CampoVazioException {
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, MusicaJaCadastradaException, CampoVazioException, CampoMinimoException {
         if(nome.equals("")){
             throw new CampoVazioException("nome");
         }
@@ -34,8 +35,8 @@ public class MusicaController {
         if(genero.equals("")){
             throw new CampoVazioException("gênero");
         }
-        if(tags.length == 0){
-            throw new CampoVazioException("tags");
+        if(tags.length < 2){
+            throw new CampoMinimoException("tags", 2);
         }
         MUSICA_DAO.addMusica(
                 new Musica(nome, autor, album, ano, genero, usuario, tags), usuario
@@ -69,11 +70,27 @@ public class MusicaController {
     }
     
     public void modificarMusica(String nome, String autor, String album,
-            int ano, String genero, String usuario, String[] tags) throws IOException {
-        
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, CampoVazioException, CampoMinimoException {
+        if(nome.equals("")) {
+            throw new CampoVazioException("nome");
+        }
+        if(autor.equals("")) {
+            throw new CampoVazioException("autor");
+        }
+        if(album.equals("")) {
+            throw new CampoVazioException("album");
+        }
+        if(ano == null) {
+            throw new CampoVazioException("ano");
+        }
+        if(genero.equals("")) {
+            throw new CampoVazioException("gênero");
+        }
+        if(tags.length < 2) {
+            throw new CampoMinimoException("tags", 2);
+        }
         MUSICA_DAO.editarMusica(
-            new Musica(nome, autor, album, ano, genero, usuario, tags), usuario
-        );
+            new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
     }
 
     public Musica getMusica(String nome, String email) {
