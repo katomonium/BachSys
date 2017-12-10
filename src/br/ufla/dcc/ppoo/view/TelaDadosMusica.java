@@ -5,10 +5,7 @@
  */
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.componentes.Painel;
-import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
-import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -22,10 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author dell
- */
+
 public class TelaDadosMusica extends Tela {
 
     private JLabel lbNome;
@@ -63,10 +57,8 @@ public class TelaDadosMusica extends Tela {
             if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
                 adicionarBotaoEditar();
             }
-        } catch (IOException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -136,16 +128,14 @@ public class TelaDadosMusica extends Tela {
             return;
         }
         lbValorNome.setText(musica.getNome());
-        System.out.println(musica.getEmail());
         try {
             lbValorUsuario.setText(
                     UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
             );
-        } catch (IOException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        
         lbValorAlbum.setText(musica.getAlbum());
         lbValorAno.setText(Integer.toString(musica.getAno()));
         lbValorAutor.setText(musica.getAutor());
@@ -160,8 +150,6 @@ public class TelaDadosMusica extends Tela {
         lbValorTags.setText(concatenacaoTags);
         
         lbValorGenero.setText(musica.getGenero());
-
-        System.out.println(lbValorGenero.getText());
     }
 
     @Override

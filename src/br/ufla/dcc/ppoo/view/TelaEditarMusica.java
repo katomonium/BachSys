@@ -8,8 +8,6 @@ import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -39,7 +37,7 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
         String tags = "";
         
         for(String aux : t) {
-            tags += " " + aux;
+            tags += aux + " ";
         }
         setTxtTags(new JTextField(tags, 10));
         super.construirTela();

@@ -64,16 +64,18 @@ public class TelaPrincipal extends Tela {
     private void atualizarListaMusicas() {
         try {
             musicas = MusicaController.getInstancia().getMusicas();
-        } catch (ClassNotFoundException cnfe) {
-            JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ioe) {
-            System.out.println("ATUALIZAR MUSICAS DEU RUIM");
+        } catch (ClassNotFoundException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    private void atualizarListaMusicas(List<Musica> ms) {
-        musicas = ms;
+    private void atualizarListaMusicas(String email) {
+        try {
+            musicas = MusicaController.getInstancia().getMusicas(email);
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
     @Override
@@ -91,6 +93,26 @@ public class TelaPrincipal extends Tela {
         }
 
         boxMusicasUsuario.setSelected(true);
+    }
+    
+    private void removeMusicasSelecionadas() {
+        int colCheckBox = Tabela.getColunaCheckBox();
+        for(int row = 0; row < tblMusicas.getRowCount(); row++) {
+            Boolean musicaSelecionada = (Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox));
+            if(musicaSelecionada) {
+                String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    MusicaController.getInstancia().removerMusica(nome, email);
+                    atualizarListaMusicas(email);
+                    tblMusicas.removeRowSelectionInterval(row, row);
+                } catch (IOException | ClassNotFoundException | MusicaNaoEncontradaException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                    JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        setBoxMusicasTrue();
     }
     
     @Override
@@ -122,26 +144,7 @@ public class TelaPrincipal extends Tela {
                         return;
                     }
                     if(confirmacao == JOptionPane.YES_OPTION) {
-                        int colCheckBox = Tabela.getColunaCheckBox();
-                        for(int row = 0; row < tblMusicas.getRowCount(); row++) {
-                            if((Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox))) {
-                                String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
-
-                                try {
-                                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                                    MusicaController.getInstancia().removerMusica(nome, email);
-                                    musicas = MusicaController.getInstancia().getMusicas(email);
-                                    tblMusicas.removeRowSelectionInterval(row, row);
-                                } catch (IOException ex) {
-                                    System.out.println("deu rui no arquivo 1");
-                                } catch (ClassNotFoundException ex) {
-                                    System.out.println("deu rui no arquivo 2");
-                                } catch (MusicaNaoEncontradaException ex) {
-                                    System.out.println("deu rui na remocao 1");
-                                }
-                            }
-                        }
-                        setBoxMusicasTrue();
+                        removeMusicasSelecionadas();
                     }
                 }
             }
@@ -152,8 +155,9 @@ public class TelaPrincipal extends Tela {
             public void actionPerformed(ActionEvent ae) {
                 try {
                     if(UsuarioController.getInstancia().estaLogado()) {
-                        Integer opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente realizar logout?", "Realizar logout?",
-                                                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                        Integer opcao = JOptionPane.showConfirmDialog(null, 
+                                            "Deseja realmente realizar logout?", "Realizar logout?",
+                                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if(opcao == JOptionPane.YES_OPTION) {
                             getTelaAnterior().setVisible(true);
@@ -161,10 +165,9 @@ public class TelaPrincipal extends Tela {
                             setVisible(false);
                         }
                     }
-                } catch (ClassNotFoundException cnfe) {
-                    
-                } catch (IOException ioe) {
-                    
+                } catch (ClassNotFoundException | IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                    JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -192,19 +195,17 @@ public class TelaPrincipal extends Tela {
                 try {
                     String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     if (ie.getStateChange() == ItemEvent.SELECTED) {
-                        musicas = MusicaController.getInstancia().getMusicas(email);
+                        atualizarListaMusicas(email);
                         mostrarCheckBox = true;
                     } else {
-                        musicas = MusicaController.getInstancia().getMusicas();
+                        atualizarListaMusicas();
                         mostrarCheckBox = false;
                     }
 
                     criaTabelaMusicas(musicas, mostrarCheckBox);
-                } catch (ClassNotFoundException cnfe) {
-                    JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ioe) {
-                    System.out.println("Box musicas deu ruim");
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -220,20 +221,18 @@ public class TelaPrincipal extends Tela {
                 try {
                     UsuarioController.getInstancia().finalizarSessao();
                     System.exit(0);
-                } catch(ClassNotFoundException ex){
-                    System.out.println("flag1");  
-                } catch(IOException ex){
-                    System.out.println("flag2");
+                } catch(ClassNotFoundException | IOException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro",
+                                                    JOptionPane.ERROR_MESSAGE);
                 }
             case JOptionPane.YES_OPTION:
                 try{
                     UsuarioController.getInstancia().finalizarSessao();
                     setVisible(false);
                     getTelaAnterior().setVisible(true);
-                } catch(ClassNotFoundException ex){
-                    System.out.println("flag3");
-                } catch(IOException ex){
-                    System.out.println("flag4");
+                } catch(ClassNotFoundException | IOException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                    JOptionPane.ERROR_MESSAGE);
                 }
                 
                 return DO_NOTHING_ON_CLOSE;
@@ -307,11 +306,8 @@ public class TelaPrincipal extends Tela {
                                             + " músicas cadastradas: " + qtdMusicas + "</body></html>");
             painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
                                     GridBagConstraints.HORIZONTAL, 2 , 0, 1, 4);
-        } catch (ClassNotFoundException cnfe) {
-            JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ioe) {
-            System.out.println("adicionar painel erro");
+        } catch (ClassNotFoundException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         
     }
@@ -354,7 +350,6 @@ public class TelaPrincipal extends Tela {
                                             GridBagConstraints.BOTH, 1, 0, 3, 1, 1, 1);
         
         painelListaMusica.revalidate();
-//        atualizarListaMusicas(musicas);
         
         adicionarAcoesTabela();
         
@@ -434,7 +429,5 @@ public class TelaPrincipal extends Tela {
         painelListaMusica.adicionarComponente(btnBuscar, GridBagConstraints.CENTER,
                                         GridBagConstraints.NONE, 0, 1, 1, 1);
     }
-    
-    
-    
+
 }

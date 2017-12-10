@@ -128,16 +128,11 @@ public abstract class TelaLeDadosMusica  extends Tela {
                     ano = Integer.parseInt(txtAno.getText());
                     usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     if(executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags)){
-                        System.out.println("asdadasdasdasd");
                         t.setVisible(false);
                     }
                     
-                } catch (RuntimeException rtm) {
-                    JOptionPane.showMessageDialog(null, rtm.getMessage());
-                } catch (IOException ex) {
-                    System.out.println("Erro IOException TelaDadosMusica");
-                } catch (ClassNotFoundException ex) {
-                    System.out.println("Erro cnfe TelaDadosMusica");
+                } catch (RuntimeException | IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 
                 

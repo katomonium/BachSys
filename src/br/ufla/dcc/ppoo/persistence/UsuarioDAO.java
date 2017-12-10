@@ -57,16 +57,16 @@ public class UsuarioDAO extends DAO{
             throw new EmailJaCadastradoException();
         }
     }
-    
-    public void visualizaUsuarios() {
-        System.out.println("visualizaUsuarios()");
-        
-        for(Map.Entry m : this.usuarios.entrySet()) {
-            System.out.println(m.getValue());
-        }
-        
-        System.out.println("");
-    }
+    //TODO: o que e isso? apagar?
+//    public void visualizaUsuarios() {
+//        System.out.println("visualizaUsuarios()");
+//        
+//        for(Map.Entry m : this.usuarios.entrySet()) {
+//            System.out.println(m.getValue());
+//        }
+//        
+//        System.out.println("");
+//    }
     
     
 }

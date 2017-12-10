@@ -128,29 +128,10 @@ public class TelaCadastroUsuario extends Tela {
                     UsuarioController.getInstancia().cadastrar(usuario, email, senha, confirmacaoSenha);
                     setVisible(false);
                 }
-                catch(CampoVazioException cv){
-                    JOptionPane.showMessageDialog(null, cv.getMessage(), 
+                catch(CampoVazioException | ConfirmacaoDeSenhaException | EmailJaCadastradoException | 
+                        SenhaCurtaException | EmailInvalidoException | IOException | ClassNotFoundException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), 
                                 "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                catch(ConfirmacaoDeSenhaException s){
-                    JOptionPane.showMessageDialog(null, s.getMessage(), 
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                catch(EmailJaCadastradoException ej){
-                    JOptionPane.showMessageDialog(null, ej.getMessage(), 
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                catch(SenhaCurtaException c){
-                    JOptionPane.showMessageDialog(null, c.getMessage(), 
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-                catch(EmailInvalidoException ei){
-                    JOptionPane.showMessageDialog(null, ei.getMessage(), 
-                                "Erro", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    Logger.getLogger(TelaCadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(TelaCadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                

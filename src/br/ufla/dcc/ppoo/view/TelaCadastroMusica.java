@@ -2,22 +2,11 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
-import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 public class TelaCadastroMusica extends TelaLeDadosMusica {

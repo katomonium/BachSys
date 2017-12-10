@@ -39,7 +39,7 @@ public class MusicaDAO extends DAO{
         return INSTANCIA;
     }
     
-    public void escreverNoArquivo() throws IOException{
+    public void escreverNoArquivo() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new 
         FileOutputStream(getNomeArquivo()));
         oos.writeObject(this.musicas);
@@ -69,13 +69,14 @@ public class MusicaDAO extends DAO{
         return this.musicas.size();
     }
     
-    public void visualizarMusicas() {
-        for(Map.Entry m : this.musicas.entrySet()) {
-            System.out.println(m.getValue());
-        }
-        
-        System.out.println("");
-    }
+    //TODO: o que e isso? bora apagar?
+//    public void visualizarMusicas() {
+//        for(Map.Entry m : this.musicas.entrySet()) {
+//            System.out.println(m.getValue());
+//        }
+//        
+//        System.out.println("");
+//    }
     
     public int getQtdMusicas() {
         return musicas.size();
@@ -112,12 +113,12 @@ public class MusicaDAO extends DAO{
         if(this.musicas.get(key) == null) {
             throw new MusicaNaoEncontradaException();
         }
-        this.musicas.remove(key);
-        key = Arrays.asList(m.getNome(), email);
-        if(this.musicas.get(key) != null) {
+        List<String> novaKey = Arrays.asList(m.getNome(), email);
+        if(this.musicas.get(novaKey) != null) {
             throw new MusicaJaCadastradaException();
         }
-        this.musicas.put(key, m);
+        this.musicas.remove(key);
+        this.musicas.put(novaKey, m);
         escreverNoArquivo();
     }
 

@@ -20,7 +20,10 @@ public class MusicaController {
     }
     
     public void addMusica(String chave, String nome, String autor, String album,
-            Integer ano, String genero, String usuario, String[] tags) throws IOException, MusicaJaCadastradaException, CampoVazioException, CampoMinimoException {
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, 
+            MusicaJaCadastradaException, CampoVazioException, CampoMinimoException {
+        
+        
         if(nome.equals("")){
             throw new CampoVazioException("nome");
         }
@@ -39,6 +42,8 @@ public class MusicaController {
         if(tags.length < 2){
             throw new CampoMinimoException("tags", 2);
         }
+        
+        
         MUSICA_DAO.addMusica(chave, 
                 new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
     }
@@ -62,20 +67,24 @@ public class MusicaController {
     
     public List<Musica> getMusicas(String email) {
         List<Musica> musicas = MUSICA_DAO.getMusicas(email);
-        musicas = this.sort(musicas);
+        musicas = this.ordenarPeloNomeCrescente(musicas);
         
         return musicas;
     }
     
     public List<Musica> getMusicas() {
         List<Musica> musicas = MUSICA_DAO.getMusicas();
-        musicas = this.sort(musicas);
+        musicas = this.ordenarPeloNomeCrescente(musicas);
         
         return musicas;
     }
     
     public void modificarMusica(String chave, String nome, String autor, String album,
-            Integer ano, String genero, String usuario, String[] tags) throws IOException, CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException, MusicaJaCadastradaException {
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, 
+            CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException, 
+            MusicaJaCadastradaException {
+        
+        
         if(nome.equals("")) {
             throw new CampoVazioException("nome");
         }
@@ -94,7 +103,7 @@ public class MusicaController {
         if(tags.length < 2) {
             throw new CampoMinimoException("tags", 2);
         }
-        System.out.println("Nome antigo: " + chave);
+        
         
         MUSICA_DAO.editarMusica(chave, 
             new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
@@ -104,12 +113,14 @@ public class MusicaController {
         return MUSICA_DAO.getMusica(nome, email);
     }
 
-    public void removerMusica(String nome, String email) throws IOException, ClassNotFoundException, MusicaNaoEncontradaException {
+    public void removerMusica(String nome, String email) throws IOException,
+                                ClassNotFoundException, MusicaNaoEncontradaException {
+        
         MUSICA_DAO.remover(nome, email);
     }
     
     
-    public List<Musica> sort(List<Musica> musicas) {
+    public List<Musica> ordenarPeloNomeCrescente(List<Musica> musicas) {
         int posMenor;
         for(int i = 0; i < musicas.size() - 1; i++) {
             posMenor = i;
