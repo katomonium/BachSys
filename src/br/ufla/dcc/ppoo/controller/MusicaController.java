@@ -120,7 +120,7 @@ public class MusicaController {
     }
     
     
-    public List<Musica> ordenarPeloNomeCrescente(List<Musica> musicas) {
+    private List<Musica> ordenarPeloNomeCrescente(List<Musica> musicas) {
         int posMenor;
         for(int i = 0; i < musicas.size() - 1; i++) {
             posMenor = i;
@@ -136,6 +136,41 @@ public class MusicaController {
             musicas.set(i, aux);
         }
         return musicas;
+    }
+    
+    private List<Musica> ordenarPelaNotaDecrescente(List<Musica> musicas) {
+        int posMaior;
+        for(int i = 0; i < musicas.size() - 1; i++) {
+            posMaior = i;
+            for(int j = i + 1; j < musicas.size(); j++) {
+                int notaJ = musicas.get(j).getNota();
+                int notaMaior = musicas.get(posMaior).getNota();
+                if(notaJ > notaMaior) {
+                    posMaior = j;
+                }
+            }
+            Musica aux = musicas.get(posMaior);
+            musicas.set(posMaior, musicas.get(i));
+            musicas.set(i, aux);
+        }
+        return musicas;
+    }
+
+    public List<Musica> buscarMusicas(String palavraChave) throws CampoVazioException, MusicaNaoEncontradaException {
+        if(palavraChave.equals("")) {
+            throw new CampoVazioException("busca");
+        }
+        List<Musica> m1 = MUSICA_DAO.getMusicasPeloNome(palavraChave);
+        List<Musica> m2 = MUSICA_DAO.getMusicasPelaTag(palavraChave);
+        for (int i = 0; i < m2.size(); i++) {
+            m1.add(m2.get(i));
+        }
+        if(m1.size() == 0) {
+            throw new MusicaNaoEncontradaException();
+        }
+        m1 = ordenarPelaNotaDecrescente(m1);
+        return m1;
+        
     }
     
 }

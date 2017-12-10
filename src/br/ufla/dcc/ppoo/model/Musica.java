@@ -64,6 +64,10 @@ public class Musica implements Serializable{
         return tags;
     }
 
+    public int getNota() {
+        return ano;
+    }
+    
     @Override
     public String toString() {
         return "Musica{" + "nome=" + nome + ", autor=" + autor + ", album="

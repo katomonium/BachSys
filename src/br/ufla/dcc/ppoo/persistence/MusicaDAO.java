@@ -130,5 +130,31 @@ public class MusicaDAO extends DAO{
         musicas.remove(key);
         escreverNoArquivo();
     }
+
+    public List<Musica> getMusicasPeloNome(String nome) {
+        List<Musica> retorno = new ArrayList<Musica>();
+        for(Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
+            Musica m = entry.getValue();
+            if(m.getNome().equals(nome)) {
+                retorno.add(m);
+            }
+        }
+        return retorno;
+    }
+
+    public List<Musica> getMusicasPelaTag(String tag) {
+        List<Musica> retorno = new ArrayList<Musica>();
+        for(Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
+            Musica m = entry.getValue();
+            Boolean achou = false;
+            String[] tags = m.getTags();
+            for(int i = 0; (i < tags.length) && !(achou); i++) {
+                if(tags[i].equals(tag)) {
+                    retorno.add(m);
+                }
+            }
+        }
+        return retorno;
+    }
     
 }

@@ -4,6 +4,7 @@ import br.ufla.dcc.ppoo.componentes.Painel;
 import br.ufla.dcc.ppoo.componentes.Tabela;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
@@ -93,6 +94,14 @@ public class TelaPrincipal extends Tela {
         }
 
         boxMusicasUsuario.setSelected(true);
+    }
+    
+    private void setBoxMusicasFalse() {
+        if(!boxMusicasUsuario.isSelected()) {
+            boxMusicasUsuario.setSelected(true);
+        }
+
+        boxMusicasUsuario.setSelected(false);
     }
     
     private void removeMusicasSelecionadas() {
@@ -201,7 +210,9 @@ public class TelaPrincipal extends Tela {
                         atualizarListaMusicas();
                         mostrarCheckBox = false;
                     }
-
+                    if(!textoBotaoBuscaEhBuscar()) {
+                        btnBuscar.setText("Buscar");
+                    }
                     criaTabelaMusicas(musicas, mostrarCheckBox);
                 } catch (IOException | ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
@@ -353,6 +364,7 @@ public class TelaPrincipal extends Tela {
         
         adicionarAcoesTabela();
         
+        
     }
     
     private void adicionarAcoesTabela() {
@@ -414,10 +426,24 @@ public class TelaPrincipal extends Tela {
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                if(txtBusca.getText().equals("")) {
-                    return;
+                String palavraChave = txtBusca.getText();
+                try {
+                    if(textoBotaoBuscaEhBuscar()) {
+                        musicas = MusicaController.getInstancia().buscarMusicas(palavraChave);
+                        criaTabelaMusicas(musicas, false);
+                        btnBuscar.setText("Ver todas");
+                    } else {
+                        setBoxMusicasFalse();
+                        btnBuscar.setText("Buscar");
+                    }
+                } catch (IOException | ClassNotFoundException | CampoVazioException |
+                        MusicaNaoEncontradaException ex) {
+                    
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-                //TODO: buscar
+                
+                
+                
             }
         });
         
@@ -429,5 +455,12 @@ public class TelaPrincipal extends Tela {
         painelListaMusica.adicionarComponente(btnBuscar, GridBagConstraints.CENTER,
                                         GridBagConstraints.NONE, 0, 1, 1, 1);
     }
-
+    
+    private Boolean textoBotaoBuscaEhBuscar() {
+        if(btnBuscar.getText().equals("Buscar")) {
+            return true;
+        }
+        return false;
+    }
+    
 }
