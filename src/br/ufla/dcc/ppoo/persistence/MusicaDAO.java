@@ -103,12 +103,16 @@ public class MusicaDAO extends DAO{
         return musicasDoUsuario;
     }
     
-    public void editarMusica(String chave ,Musica m, String email) throws IOException, MusicaNaoEncontradaException {
+    public void editarMusica(String chave ,Musica m, String email) throws IOException, MusicaNaoEncontradaException, MusicaJaCadastradaException {
         List<String> key = Arrays.asList(chave, email);
         if(this.musicas.get(key) == null) {
             throw new MusicaNaoEncontradaException();
         }
         this.musicas.remove(key);
+        key = Arrays.asList(m.getNome(), email);
+        if(this.musicas.get(key) != null) {
+            throw new MusicaJaCadastradaException();
+        }
         this.musicas.put(key, m);
         escreverNoArquivo();
     }

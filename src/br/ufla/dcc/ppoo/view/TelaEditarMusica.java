@@ -4,9 +4,12 @@ package br.ufla.dcc.ppoo.view;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -47,8 +50,8 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
         try {
             MusicaController.getInstancia().modificarMusica(chave, nome, autor, album, ano, genero, usuario, tags);
             return true;
-        } catch (IOException | ClassNotFoundException | CampoVazioException 
-                | CampoMinimoException | MusicaNaoEncontradaException ex) {
+        } catch (IOException | ClassNotFoundException | CampoVazioException |
+                MusicaJaCadastradaException | CampoMinimoException | MusicaNaoEncontradaException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return false;

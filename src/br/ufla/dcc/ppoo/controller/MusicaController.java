@@ -61,16 +61,21 @@ public class MusicaController {
     }
     
     public List<Musica> getMusicas(String email) {
-        return MUSICA_DAO.getMusicas(email);
+        List<Musica> musicas = MUSICA_DAO.getMusicas(email);
+        musicas = this.sort(musicas);
+        
+        return musicas;
     }
     
     public List<Musica> getMusicas() {
+        List<Musica> musicas = MUSICA_DAO.getMusicas();
+        musicas = this.sort(musicas);
         
-        return MUSICA_DAO.getMusicas();
+        return musicas;
     }
     
     public void modificarMusica(String chave, String nome, String autor, String album,
-            Integer ano, String genero, String usuario, String[] tags) throws IOException, CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException {
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException, MusicaJaCadastradaException {
         if(nome.equals("")) {
             throw new CampoVazioException("nome");
         }
@@ -89,6 +94,8 @@ public class MusicaController {
         if(tags.length < 2) {
             throw new CampoMinimoException("tags", 2);
         }
+        System.out.println("Nome antigo: " + chave);
+        
         MUSICA_DAO.editarMusica(chave, 
             new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
     }
@@ -99,6 +106,25 @@ public class MusicaController {
 
     public void removerMusica(String nome, String email) throws IOException, ClassNotFoundException, MusicaNaoEncontradaException {
         MUSICA_DAO.remover(nome, email);
+    }
+    
+    
+    public List<Musica> sort(List<Musica> musicas) {
+        int posMenor;
+        for(int i = 0; i < musicas.size() - 1; i++) {
+            posMenor = i;
+            for(int j = i + 1; j < musicas.size(); j++) {
+                String nomeJ = musicas.get(j).getNome();
+                String nomeMenor = musicas.get(posMenor).getNome();
+                if(nomeJ.compareToIgnoreCase(nomeMenor) < 0) {
+                    posMenor = j;
+                }
+            }
+            Musica aux = musicas.get(posMenor);
+            musicas.set(posMenor, musicas.get(i));
+            musicas.set(i, aux);
+        }
+        return musicas;
     }
     
 }

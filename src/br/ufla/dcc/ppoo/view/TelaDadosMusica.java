@@ -133,7 +133,6 @@ public class TelaDadosMusica extends Tela {
         if(musica == null) {
             return;
         }
-        
         lbValorNome.setText(musica.getNome());
         System.out.println(musica.getEmail());
         try {
