@@ -189,7 +189,7 @@ public class TelaDadosMusica extends Tela {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                TelaEditarMusica tem = new TelaEditarMusica(musica, t);
+                TelaEditarMusica tem = new TelaEditarMusica(musica.getNome(), musica, t);
                 tem.setVisible(true);
                 tem.addComponentListener(new ComponentAdapter() {
                     @Override

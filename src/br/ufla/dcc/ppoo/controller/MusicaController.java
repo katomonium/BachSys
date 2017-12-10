@@ -3,6 +3,7 @@ package br.ufla.dcc.ppoo.controller;
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
+import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class MusicaController {
         
     }
     
-    public void addMusica(String nome, String autor, String album,
+    public void addMusica(String chave, String nome, String autor, String album,
             Integer ano, String genero, String usuario, String[] tags) throws IOException, MusicaJaCadastradaException, CampoVazioException, CampoMinimoException {
         if(nome.equals("")){
             throw new CampoVazioException("nome");
@@ -38,9 +39,8 @@ public class MusicaController {
         if(tags.length < 2){
             throw new CampoMinimoException("tags", 2);
         }
-        MUSICA_DAO.addMusica(
-                new Musica(nome, autor, album, ano, genero, usuario, tags), usuario
-        );
+        MUSICA_DAO.addMusica(chave, 
+                new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
     }
 
     public static MusicaController getInstancia() throws IOException, ClassNotFoundException {
@@ -69,8 +69,8 @@ public class MusicaController {
         return MUSICA_DAO.getMusicas();
     }
     
-    public void modificarMusica(String nome, String autor, String album,
-            Integer ano, String genero, String usuario, String[] tags) throws IOException, CampoVazioException, CampoMinimoException {
+    public void modificarMusica(String chave, String nome, String autor, String album,
+            Integer ano, String genero, String usuario, String[] tags) throws IOException, CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException {
         if(nome.equals("")) {
             throw new CampoVazioException("nome");
         }
@@ -89,7 +89,7 @@ public class MusicaController {
         if(tags.length < 2) {
             throw new CampoMinimoException("tags", 2);
         }
-        MUSICA_DAO.editarMusica(
+        MUSICA_DAO.editarMusica(chave, 
             new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
     }
 
@@ -97,7 +97,7 @@ public class MusicaController {
         return MUSICA_DAO.getMusica(nome, email);
     }
 
-    public void removerMusica(String nome, String email) throws IOException, ClassNotFoundException {
+    public void removerMusica(String nome, String email) throws IOException, ClassNotFoundException, MusicaNaoEncontradaException {
         MUSICA_DAO.remover(nome, email);
     }
     

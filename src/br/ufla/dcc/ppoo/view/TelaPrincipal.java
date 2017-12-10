@@ -4,6 +4,7 @@ import br.ufla.dcc.ppoo.componentes.Painel;
 import br.ufla.dcc.ppoo.componentes.Tabela;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
 import java.awt.Font;
@@ -115,24 +116,33 @@ public class TelaPrincipal extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if(boxMusicasUsuario.isSelected()) {
-                    int colCheckBox = Tabela.getColunaCheckBox();
-                    for(int row = 0; row < tblMusicas.getRowCount(); row++) {
-                        if((Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox))) {
-                            String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
-                            
-                            try {
-                                String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                                MusicaController.getInstancia().removerMusica(nome, email);
-                                musicas = MusicaController.getInstancia().getMusicas(email);
-                                tblMusicas.removeRowSelectionInterval(row, row);
-                            } catch (IOException ex) {
-                                System.out.println("deu rui no arquivo 1");
-                            } catch (ClassNotFoundException ex) {
-                                System.out.println("deu rui no arquivo 2");
+                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente remover as musicas selecionadas?",
+                                                "Remover musicas", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if(confirmacao == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    if(confirmacao == JOptionPane.YES_OPTION) {
+                        int colCheckBox = Tabela.getColunaCheckBox();
+                        for(int row = 0; row < tblMusicas.getRowCount(); row++) {
+                            if((Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox))) {
+                                String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
+
+                                try {
+                                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                                    MusicaController.getInstancia().removerMusica(nome, email);
+                                    musicas = MusicaController.getInstancia().getMusicas(email);
+                                    tblMusicas.removeRowSelectionInterval(row, row);
+                                } catch (IOException ex) {
+                                    System.out.println("deu rui no arquivo 1");
+                                } catch (ClassNotFoundException ex) {
+                                    System.out.println("deu rui no arquivo 2");
+                                } catch (MusicaNaoEncontradaException ex) {
+                                    System.out.println("deu rui na remocao 1");
+                                }
                             }
                         }
+                        setBoxMusicasTrue();
                     }
-                    setBoxMusicasTrue();
                 }
             }
         });

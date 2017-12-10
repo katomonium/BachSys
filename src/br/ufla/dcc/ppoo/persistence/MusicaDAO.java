@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
+import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,8 +50,8 @@ public class MusicaDAO extends DAO{
         return this.musicas.get(Arrays.asList(nome, email));
     }
     
-    public void addMusica(Musica m, String email) throws MusicaJaCadastradaException, IOException {
-        List<String> key = Arrays.asList(m.getNome(), email);
+    public void addMusica(String chave, Musica m, String email) throws MusicaJaCadastradaException, IOException {
+        List<String> key = Arrays.asList(chave, email);
         
         if(this.musicas.get(key) != null) {
             throw new MusicaJaCadastradaException();
@@ -102,14 +103,21 @@ public class MusicaDAO extends DAO{
         return musicasDoUsuario;
     }
     
-    public void editarMusica(Musica m, String email) throws IOException {
-        List<String> key = Arrays.asList(m.getNome(), email);
+    public void editarMusica(String chave ,Musica m, String email) throws IOException, MusicaNaoEncontradaException {
+        List<String> key = Arrays.asList(chave, email);
+        if(this.musicas.get(key) == null) {
+            throw new MusicaNaoEncontradaException();
+        }
+        this.musicas.remove(key);
         this.musicas.put(key, m);
         escreverNoArquivo();
     }
 
-    public void remover(String nome, String email) throws IOException {
+    public void remover(String nome, String email) throws IOException, MusicaNaoEncontradaException {
         List<String> key = Arrays.asList(nome, email);
+        if(this.musicas.get(key) == null) {
+            throw new MusicaNaoEncontradaException();
+        }
         musicas.remove(key);
         escreverNoArquivo();
     }
