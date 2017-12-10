@@ -46,8 +46,12 @@ public class MusicaDAO extends DAO{
         oos.close();
     }
     
-    public Musica getMusica(String nome, String email) {
-        return this.musicas.get(Arrays.asList(nome, email));
+    public Musica getMusica(String nome, String email) throws MusicaNaoEncontradaException {
+        List<String> key = Arrays.asList(nome, email);
+        if(this.musicas.get(key) == null) {
+            throw new MusicaNaoEncontradaException();
+        }
+        return this.musicas.get(key);
     }
     
     public void addMusica(String chave, Musica m, String email) throws MusicaJaCadastradaException, IOException {
