@@ -6,7 +6,7 @@ public class Usuario implements Serializable{
     
     private final String nome;
     private final String email;
-    private final String senha; 
+    private final String senha;
     
     /**
      * Construtor do Usuário

@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class TelaCadastroUsuario extends Tela {
     
@@ -121,8 +122,10 @@ public class TelaCadastroUsuario extends Tela {
             public void actionPerformed(ActionEvent e) {
                 String usuario = txtUsuario.getText();
                 String email = txtEmail.getText();
-                String senha = txtSenha.getText();
-                String confirmacaoSenha = txtConfirmarSenha.getText();
+                
+                String salt = BCrypt.gensalt();
+                String senha = BCrypt.hashpw(txtSenha.getText(), salt);
+                String confirmacaoSenha = BCrypt.hashpw(txtConfirmarSenha.getText(),salt);
                 
                 try{                    
                     UsuarioController.getInstancia().cadastrar(usuario, email, senha, confirmacaoSenha);

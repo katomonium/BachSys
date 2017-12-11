@@ -13,6 +13,7 @@ import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import br.ufla.dcc.ppoo.model.Musica;
+import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.view.TelaInicial;
 import br.ufla.dcc.ppoo.view.TelaPrincipal;
 import java.io.FileInputStream;
@@ -38,4 +39,5 @@ public class BachSys {
         
 
     }
+    
 }

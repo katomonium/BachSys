@@ -58,7 +58,7 @@ public class TelaPrincipal extends Tela {
         construirTela();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         adicionarAcoes();
-        
+        pack();
         
     }
     
@@ -81,7 +81,7 @@ public class TelaPrincipal extends Tela {
     
     @Override
     protected void construirTela() {
-        adicionaPainelAcoes();
+        adicionarPainelAcoes();
         adicionarPainelDadosUsuario();
         adicionarPainelListaMusica();
         
@@ -105,10 +105,12 @@ public class TelaPrincipal extends Tela {
     }
     
     private void removeMusicasSelecionadas() {
+        boolean achou = false;
         int colCheckBox = Tabela.getColunaCheckBox();
         for(int row = 0; row < tblMusicas.getRowCount(); row++) {
             Boolean musicaSelecionada = (Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox));
             if(musicaSelecionada) {
+                achou = true;
                 String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
                 try {
                     String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
@@ -122,6 +124,9 @@ public class TelaPrincipal extends Tela {
             }
         }
         setBoxMusicasTrue();
+        if(!achou){
+            JOptionPane.showMessageDialog(null, "Nenhuma música foi selecionada.", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     @Override
@@ -155,7 +160,10 @@ public class TelaPrincipal extends Tela {
                     if(confirmacao == JOptionPane.YES_OPTION) {
                         removeMusicasSelecionadas();
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecione a opção \"Ver apenas minhas músicas\" e escolha as músicas a serem removidas.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
+                
             }
         });
         
@@ -258,9 +266,9 @@ public class TelaPrincipal extends Tela {
 
     
     
-    private void adicionaPainelAcoes() {
-        painelAcoes = new Painel(150, 350);
-        painelAcoes.setBackground(Color.yellow);
+    private void adicionarPainelAcoes() {
+        painelAcoes = new Painel(200, 350);
+//        painelAcoes.setBackground(Color.yellow);
         adicionarComponente(painelAcoes, GridBagConstraints.WEST, 
                 GridBagConstraints.NONE, 1, 0, 1, 1);
         
@@ -292,9 +300,9 @@ public class TelaPrincipal extends Tela {
     
     private void adicionarPainelDadosUsuario() {
         try {
-            painelDadosUsuario = new Painel(150, 200);
+            painelDadosUsuario = new Painel(200, 200);
         
-            painelDadosUsuario.setBackground(Color.white);
+//            painelDadosUsuario.setBackground(Color.white);
             adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, 
                     GridBagConstraints.NONE, 0, 0, 1, 1);
 
@@ -328,7 +336,7 @@ public class TelaPrincipal extends Tela {
     private void adicionarPainelListaMusica() {
         painelListaMusica = new Painel(600, 550);
         adicionarComponente(painelListaMusica, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 1, 1, 2);
-        painelListaMusica.setBackground(Color.red);
+//        painelListaMusica.setBackground(Color.red);
         
         
        
