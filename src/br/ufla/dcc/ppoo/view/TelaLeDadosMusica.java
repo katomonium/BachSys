@@ -2,14 +2,17 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public abstract class TelaLeDadosMusica  extends Tela {
@@ -104,52 +107,32 @@ public abstract class TelaLeDadosMusica  extends Tela {
                 String album = txtAlbum.getText();
                 String autor = txtAutor.getText();
                 String genero = txtGenero.getText();
-                String[] tags = txtTags.getText().split(" ", -1);
-
-//                if(nome.equals("")) {
-//                    System.out.println("NOME");
-//                    return;
-//                }
-//                
-//                if(album.equals("")) {
-//                    System.out.println("ALBUM");
-//                    return;
-//                }
-//                
-//                if(autor.equals("")) {
-//                    System.out.println("AUTOR");
-//                    return;
-//                }
-//                
-//                if(genero.equals("")) {
-//                    System.out.println("GENERO");
-//                    return;
-//
-//                }
-//                
-//                if(tags.length < 2) {
-//                    System.out.println("TAGS");
-//                    return;
-//                }
+                String[] tags = txtTags.getText().replaceAll("\\s+", " ").split(" ");
+                String[] aux = new String[tags.length];
+                int contador = 0;
+                for(int i = 0; i < tags.length; i++) {
+                    if(!tags[i].isEmpty()) {
+                        aux[contador] = tags[i];
+                        contador++;
+                    }
+                }
+                tags = new String[contador];
+                for (int i = 0; i < contador; i++) {
+                    tags[i] = aux[i];
+                }
                 
-                Integer ano = -1;
+                Integer ano;
+                String usuario;
                 
                 try {
                     ano = Integer.parseInt(txtAno.getText());
-                } catch (RuntimeException rtm) {
-                    System.out.println("ANO");
-                }
-                
-                String usuario;
-                try {
                     usuario = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     if(executarAcaoSalvar(nome, autor, album, ano, genero, usuario, tags)){
                         t.setVisible(false);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(TelaLeDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(TelaLeDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                } catch (RuntimeException | IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 
                 

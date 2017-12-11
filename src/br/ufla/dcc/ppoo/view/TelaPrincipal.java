@@ -4,8 +4,11 @@ import br.ufla.dcc.ppoo.componentes.Painel;
 import br.ufla.dcc.ppoo.componentes.Tabela;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,9 +27,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 
 public class TelaPrincipal extends Tela {
@@ -42,6 +47,14 @@ public class TelaPrincipal extends Tela {
     private JScrollPane painelDeRolagem;
     private JCheckBox boxMusicasUsuario;
     private List<Musica> musicas;
+    private JTextField txtBusca;
+    private JButton btnBuscar;
+    private JLabel lbQtdMusica;
+    private JLabel lbEmail;
+    private JLabel lbNome;
+    private JLabel lbValorQtdMusica;
+    private JLabel lbValorEmail;
+    private JLabel lbValorNome;
     
     public TelaPrincipal(Tela t) {
         super("BachSys", 800, 600, t);
@@ -50,28 +63,30 @@ public class TelaPrincipal extends Tela {
         construirTela();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         adicionarAcoes();
-        
+        pack();
         
     }
     
     private void atualizarListaMusicas() {
         try {
             musicas = MusicaController.getInstancia().getMusicas();
-        } catch (ClassNotFoundException cnfe) {
-            JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ioe) {
-            System.out.println("ATUALIZAR MUSICAS DEU RUIM");
+        } catch (ClassNotFoundException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    private void atualizarListaMusicas(List<Musica> ms) {
-        musicas = ms;
+    private void atualizarListaMusicas(String email) {
+        try {
+            musicas = MusicaController.getInstancia().getMusicas(email);
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
     @Override
     protected void construirTela() {
-        adicionaPainelAcoes();
+        adicionarPainelAcoes();
         adicionarPainelDadosUsuario();
         adicionarPainelListaMusica();
         
@@ -84,6 +99,39 @@ public class TelaPrincipal extends Tela {
         }
 
         boxMusicasUsuario.setSelected(true);
+    }
+    
+    private void setBoxMusicasFalse() {
+        if(!boxMusicasUsuario.isSelected()) {
+            boxMusicasUsuario.setSelected(true);
+        }
+
+        boxMusicasUsuario.setSelected(false);
+    }
+    
+    private void removeMusicasSelecionadas() {
+        boolean achou = false;
+        int colCheckBox = Tabela.getColunaCheckBox();
+        for(int row = 0; row < tblMusicas.getRowCount(); row++) {
+            Boolean musicaSelecionada = (Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox));
+            if(musicaSelecionada) {
+                achou = true;
+                String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    MusicaController.getInstancia().removerMusica(nome, email);
+                    atualizarListaMusicas(email);
+                    tblMusicas.removeRowSelectionInterval(row, row);
+                } catch (IOException | ClassNotFoundException | MusicaNaoEncontradaException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                    JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        setBoxMusicasTrue();
+        if(!achou){
+            JOptionPane.showMessageDialog(null, "Nenhuma música foi selecionada.", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     @Override
@@ -99,6 +147,13 @@ public class TelaPrincipal extends Tela {
                     @Override
                     public void componentHidden(ComponentEvent e) {
                         setBoxMusicasTrue();
+                        try {
+                            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                            lbValorQtdMusica.setText(MusicaController.getInstancia().getQtdMusicas(email) + "");
+                        } catch (IOException | ClassNotFoundException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
                     }
                 });
             }
@@ -109,25 +164,18 @@ public class TelaPrincipal extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if(boxMusicasUsuario.isSelected()) {
-                    int colCheckBox = Tabela.getColunaCheckBox();
-                    for(int row = 0; row < tblMusicas.getRowCount(); row++) {
-                        if((Boolean) (tblMusicas.getModel().getValueAt(row, colCheckBox))) {
-                            String nome = tblMusicas.getModel().getValueAt(row, 0).toString();
-                            
-                            try {
-                                String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                                MusicaController.getInstancia().removerMusica(nome, email);
-                                musicas = MusicaController.getInstancia().getMusicas(email);
-                                tblMusicas.removeRowSelectionInterval(row, row);
-                            } catch (IOException ex) {
-                                System.out.println("deu rui no arquivo 1");
-                            } catch (ClassNotFoundException ex) {
-                                System.out.println("deu rui no arquivo 2");
-                            }
-                        }
+                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente remover as musicas selecionadas?",
+                                                "Remover musicas", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    if(confirmacao == JOptionPane.NO_OPTION) {
+                        return;
                     }
-                    setBoxMusicasTrue();
+                    if(confirmacao == JOptionPane.YES_OPTION) {
+                        removeMusicasSelecionadas();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecione a opção \"Ver apenas minhas músicas\" e escolha as músicas a serem removidas.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
+                
             }
         });
         
@@ -136,8 +184,9 @@ public class TelaPrincipal extends Tela {
             public void actionPerformed(ActionEvent ae) {
                 try {
                     if(UsuarioController.getInstancia().estaLogado()) {
-                        Integer opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente realizar logout?", "Realizar logout?",
-                                                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                        Integer opcao = JOptionPane.showConfirmDialog(null, 
+                                            "Deseja realmente realizar logout?", "Realizar logout?",
+                                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if(opcao == JOptionPane.YES_OPTION) {
                             getTelaAnterior().setVisible(true);
@@ -145,10 +194,9 @@ public class TelaPrincipal extends Tela {
                             setVisible(false);
                         }
                     }
-                } catch (ClassNotFoundException cnfe) {
-                    
-                } catch (IOException ioe) {
-                    
+                } catch (ClassNotFoundException | IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                    JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -176,19 +224,19 @@ public class TelaPrincipal extends Tela {
                 try {
                     String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     if (ie.getStateChange() == ItemEvent.SELECTED) {
-                        musicas = MusicaController.getInstancia().getMusicas(email);
+                        atualizarListaMusicas(email);
                         mostrarCheckBox = true;
                     } else {
-                        musicas = MusicaController.getInstancia().getMusicas();
+                        atualizarListaMusicas();
                         mostrarCheckBox = false;
                     }
-
+                    if(!textoBotaoBuscaEhBuscar()) {
+                        btnBuscar.setText("Buscar");
+                    }
                     criaTabelaMusicas(musicas, mostrarCheckBox);
-                } catch (ClassNotFoundException cnfe) {
-                    JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ioe) {
-                    System.out.println("Box musicas deu ruim");
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -196,35 +244,21 @@ public class TelaPrincipal extends Tela {
     }
     
     private Integer confirmarSaida() {
-        Integer opcao = JOptionPane.showConfirmDialog(null, "Desja realizar login em outra conta?", "Realizar novo login?",
-                                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        Integer opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmar saída",
+                                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
         switch (opcao) {
-            case JOptionPane.NO_OPTION:
+            case JOptionPane.YES_OPTION:
                 try {
                     UsuarioController.getInstancia().finalizarSessao();
                     System.exit(0);
-                } catch(ClassNotFoundException ex){
-                    System.out.println("flag1");  
-                } catch(IOException ex){
-                    System.out.println("flag2");
+                } catch(ClassNotFoundException | IOException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro",
+                                                    JOptionPane.ERROR_MESSAGE);
                 }
-            case JOptionPane.YES_OPTION:
-                try{
-                    UsuarioController.getInstancia().finalizarSessao();
-                    setVisible(false);
-                    getTelaAnterior().setVisible(true);
-                } catch(ClassNotFoundException ex){
-                    System.out.println("flag3");
-                } catch(IOException ex){
-                    System.out.println("flag4");
-                }
-                
-                return DO_NOTHING_ON_CLOSE;
-            case JOptionPane.CANCEL_OPTION:
+            case JOptionPane.NO_OPTION:
                 return DO_NOTHING_ON_CLOSE;
             default:
-                //TODO: adicionar excecao
                 return EXIT_ON_CLOSE;
         }
         
@@ -232,9 +266,9 @@ public class TelaPrincipal extends Tela {
 
     
     
-    private void adicionaPainelAcoes() {
-        painelAcoes = new Painel(150, 350);
-        painelAcoes.setBackground(Color.yellow);
+    private void adicionarPainelAcoes() {
+        painelAcoes = new Painel(200, 350);
+//        painelAcoes.setBackground(Color.yellow);
         adicionarComponente(painelAcoes, GridBagConstraints.WEST, 
                 GridBagConstraints.NONE, 1, 0, 1, 1);
         
@@ -266,36 +300,38 @@ public class TelaPrincipal extends Tela {
     
     private void adicionarPainelDadosUsuario() {
         try {
-            painelDadosUsuario = new Painel(150, 200);
+            painelDadosUsuario = new Painel(200, 200);
         
-            painelDadosUsuario.setBackground(Color.white);
+//            painelDadosUsuario.setBackground(Color.white);
             adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, 
                     GridBagConstraints.NONE, 0, 0, 1, 1);
 
             String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
-            JLabel lbNome = new JLabel("Bem vindo, " + nome);
+            lbNome = new JLabel("Bem vindo,");
             painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
-
-            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-
-            JLabel lbEmail = new JLabel("Email: " + email);
-            painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
+            lbValorNome = new JLabel(nome);
+            painelDadosUsuario.adicionarComponente(lbValorNome, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+            
+            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+            lbEmail = new JLabel("Email:");
+            painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 2, 0, 1, 1);
+            lbValorEmail = new JLabel(email);
+            painelDadosUsuario.adicionarComponente(lbValorEmail, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1);
 
             Integer qtdMusicas;
-
             qtdMusicas = MusicaController.getInstancia().getQtdMusicas(email);
-
-            JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
-                                            + " músicas cadastradas: " + qtdMusicas + "</body></html>");
+            lbQtdMusica = new JLabel("Quantidade de músicas: ");
             painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
-                                    GridBagConstraints.HORIZONTAL, 2 , 0, 1, 4);
-        } catch (ClassNotFoundException cnfe) {
-            JOptionPane.showMessageDialog(null, cnfe.getMessage() + ". Recomendados chamar um técnico.", 
-                                                                "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ioe) {
-            System.out.println("adicionar painel erro");
+                                    GridBagConstraints.HORIZONTAL, 4 , 0, 1, 1);
+            lbValorQtdMusica = new JLabel(qtdMusicas.toString());
+            painelDadosUsuario.adicionarComponente(lbValorQtdMusica, GridBagConstraints.CENTER, 
+                                    GridBagConstraints.HORIZONTAL, 5 , 0, 1, 1);
+        } catch (ClassNotFoundException | IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         
     }
@@ -305,15 +341,16 @@ public class TelaPrincipal extends Tela {
     private void adicionarPainelListaMusica() {
         painelListaMusica = new Painel(600, 550);
         adicionarComponente(painelListaMusica, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 1, 1, 2);
-        painelListaMusica.setBackground(Color.red);
+//        painelListaMusica.setBackground(Color.red);
         
         
        
         criaTabelaMusicas(musicas, false);
 
         boxMusicasUsuario = new JCheckBox("Ver apenas minhas músicas");
-        painelListaMusica.adicionarComponente(boxMusicasUsuario,GridBagConstraints.WEST,
-                                            GridBagConstraints.NONE, 0, 0, 1, 1, 0.1, 0.1);
+        painelListaMusica.adicionarComponente(boxMusicasUsuario, GridBagConstraints.WEST,
+                                            GridBagConstraints.NONE, 0, 2, 1, 1, 0.1, 0.1);
+        adicionarBarraBusca();
     }
     
     
@@ -334,12 +371,12 @@ public class TelaPrincipal extends Tela {
         painelDeRolagem.setViewportView(tblMusicas);
         
         painelListaMusica.adicionarComponente(painelDeRolagem, GridBagConstraints.CENTER,
-                                            GridBagConstraints.BOTH, 1, 0, 1, 1, 1,1);
+                                            GridBagConstraints.BOTH, 1, 0, 3, 1, 1, 1);
         
         painelListaMusica.revalidate();
-//        atualizarListaMusicas(musicas);
         
         adicionarAcoesTabela();
+        
         
     }
     
@@ -392,6 +429,49 @@ public class TelaPrincipal extends Tela {
             
         });
     }
+
+    private void adicionarBarraBusca() {
+        txtBusca = new JTextField(20);
+        
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String palavraChave = txtBusca.getText();
+                try {
+                    if(textoBotaoBuscaEhBuscar()) {
+                        musicas = MusicaController.getInstancia().buscarMusicas(palavraChave);
+                        criaTabelaMusicas(musicas, false);
+                        btnBuscar.setText("Ver todas");
+                    } else {
+                        setBoxMusicasFalse();
+                        btnBuscar.setText("Buscar");
+                    }
+                } catch (IOException | ClassNotFoundException | CampoVazioException |
+                        MusicaNaoEncontradaException ex) {
+                    
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                
+                
+            }
+        });
+        
+        
+        
+        painelListaMusica.adicionarComponente(txtBusca, GridBagConstraints.CENTER,
+                                        GridBagConstraints.NONE, 0, 0, 1, 1);
     
+        painelListaMusica.adicionarComponente(btnBuscar, GridBagConstraints.CENTER,
+                                        GridBagConstraints.NONE, 0, 1, 1, 1);
+    }
+    
+    private Boolean textoBotaoBuscaEhBuscar() {
+        if(btnBuscar.getText().equals("Buscar")) {
+            return true;
+        }
+        return false;
+    }
     
 }

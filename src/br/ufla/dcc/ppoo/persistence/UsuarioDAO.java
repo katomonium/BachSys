@@ -21,7 +21,7 @@ public class UsuarioDAO extends DAO{
     private static UsuarioDAO INSTANCIA;
     
     private UsuarioDAO() throws IOException, ClassNotFoundException {
-        super("src/br/ufla/dcc/ppoo/arquivos/usuarios.bin");
+        super("usuarios.bin");
         FileInputStream fis = new FileInputStream(getNomeArquivo());
         try (ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.usuarios = (Map<String, Usuario>) ois.readObject();
@@ -57,16 +57,16 @@ public class UsuarioDAO extends DAO{
             throw new EmailJaCadastradoException();
         }
     }
-    
-    public void visualizaUsuarios() {
-        System.out.println("visualizaUsuarios()");
-        
-        for(Map.Entry m : this.usuarios.entrySet()) {
-            System.out.println(m.getValue());
-        }
-        
-        System.out.println("");
-    }
+    //TODO: o que e isso? apagar?
+//    public void visualizaUsuarios() {
+//        System.out.println("visualizaUsuarios()");
+//        
+//        for(Map.Entry m : this.usuarios.entrySet()) {
+//            System.out.println(m.getValue());
+//        }
+//        
+//        System.out.println("");
+//    }
     
     
 }

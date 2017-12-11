@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
+import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +22,7 @@ public class MusicaDAO extends DAO{
     private Map<List<String>, Musica> musicas;
 
     public MusicaDAO() throws IOException, ClassNotFoundException {
-        super("src/br/ufla/dcc/ppoo/arquivos/musicas.bin");
+        super("musicas.bin");
         FileInputStream fis = new FileInputStream(getNomeArquivo());
         try (ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.musicas = (Map<List<String>, Musica>) ois.readObject();
@@ -38,19 +39,23 @@ public class MusicaDAO extends DAO{
         return INSTANCIA;
     }
     
-    public void escreverNoArquivo() throws IOException{
+    public void escreverNoArquivo() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new 
         FileOutputStream(getNomeArquivo()));
         oos.writeObject(this.musicas);
         oos.close();
     }
     
-    public Musica getMusica(String nome, String email) {
-        return this.musicas.get(Arrays.asList(nome, email));
+    public Musica getMusica(String nome, String email) throws MusicaNaoEncontradaException {
+        List<String> key = Arrays.asList(nome, email);
+        if(this.musicas.get(key) == null) {
+            throw new MusicaNaoEncontradaException();
+        }
+        return this.musicas.get(key);
     }
     
-    public void addMusica(Musica m, String email) throws MusicaJaCadastradaException, IOException {
-        List<String> key = Arrays.asList(m.getNome(), email);
+    public void addMusica(String chave, Musica m, String email) throws MusicaJaCadastradaException, IOException {
+        List<String> key = Arrays.asList(chave, email);
         
         if(this.musicas.get(key) != null) {
             throw new MusicaJaCadastradaException();
@@ -64,13 +69,14 @@ public class MusicaDAO extends DAO{
         return this.musicas.size();
     }
     
-    public void visualizarMusicas() {
-        for(Map.Entry m : this.musicas.entrySet()) {
-            System.out.println(m.getValue());
-        }
-        
-        System.out.println("");
-    }
+    //TODO: o que e isso? bora apagar?
+//    public void visualizarMusicas() {
+//        for(Map.Entry m : this.musicas.entrySet()) {
+//            System.out.println(m.getValue());
+//        }
+//        
+//        System.out.println("");
+//    }
     
     public int getQtdMusicas() {
         return musicas.size();
@@ -102,16 +108,55 @@ public class MusicaDAO extends DAO{
         return musicasDoUsuario;
     }
     
-    public void editarMusica(Musica m, String email) throws IOException {
-        List<String> key = Arrays.asList(m.getNome(), email);
-        this.musicas.put(key, m);
+    public void editarMusica(String chave ,Musica m, String email) throws IOException, MusicaNaoEncontradaException, MusicaJaCadastradaException {
+        List<String> key = Arrays.asList(chave, email);
+        if(this.musicas.get(key) == null) {
+            throw new MusicaNaoEncontradaException();
+        }
+        List<String> novaKey = Arrays.asList(m.getNome(), email);
+        if(this.musicas.get(novaKey) != null) {
+            throw new MusicaJaCadastradaException();
+        }
+        this.musicas.remove(key);
+        this.musicas.put(novaKey, m);
         escreverNoArquivo();
     }
 
-    public void remover(String nome, String email) throws IOException {
+    public void remover(String nome, String email) throws IOException, MusicaNaoEncontradaException {
         List<String> key = Arrays.asList(nome, email);
+        if(this.musicas.get(key) == null) {
+            throw new MusicaNaoEncontradaException();
+        }
         musicas.remove(key);
         escreverNoArquivo();
+    }
+
+    public List<Musica> getMusicasPeloNome(String nome) {
+        nome = nome.toLowerCase();
+        List<Musica> retorno = new ArrayList<Musica>();
+        for(Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
+            Musica m = entry.getValue();
+            String nomeMusica = m.getNome().toLowerCase();
+            if(nomeMusica.contains(nome)) {
+                retorno.add(m);
+            }
+        }
+        return retorno;
+    }
+
+    public List<Musica> getMusicasPelaTag(String tag) {
+        List<Musica> retorno = new ArrayList<Musica>();
+        for(Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
+            Musica m = entry.getValue();
+            Boolean achou = false;
+            String[] tags = m.getTags();
+            for(int i = 0; (i < tags.length) && !(achou); i++) {
+                if(tags[i].equals(tag)) {
+                    retorno.add(m);
+                }
+            }
+        }
+        return retorno;
     }
     
 }

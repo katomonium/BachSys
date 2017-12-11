@@ -6,14 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class TelaLogin extends Tela {
 
@@ -23,7 +22,7 @@ public class TelaLogin extends Tela {
     private JPasswordField txtSenha;
     private JButton btnRegistrar;
     private JButton btnCancelar;
-    private JButton btnEnviar;
+    private JButton btnEntrar;
     private JPanel painelBotoes;
     
     public TelaLogin(Tela t) {
@@ -49,11 +48,11 @@ public class TelaLogin extends Tela {
 
         btnCancelar = new JButton("Cancelar");
 
-        btnEnviar = new JButton("Enviar");
+        btnEntrar = new JButton("Entrar");
 
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
-        painelBotoes.add(btnEnviar);
+        painelBotoes.add(btnEntrar);
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
         
         btnRegistrar = new JButton("Não possui conta? Registre-se!");
@@ -67,21 +66,16 @@ public class TelaLogin extends Tela {
     protected void adicionarAcoes() {
         Tela t = this;
         
-        btnEnviar.addActionListener(new ActionListener() {
+        btnEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
                 try{
                     UsuarioController.getInstancia().iniciarSessao(txtEmail.getText(), txtSenha.getText());
                 }
-                catch(LoginInvalidoException li){
-                    JOptionPane.showMessageDialog(null, li.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
-                    Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                finally{
+                catch(LoginInvalidoException | IOException | ClassNotFoundException ex){
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                } finally {
                     if(UsuarioController.estaLogado()) {
                         setVisible(false);
                         new TelaPrincipal(getTelaAnterior()).setVisible(true);

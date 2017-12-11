@@ -26,10 +26,6 @@ public class Musica implements Serializable{
     public Musica(String nome, String autor, String album, int ano,
             String genero, String email, String[] tags) {
         
-//        if(tags == null || tags.length < 2) {
-//            System.out.println("Excecao: nao ha tags");
-//        }
-        
         this.nome = nome;
         this.autor = autor;
         this.album = album;
@@ -37,8 +33,7 @@ public class Musica implements Serializable{
         this.genero = genero;
         this.email = email;
         this.tags = tags;
-        
-//        System.out.println(Arrays.toString(this.tags));
+
     }
     
     public String getNome() {
@@ -69,6 +64,21 @@ public class Musica implements Serializable{
         return tags;
     }
 
+    public int getNota() {
+        return ano;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Musica) {
+            Musica m = (Musica) o;
+            if(m.getEmail().equals(this.email) && m.getNome().equals(this.nome)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @Override
     public String toString() {
         return "Musica{" + "nome=" + nome + ", autor=" + autor + ", album="

@@ -10,6 +10,7 @@ import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.persistence.UsuarioDAO;
 import br.ufla.dcc.ppoo.seguranca.Sessao;
 import java.io.IOException;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UsuarioController {
     
@@ -19,11 +20,6 @@ public class UsuarioController {
     
     private UsuarioController() throws IOException, ClassNotFoundException{
             USUARIO_DAO = UsuarioDAO.getInstancia();
-    }
-    
-    // TODO: Usar hash de verdade
-    public String hash(String senha) {
-        return senha;
     }
     
     public void cadastrar(String nome, String email, String senha, String confirmacaoSenha) 
@@ -47,8 +43,6 @@ public class UsuarioController {
         if(!senha.equals(confirmacaoSenha)){
             throw new ConfirmacaoDeSenhaException();
         }
-               
-        senha = this.hash(senha);
         
         Usuario u = new Usuario(nome, email, senha);
         
@@ -90,7 +84,7 @@ public class UsuarioController {
         if(u == null) {
             throw new LoginInvalidoException();
         }
-        if(hash(senha).equals(u.getSenha())) {
+        if(BCrypt.checkpw(senha, u.getSenha())) {
             SESSAO.alterarSessao(u);
         }
         else{

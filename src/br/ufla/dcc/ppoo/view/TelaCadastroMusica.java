@@ -2,21 +2,11 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.controller.MusicaController;
-import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 public class TelaCadastroMusica extends TelaLeDadosMusica {
@@ -45,15 +35,11 @@ public class TelaCadastroMusica extends TelaLeDadosMusica {
     @Override
     protected boolean executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
         try {
-            MusicaController.getInstancia().addMusica(nome, autor, album, ano, genero, usuario, tags);
+            MusicaController.getInstancia().addMusica(nome, nome, autor, album, ano, genero, usuario, tags);
             return true;
-        } catch (MusicaJaCadastradaException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (CampoVazioException ex) {
+        } catch (MusicaJaCadastradaException | IOException | ClassNotFoundException 
+                | CampoVazioException | CampoMinimoException ex) {
+
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         return false;

@@ -5,8 +5,6 @@
  */
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.componentes.Painel;
-import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.GridBagConstraints;
@@ -19,11 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author dell
- */
+
 public class TelaDadosMusica extends Tela {
 
     private JLabel lbNome;
@@ -61,10 +57,8 @@ public class TelaDadosMusica extends Tela {
             if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
                 adicionarBotaoEditar();
             }
-        } catch (IOException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -133,18 +127,15 @@ public class TelaDadosMusica extends Tela {
         if(musica == null) {
             return;
         }
-        
         lbValorNome.setText(musica.getNome());
-        System.out.println(musica.getEmail());
         try {
             lbValorUsuario.setText(
                     UsuarioController.getInstancia().getUsuario(musica.getEmail()).getNome()
             );
-        } catch (IOException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        
         lbValorAlbum.setText(musica.getAlbum());
         lbValorAno.setText(Integer.toString(musica.getAno()));
         lbValorAutor.setText(musica.getAutor());
@@ -159,8 +150,6 @@ public class TelaDadosMusica extends Tela {
         lbValorTags.setText(concatenacaoTags);
         
         lbValorGenero.setText(musica.getGenero());
-
-        System.out.println(lbValorGenero.getText());
     }
 
     @Override
@@ -189,18 +178,12 @@ public class TelaDadosMusica extends Tela {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                TelaEditarMusica tem = new TelaEditarMusica(musica, t);
+                TelaEditarMusica tem = new TelaEditarMusica(musica.getNome(), musica, t);
                 tem.setVisible(true);
                 tem.addComponentListener(new ComponentAdapter() {
                     @Override
                     public void componentHidden(ComponentEvent e) {
-                        try {
-                            musica = MusicaController.getInstancia().getMusica(musica.getNome(), musica.getEmail());
-                        } catch (IOException ex) {
-                            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(TelaDadosMusica.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        musica = tem.getMusica();
                         editou = true;
                         adicionarValores();
                     }
