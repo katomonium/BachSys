@@ -49,7 +49,12 @@ public class TelaPrincipal extends Tela {
     private List<Musica> musicas;
     private JTextField txtBusca;
     private JButton btnBuscar;
-    
+    private JLabel lbQtdMusica;
+    private JLabel lbEmail;
+    private JLabel lbNome;
+    private JLabel lbValorQtdMusica;
+    private JLabel lbValorEmail;
+    private JLabel lbValorNome;
     
     public TelaPrincipal(Tela t) {
         super("BachSys", 800, 600, t);
@@ -142,6 +147,13 @@ public class TelaPrincipal extends Tela {
                     @Override
                     public void componentHidden(ComponentEvent e) {
                         setBoxMusicasTrue();
+                        try {
+                            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                            lbValorQtdMusica.setText(MusicaController.getInstancia().getQtdMusicas(email) + "");
+                        } catch (IOException | ClassNotFoundException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
                     }
                 });
             }
@@ -232,11 +244,11 @@ public class TelaPrincipal extends Tela {
     }
     
     private Integer confirmarSaida() {
-        Integer opcao = JOptionPane.showConfirmDialog(null, "Desja realizar login em outra conta?", "Realizar novo login?",
-                                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        Integer opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmar saída",
+                                            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
         switch (opcao) {
-            case JOptionPane.NO_OPTION:
+            case JOptionPane.YES_OPTION:
                 try {
                     UsuarioController.getInstancia().finalizarSessao();
                     System.exit(0);
@@ -244,21 +256,9 @@ public class TelaPrincipal extends Tela {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro",
                                                     JOptionPane.ERROR_MESSAGE);
                 }
-            case JOptionPane.YES_OPTION:
-                try{
-                    UsuarioController.getInstancia().finalizarSessao();
-                    setVisible(false);
-                    getTelaAnterior().setVisible(true);
-                } catch(ClassNotFoundException | IOException ex){
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
-                                                    JOptionPane.ERROR_MESSAGE);
-                }
-                
-                return DO_NOTHING_ON_CLOSE;
-            case JOptionPane.CANCEL_OPTION:
+            case JOptionPane.NO_OPTION:
                 return DO_NOTHING_ON_CLOSE;
             default:
-                //TODO: adicionar excecao
                 return EXIT_ON_CLOSE;
         }
         
@@ -307,24 +307,29 @@ public class TelaPrincipal extends Tela {
                     GridBagConstraints.NONE, 0, 0, 1, 1);
 
             String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
-            JLabel lbNome = new JLabel("Bem vindo, " + nome);
+            lbNome = new JLabel("Bem vindo,");
             painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
-
-            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-
-            JLabel lbEmail = new JLabel("Email: " + email);
-            painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
+            lbValorNome = new JLabel(nome);
+            painelDadosUsuario.adicionarComponente(lbValorNome, GridBagConstraints.CENTER, 
                                         GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+            
+            String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+            lbEmail = new JLabel("Email:");
+            painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 2, 0, 1, 1);
+            lbValorEmail = new JLabel(email);
+            painelDadosUsuario.adicionarComponente(lbValorEmail, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1);
 
             Integer qtdMusicas;
-
             qtdMusicas = MusicaController.getInstancia().getQtdMusicas(email);
-
-            JLabel lbQtdMusica = new JLabel("<html><body>Quantidade de"
-                                            + " músicas cadastradas: " + qtdMusicas + "</body></html>");
+            lbQtdMusica = new JLabel("Quantidade de músicas: ");
             painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
-                                    GridBagConstraints.HORIZONTAL, 2 , 0, 1, 4);
+                                    GridBagConstraints.HORIZONTAL, 4 , 0, 1, 1);
+            lbValorQtdMusica = new JLabel(qtdMusicas.toString());
+            painelDadosUsuario.adicionarComponente(lbValorQtdMusica, GridBagConstraints.CENTER, 
+                                    GridBagConstraints.HORIZONTAL, 5 , 0, 1, 1);
         } catch (ClassNotFoundException | IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -427,8 +432,6 @@ public class TelaPrincipal extends Tela {
 
     private void adicionarBarraBusca() {
         txtBusca = new JTextField(20);
-        
-
         
         btnBuscar = new JButton("Buscar");
         btnBuscar.addActionListener(new ActionListener() {

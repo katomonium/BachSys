@@ -67,6 +67,17 @@ public class Musica implements Serializable{
     public int getNota() {
         return ano;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Musica) {
+            Musica m = (Musica) o;
+            if(m.getEmail().equals(this.email) && m.getNome().equals(this.nome)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     @Override
     public String toString() {

@@ -22,7 +22,7 @@ public class TelaLogin extends Tela {
     private JPasswordField txtSenha;
     private JButton btnRegistrar;
     private JButton btnCancelar;
-    private JButton btnEnviar;
+    private JButton btnEntrar;
     private JPanel painelBotoes;
     
     public TelaLogin(Tela t) {
@@ -48,11 +48,11 @@ public class TelaLogin extends Tela {
 
         btnCancelar = new JButton("Cancelar");
 
-        btnEnviar = new JButton("Enviar");
+        btnEntrar = new JButton("Entrar");
 
         painelBotoes = new JPanel();
         painelBotoes.add(btnCancelar);
-        painelBotoes.add(btnEnviar);
+        painelBotoes.add(btnEntrar);
         adicionarComponente(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 2, 0, 2,1);
         
         btnRegistrar = new JButton("Não possui conta? Registre-se!");
@@ -66,7 +66,7 @@ public class TelaLogin extends Tela {
     protected void adicionarAcoes() {
         Tela t = this;
         
-        btnEnviar.addActionListener(new ActionListener() {
+        btnEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 

@@ -163,7 +163,9 @@ public class MusicaController {
         List<Musica> m1 = MUSICA_DAO.getMusicasPeloNome(palavraChave);
         List<Musica> m2 = MUSICA_DAO.getMusicasPelaTag(palavraChave);
         for (int i = 0; i < m2.size(); i++) {
-            m1.add(m2.get(i));
+            if(!m1.contains(m2.get(i))) {
+                m1.add(m2.get(i));
+            }
         }
         if(m1.size() == 0) {
             throw new MusicaNaoEncontradaException();

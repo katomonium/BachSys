@@ -132,10 +132,12 @@ public class MusicaDAO extends DAO{
     }
 
     public List<Musica> getMusicasPeloNome(String nome) {
+        nome = nome.toLowerCase();
         List<Musica> retorno = new ArrayList<Musica>();
         for(Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
             Musica m = entry.getValue();
-            if(m.getNome().equals(nome)) {
+            String nomeMusica = m.getNome().toLowerCase();
+            if(nomeMusica.contains(nome)) {
                 retorno.add(m);
             }
         }
