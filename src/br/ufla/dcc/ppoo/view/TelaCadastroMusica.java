@@ -35,7 +35,7 @@ public class TelaCadastroMusica extends TelaLeDadosMusica {
     @Override
     protected boolean executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
         try {
-            MusicaController.getInstancia().addMusica(nome, nome, autor, album, ano, genero, usuario, tags);
+            MusicaController.getInstancia().adicionarMusica(nome, nome, autor, album, ano, genero, usuario, tags);
             return true;
         } catch (MusicaJaCadastradaException | IOException | ClassNotFoundException 
                 | CampoVazioException | CampoMinimoException ex) {

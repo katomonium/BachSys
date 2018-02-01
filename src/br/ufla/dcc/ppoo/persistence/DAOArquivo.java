@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-public abstract class DAO {
+public abstract class DAOArquivo {
     private final String nomeArquivo;
 
-    public DAO(String nomeArquivo) throws IOException {
+    public DAOArquivo(String nomeArquivo) throws IOException {
         this.nomeArquivo = nomeArquivo;
         gerarArquivoSeNaoExiste();
     }

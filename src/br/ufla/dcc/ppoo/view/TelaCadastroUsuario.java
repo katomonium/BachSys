@@ -128,6 +128,9 @@ public class TelaCadastroUsuario extends Tela {
                 String confirmacaoSenha = BCrypt.hashpw(txtConfirmarSenha.getText(),salt);
                 
                 try{                    
+                    if(txtSenha.getText().length() < 4) {
+                        throw new SenhaCurtaException();
+                    }
                     UsuarioController.getInstancia().cadastrar(usuario, email, senha, confirmacaoSenha);
                     setVisible(false);
                 }

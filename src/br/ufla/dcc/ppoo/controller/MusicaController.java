@@ -6,6 +6,7 @@ import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
+import br.ufla.dcc.ppoo.persistence.MusicaDAOArquivo;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,11 +16,11 @@ public class MusicaController {
     private static MusicaController INSTANCIA;
     
     private MusicaController() throws IOException, ClassNotFoundException{
-        MUSICA_DAO = MusicaDAO.getINSTANCIA();
+        MUSICA_DAO = MusicaDAOArquivo.getINSTANCIA();
         
     }
     
-    public void addMusica(String chave, String nome, String autor, String album,
+    public void adicionarMusica(String chave, String nome, String autor, String album,
             Integer ano, String genero, String usuario, String[] tags) throws IOException, 
             MusicaJaCadastradaException, CampoVazioException, CampoMinimoException {
         
@@ -44,7 +45,7 @@ public class MusicaController {
         }
         
         
-        MUSICA_DAO.addMusica(chave, 
+        MUSICA_DAO.adicionarMusica(chave, 
                 new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
     }
 
