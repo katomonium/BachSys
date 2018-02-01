@@ -32,10 +32,11 @@ import java.util.Map;
 public class BachSys {
 
     public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
-
+//
         TelaInicial ti = new TelaInicial(null);
         ti.setVisible(true);
-
+//        TelaPrincipal tp = new TelaPrincipal(null);
+//        tp.setVisible(true);
         
 
     }

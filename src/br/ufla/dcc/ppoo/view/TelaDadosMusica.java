@@ -5,8 +5,11 @@
  */
 package br.ufla.dcc.ppoo.view;
 
+import br.ufla.dcc.ppoo.componentes.Painel;
+import br.ufla.dcc.ppoo.componentes.PainelDeRolagem;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.model.Musica;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +21,8 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 
 public class TelaDadosMusica extends Tela {
@@ -29,13 +34,13 @@ public class TelaDadosMusica extends Tela {
     private JLabel lbGenero;
     private JLabel lbTags;
     private JLabel lbUsuario;
-    private JLabel lbValorNome;
-    private JLabel lbValorAutor;
-    private JLabel lbValorAlbum;
-    private JLabel lbValorAno;
-    private JLabel lbValorGenero;
-    private JLabel lbValorTags;
-    private JLabel lbValorUsuario;
+    private JTextArea lbValorNome;
+    private JTextArea lbValorAutor;
+    private JTextArea lbValorAlbum;
+    private JTextArea lbValorAno;
+    private JTextArea lbValorGenero;
+    private JTextArea lbValorTags;
+    private JTextArea lbValorUsuario;
     
     private JButton btnEditar;
     private JButton btnComentar;
@@ -60,6 +65,7 @@ public class TelaDadosMusica extends Tela {
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        pack();
     }
 
     
@@ -73,28 +79,36 @@ public class TelaDadosMusica extends Tela {
         lbGenero = new JLabel("Gênero:");
         lbTags = new JLabel("Tags:");
         
-        lbValorNome = new JLabel();
-        lbValorAutor = new JLabel();
-        lbValorAlbum = new JLabel();
-        lbValorAno = new JLabel();
-        lbValorGenero = new JLabel();
-        lbValorTags = new JLabel();
-        lbValorUsuario = new JLabel();
+        System.out.println("asdkpaosdkpaosdkpasdspok");
+//
+//        Painel p = new Painel(800, 300);
+//        PainelDeRolagem pr = new PainelDeRolagem(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+//                                                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//        
+        
+        lbValorNome = new JTextArea();
+        lbValorAutor = new JTextArea();
+        lbValorAlbum = new JTextArea();
+        lbValorAno = new JTextArea();
+        lbValorGenero = new JTextArea();
+        lbValorTags = new JTextArea();
+        lbValorUsuario = new JTextArea();
+        
         
         adicionarComponente(lbNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 0, 1, 1);
+                            GridBagConstraints.NONE, 0, 0, 1, 1);
         adicionarComponente(lbAlbum, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 2, 0, 1, 1);
+                            GridBagConstraints.NONE, 1, 0, 1, 1);
         adicionarComponente(lbAno, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 3, 0, 1, 1);
+                            GridBagConstraints.NONE, 2, 0, 1, 1);
         adicionarComponente(lbAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 0, 1, 1);
+                            GridBagConstraints.NONE, 3, 0, 1, 1);
         adicionarComponente(lbGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 0, 1, 1);
+                            GridBagConstraints.NONE, 4, 0, 1, 1);
         adicionarComponente(lbTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 0, 1, 1);
+                            GridBagConstraints.NONE, 5, 0, 1, 1);
         adicionarComponente(lbUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 7, 0, 1, 1);
+                            GridBagConstraints.NONE, 6, 0, 1, 1);
         
         btnComentar = new JButton("Comentar");
         btnFechar = new JButton("Fechar");
@@ -105,19 +119,23 @@ public class TelaDadosMusica extends Tela {
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
         
         adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 1, 1, 1);
+                            GridBagConstraints.NONE, 0, 1, 1, 1);
         adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 2, 1, 1, 1);
+                            GridBagConstraints.NONE, 1, 1, 1, 1);
         adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 3, 1, 1, 1);
+                            GridBagConstraints.NONE, 2, 1, 1, 1);
         adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 1, 1, 1);
+                            GridBagConstraints.NONE, 3, 1, 1, 1);
         adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 1, 1, 1);
+                            GridBagConstraints.NONE, 4, 1, 1, 1);
         adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 1, 1, 1);
+                            GridBagConstraints.NONE, 5, 1, 1, 1);
         adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 7, 1, 1, 1);
+                            GridBagConstraints.NONE, 6, 1, 1, 1);
+        
+        
+//        adicionarComponente(pr, GridBagConstraints.EAST, 
+//                    GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
         
         adicionarValores();
     }
@@ -173,8 +191,8 @@ public class TelaDadosMusica extends Tela {
     private void adicionarBotaoEditar() {
         Tela t = this;
         btnEditar = new JButton("Editar");
-        adicionarComponente(btnEditar, GridBagConstraints.EAST, 
-                    GridBagConstraints.NONE, 0, 0, 2, 1);
+        adicionarComponente(btnEditar, GridBagConstraints.WEST, 
+                    GridBagConstraints.NONE, 8, 1, 1, 1);
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
