@@ -15,7 +15,7 @@ import br.ufla.dcc.ppoo.exceptions.SenhaCurtaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.model.Usuario;
 import br.ufla.dcc.ppoo.view.TelaInicial;
-import br.ufla.dcc.ppoo.view.TelaPrincipal;
+import br.ufla.dcc.ppoo.view.TelaMusicas;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -35,7 +35,7 @@ public class BachSys {
 //
         TelaInicial ti = new TelaInicial(null);
         ti.setVisible(true);
-//        TelaPrincipal tp = new TelaPrincipal(null);
+//        TelaMusicas tp = new TelaMusicas(null);
 //        tp.setVisible(true);
         
 

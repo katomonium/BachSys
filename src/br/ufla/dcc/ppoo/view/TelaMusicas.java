@@ -34,7 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 
-public class TelaPrincipal extends Tela {
+public class TelaMusicas extends Tela {
     
     private Painel painelDadosUsuario;
     private Painel painelAcoes;
@@ -56,7 +56,7 @@ public class TelaPrincipal extends Tela {
     private JLabel lbValorEmail;
     private JLabel lbValorNome;
     
-    public TelaPrincipal(Tela t) {
+    public TelaMusicas(Tela t) {
         super("BachSys", 800, 600, t);
         atualizarListaMusicas();
         painelDeRolagem = null;
@@ -392,7 +392,7 @@ public class TelaPrincipal extends Tela {
                     if(column == tblMusicas.getColunaCheckBox()) {
                         return;
                     }
-                    TelaDadosMusica tdm = new TelaDadosMusica(musicas.get(row), t);
+                    TelaVisualizarMusica tdm = new TelaVisualizarMusica(musicas.get(row), t);
                     
                     tdm.setVisible(true);
                     tdm.addComponentListener(new ComponentAdapter() {

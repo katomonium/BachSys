@@ -110,14 +110,17 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
     @Override
     public void editarMusica(String chave ,Musica m, String email) throws IOException, MusicaNaoEncontradaException, MusicaJaCadastradaException {
         List<String> key = Arrays.asList(chave, email);
+        
         if(this.musicas.get(key) == null) {
             throw new MusicaNaoEncontradaException();
         }
+        Musica musicaAntiga = this.musicas.get(key);
+        this.musicas.remove(key);
         List<String> novaKey = Arrays.asList(m.getNome(), email);
         if(this.musicas.get(novaKey) != null) {
+            this.musicas.put(key, musicaAntiga);
             throw new MusicaJaCadastradaException();
         }
-        this.musicas.remove(key);
         this.musicas.put(novaKey, m);
         salvar();
     }

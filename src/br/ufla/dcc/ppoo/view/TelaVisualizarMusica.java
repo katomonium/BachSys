@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
-public class TelaDadosMusica extends Tela {
+public class TelaVisualizarMusica extends Tela {
 
     private JLabel lbNome;
     private JLabel lbAutor;
@@ -50,7 +50,7 @@ public class TelaDadosMusica extends Tela {
 
     private Boolean editou;
     
-    public TelaDadosMusica(Musica musica, Tela t) {
+    public TelaVisualizarMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
         editou = false;
         this.musica = musica;
