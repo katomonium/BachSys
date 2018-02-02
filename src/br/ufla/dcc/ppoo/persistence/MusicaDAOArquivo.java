@@ -194,9 +194,14 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
         List<Musica> musicasDoGenero = new ArrayList<Musica>();
         for (Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
             Musica musica = entry.getValue();
+            // se a musica nao pertence ao usuario e o genero é igual ao "favorito" do usuario
             if(!(email.equals(musica.getEmail())) &&
-                 genero.equals(musica.getGenero())) {
-                musicasDoGenero.add(musica);
+                    genero.equals(musica.getGenero())) {
+                // se o usuario nao cadastrou uma musica com aquele nome
+                List<String> key = Arrays.asList(musica.getNome(), email);                
+                if(this.musicas.get(key) == null) {
+                    musicasDoGenero.add(musica);
+                }
             }
         }
         return musicasDoGenero;

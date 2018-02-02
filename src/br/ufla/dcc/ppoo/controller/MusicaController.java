@@ -181,7 +181,9 @@ public class MusicaController {
     }
 
     public List<Musica> getRecomendacoes(String email) {
-        return MUSICA_DAO.getRecomendacoes(email);
+        List<Musica> musicas = MUSICA_DAO.getRecomendacoes(email);
+        musicas = ordenarPelaNotaDecrescente(musicas);
+        return musicas;
     }
     
     
