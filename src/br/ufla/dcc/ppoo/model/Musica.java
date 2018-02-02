@@ -1,7 +1,11 @@
 package br.ufla.dcc.ppoo.model;
 
+import br.ufla.dcc.ppoo.exceptions.MusicaJaAvaliadaException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class Musica implements Serializable{
 
@@ -12,6 +16,8 @@ public class Musica implements Serializable{
     private final String genero;
     private final String email;
     private final String[] tags;
+    private List<String> usuariosJaVotaram;
+    private Integer pontos;
     
     /**
      * 
@@ -33,7 +39,17 @@ public class Musica implements Serializable{
         this.genero = genero;
         this.email = email;
         this.tags = tags;
+        this.pontos = 0;
+        usuariosJaVotaram = new ArrayList<String>();
 
+    }
+    
+    public void adicionarPontos(String email, Integer pontosAdicionados) throws MusicaJaAvaliadaException {
+        if(usuariosJaVotaram.contains(email)) {
+            throw new MusicaJaAvaliadaException(this.nome);
+        }
+        this.pontos += pontosAdicionados;
+        this.usuariosJaVotaram.add(email);
     }
     
     public String getNome() {
@@ -64,8 +80,8 @@ public class Musica implements Serializable{
         return tags;
     }
 
-    public int getNota() {
-        return ano;
+    public int getPontos() {
+        return pontos;
     }
 
     @Override

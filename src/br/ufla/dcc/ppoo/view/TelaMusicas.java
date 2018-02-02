@@ -339,7 +339,7 @@ public class TelaMusicas extends Tela {
     
     
     private void adicionarPainelListaMusica() {
-        painelListaMusica = new Painel(600, 550);
+        painelListaMusica = new Painel(650, 550);
         adicionarComponente(painelListaMusica, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 1, 1, 2);
 //        painelListaMusica.setBackground(Color.red);
         
@@ -361,7 +361,7 @@ public class TelaMusicas extends Tela {
             painelListaMusica.remove(painelDeRolagem);
         }
         
-        String[] colunas = {"Nome", "Autor", "Album", "Gênero", "Ano" };
+        String[] colunas = {"Nome", "Autor", "Album", "Gênero", "Ano", "Pontos"};
         
         
         tblMusicas = new Tabela(musicas, colunas, mostrarCheckBox);
@@ -400,6 +400,9 @@ public class TelaMusicas extends Tela {
                         public void componentHidden(ComponentEvent e) {
                             if(tdm.musicaAlterada()) {
                                 setBoxMusicasTrue();
+                            }
+                            if(tdm.musicaAvaliada()) {
+                                setBoxMusicasFalse();
                             }
                         }
                     });

@@ -31,7 +31,7 @@ public class UsuarioDAOArquivo extends DAOArquivo implements UsuarioDAO {
     }
     
     @Override
-    public void escreverNoArquivo() throws IOException{
+    public void salvar() throws IOException{
         ObjectOutputStream oos = new ObjectOutputStream(new 
         FileOutputStream(getNomeArquivo()));
         oos.writeObject(this.usuarios);
@@ -60,7 +60,7 @@ public class UsuarioDAOArquivo extends DAOArquivo implements UsuarioDAO {
     public void adicionarUsuario(Usuario u) throws IOException, EmailJaCadastradoException {
         if(this.usuarios.get(u.getEmail()) == null) {
             this.usuarios.put(u.getEmail(), u);
-            escreverNoArquivo();
+            salvar();
         } else {
             // TODO: Transformar em um throw
             throw new EmailJaCadastradoException();

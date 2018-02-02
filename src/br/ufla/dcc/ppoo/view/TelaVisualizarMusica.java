@@ -43,16 +43,19 @@ public class TelaVisualizarMusica extends Tela {
     private JTextArea lbValorUsuario;
     
     private JButton btnEditar;
+    private JButton btnAvaliar;
     private JButton btnComentar;
     private JButton btnFechar;
     
     private Musica musica;
 
     private Boolean editou;
+    private Boolean avaliou;
     
     public TelaVisualizarMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
         editou = false;
+        avaliou = false;
         this.musica = musica;
         
         construirTela();
@@ -61,6 +64,8 @@ public class TelaVisualizarMusica extends Tela {
         try {
             if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
                 adicionarBotaoEditar();
+            } else {
+                adicionarBotaoAvaliar();
             }
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -210,7 +215,32 @@ public class TelaVisualizarMusica extends Tela {
         });
     } 
 
-    boolean musicaAlterada() {
+    public boolean musicaAlterada() {
         return editou;
+    }
+    public boolean musicaAvaliada() {
+        return avaliou;
+    }
+
+    private void adicionarBotaoAvaliar() {
+        Tela t = this;
+        btnAvaliar = new JButton("Avaliar");
+        adicionarComponente(btnAvaliar, GridBagConstraints.WEST, 
+                    GridBagConstraints.NONE, 8, 1, 1, 1);
+        btnAvaliar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                TelaAvaliarMusica tam = new TelaAvaliarMusica(musica.getNome(), musica, t);
+                tam.setVisible(true);
+                tam.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+                        musica = tam.getMusica();
+                        avaliou = true;
+                        adicionarValores();
+                    }
+                });
+            }
+        });
     }
 }

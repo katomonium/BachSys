@@ -63,6 +63,7 @@ public class Tabela extends JTable {
             objetos[i][2] = musicas.get(i).getAlbum();
             objetos[i][3] = musicas.get(i).getGenero();
             objetos[i][4] = musicas.get(i).getAno();
+            objetos[i][5] = musicas.get(i).getPontos();
         }
         return objetos;
     } 

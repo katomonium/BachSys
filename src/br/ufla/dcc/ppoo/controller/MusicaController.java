@@ -2,6 +2,7 @@ package br.ufla.dcc.ppoo.controller;
 
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaAvaliadaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
@@ -144,8 +145,8 @@ public class MusicaController {
         for(int i = 0; i < musicas.size() - 1; i++) {
             posMaior = i;
             for(int j = i + 1; j < musicas.size(); j++) {
-                int notaJ = musicas.get(j).getNota();
-                int notaMaior = musicas.get(posMaior).getNota();
+                int notaJ = musicas.get(j).getPontos();
+                int notaMaior = musicas.get(posMaior).getPontos();
                 if(notaJ > notaMaior) {
                     posMaior = j;
                 }
@@ -172,8 +173,13 @@ public class MusicaController {
             throw new MusicaNaoEncontradaException();
         }
         m1 = ordenarPelaNotaDecrescente(m1);
-        return m1;
-        
+        return m1;    
     }
+    
+    public void adicionarPontos(String email, Musica musica, Integer pontosAdicionados) throws MusicaJaAvaliadaException, IOException {
+        musica.adicionarPontos(email, pontosAdicionados);
+        MUSICA_DAO.salvar();
+    }
+    
     
 }
