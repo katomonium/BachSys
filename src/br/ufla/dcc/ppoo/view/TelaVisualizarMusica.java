@@ -124,23 +124,19 @@ public class TelaVisualizarMusica extends Tela {
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
         
         adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 0, 1, 1, 1);
+                            GridBagConstraints.NONE, 0, 1, 2, 1);
         adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 1, 1, 1);
+                            GridBagConstraints.NONE, 1, 1, 2, 1);
         adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 2, 1, 1, 1);
+                            GridBagConstraints.NONE, 2, 1, 2, 1);
         adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 3, 1, 1, 1);
+                            GridBagConstraints.NONE, 3, 1, 2, 1);
         adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 1, 1, 1);
+                            GridBagConstraints.NONE, 4, 1, 2, 1);
         adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 1, 1, 1);
+                            GridBagConstraints.NONE, 5, 1, 2, 1);
         adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 1, 1, 1);
-        
-        
-//        adicionarComponente(pr, GridBagConstraints.EAST, 
-//                    GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+                            GridBagConstraints.NONE, 6, 1, 2, 1);
         
         adicionarValores();
     }
@@ -193,13 +189,12 @@ public class TelaVisualizarMusica extends Tela {
             }
         });
         
-        
-        
     }
     
     private void adicionarBotaoEditar() {
         Tela t = this;
         btnEditar = new JButton("Editar");
+        btnEditar.setPreferredSize(btnComentar.getPreferredSize());
         adicionarComponente(btnEditar, GridBagConstraints.WEST, 
                     GridBagConstraints.HORIZONTAL, 8, 1, 1, 1);
         btnEditar.addActionListener(new ActionListener() {
@@ -213,6 +208,8 @@ public class TelaVisualizarMusica extends Tela {
                         musica = tem.getMusica();
                         editou = true;
                         adicionarValores();
+                        pack();
+
                     }
                 });
             }

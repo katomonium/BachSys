@@ -65,4 +65,18 @@ public class ComentarioDAOArquivo extends DAOArquivo implements ComentarioDAO {
         oos.close();
     }
     
+    public void modificarComentario(String nomeMusicaAntigo, String nomeMusicaNovo, String emailDono) throws IOException {
+        List<Comentario> cs = getComentariosMusica(emailDono, nomeMusicaAntigo);
+        if(cs == null) {
+            return;
+        }
+        List<String> key = Arrays.asList(emailDono, nomeMusicaAntigo);
+        this.comentarios.remove(key);
+        
+        List<String> novaKey = Arrays.asList(emailDono, nomeMusicaNovo);
+        this.comentarios.put(novaKey, cs);
+        salvar();
+    }
+    
+    
 }

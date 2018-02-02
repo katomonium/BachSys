@@ -8,8 +8,10 @@ import java.util.Map;
 
 public interface ComentarioDAO {
     
-    public void adicionarComentario(String usuarioEmail, String musicaNome,
-                                    Comentario comentario) throws IOException;
+    public void adicionarComentario(String usuarioEmail, String musicaNome, Comentario comentario) 
+                                    throws IOException;
+    public void modificarComentario(String nomeMusicaAntigo, String nomeMusicaNovo, String emailDono)
+                                    throws IOException;
     public List<Comentario> getComentariosMusica(String emailDono, String musicaNome);
     
     public void salvar() throws IOException;

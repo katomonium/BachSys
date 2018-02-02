@@ -12,13 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class TelaEditarMusica extends TelaLeDadosMusica {
-    private String chave;
+    private String nomeAntigo;
     private Musica musica;
     
     
-    public TelaEditarMusica(String chave, Musica m, Tela t) {
+    public TelaEditarMusica(String nomeAntigo, Musica m, Tela t) {
         super("Editar Música", t);
-        this.chave = chave;
+        this.nomeAntigo = nomeAntigo;
         this.musica = m;
         this.construirTela();
         super.adicionarAcoes();
@@ -47,7 +47,7 @@ public class TelaEditarMusica extends TelaLeDadosMusica {
     @Override
     protected boolean executarAcaoSalvar(String nome, String autor, String album, Integer ano, String genero, String usuario, String[] tags) {
         try {
-            MusicaController.getInstancia().modificarMusica(chave, nome, autor, album, ano, genero, usuario, tags);
+            MusicaController.getInstancia().modificarMusica(nomeAntigo, nome, autor, album, ano, genero, usuario, tags);
             musica = MusicaController.getInstancia().getMusica(nome, usuario);
             return true;
         } catch (IOException | ClassNotFoundException | CampoVazioException |

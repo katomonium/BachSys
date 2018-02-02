@@ -80,10 +80,10 @@ public class MusicaController {
         return musicas;
     }
     
-    public void modificarMusica(String chave, String nome, String autor, String album,
+    public void modificarMusica(String nomeAntigo, String nome, String autor, String album,
             Integer ano, String genero, String usuario, String[] tags) throws IOException, 
             CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException, 
-            MusicaJaCadastradaException {
+            MusicaJaCadastradaException, ClassNotFoundException {
         
         
         if(nome.equals("")) {
@@ -105,9 +105,12 @@ public class MusicaController {
             throw new CampoMinimoException("tags", 2);
         }
         
+        Musica m = new Musica(nome, autor, album, ano, genero, usuario, tags);
         
-        MUSICA_DAO.editarMusica(chave, 
-            new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
+        MUSICA_DAO.editarMusica(nomeAntigo, m, usuario);
+        
+        ComentarioController.getIntancia().modificarComentario(nomeAntigo, m.getNome(), m.getEmail());
+        
     }
 
     public Musica getMusica(String nome, String email) throws MusicaNaoEncontradaException {

@@ -165,7 +165,8 @@ public class TelaMusicas extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if(boxMusicasUsuario.isSelected()) {
-                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente remover as musicas selecionadas?",
+                    String texto = "Deseja realmente remover as musicas selecionadas?\nOs comentários das músicas também serão removidos.";
+                    int confirmacao = JOptionPane.showConfirmDialog(null, texto,
                                                 "Remover musicas", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                     if(confirmacao == JOptionPane.NO_OPTION) {
                         return;

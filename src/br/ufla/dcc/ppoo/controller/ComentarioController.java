@@ -12,12 +12,12 @@ public class ComentarioController {
     private static ComentarioDAO COMENTARIO_DAO;
     private static ComentarioController INSTANCIA;
 
-    private ComentarioController() throws IOException {
+    private ComentarioController() throws IOException, ClassNotFoundException {
         COMENTARIO_DAO = ComentarioDAOArquivo.getInstancia();
     }
     
     
-    public static ComentarioController getIntancia() throws IOException {
+    public static ComentarioController getIntancia() throws IOException, ClassNotFoundException {
         if(INSTANCIA == null) {
             INSTANCIA = new ComentarioController();
         }
@@ -25,7 +25,7 @@ public class ComentarioController {
     }
 
     public void adicionarComentario(String emailComentarista, String emailDono, String musicaNome,
-                                    String comentario) throws TamanhoMaximoComentario {
+                                    String comentario) throws TamanhoMaximoComentario, IOException {
         
         Comentario c = new Comentario(emailComentarista, emailDono, musicaNome, comentario);
         
@@ -34,6 +34,10 @@ public class ComentarioController {
     
     public List<Comentario> getComentariosMusica(String emailDono, String musicaNome) {
         return COMENTARIO_DAO.getComentariosMusica(emailDono, musicaNome);
+    }
+
+    public void modificarComentario(String nomeMusicaAntigo, String nomeMusicaNovo, String emailDono) throws IOException {
+        COMENTARIO_DAO.modificarComentario(nomeMusicaAntigo, nomeMusicaNovo, emailDono);
     }
 
 }
