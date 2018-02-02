@@ -164,5 +164,42 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
         }
         return retorno;
     }
+
+    @Override
+    public String getGeneroMaiorNumero(String email) {
+        List<Musica> musicas = getMusicas(email);
+        int contador = 0;
+        String genero = "";
+        for(Musica m1 : musicas) {
+            int contador2 = 0;
+            String generoAux = m1.getGenero();
+            for(Musica m2 : musicas) {
+                if(m2.getGenero().equals(generoAux)) {
+                    contador2++;
+                }
+            }
+            if(contador < contador2) {
+                System.out.println(generoAux);
+                System.out.println(contador2);
+                genero = generoAux;
+                contador = contador2;
+            }
+        }
+        return genero;
+    }
+
+    @Override
+    public List<Musica> getRecomendacoes(String email) {
+        String genero = getGeneroMaiorNumero(email);
+        List<Musica> musicasDoGenero = new ArrayList<Musica>();
+        for (Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
+            Musica musica = entry.getValue();
+            if(!(email.equals(musica.getEmail())) &&
+                 genero.equals(musica.getGenero())) {
+                musicasDoGenero.add(musica);
+            }
+        }
+        return musicasDoGenero;
+    }
     
 }

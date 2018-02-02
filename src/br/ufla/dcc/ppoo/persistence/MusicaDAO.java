@@ -27,10 +27,15 @@ public interface MusicaDAO {
     public int getQtdMusicas();
     public int getQtdMusicas(String email);
     
+    public String getGeneroMaiorNumero(String email);
+    public List<Musica> getRecomendacoes(String email);
+    
     public Musica getMusica(String nome, String email) throws MusicaNaoEncontradaException;
     public List<Musica> getMusicas(String email);
     public List<Musica> getMusicas();
     public List<Musica> getMusicasPeloNome(String nome);
     public List<Musica> getMusicasPelaTag(String tag);
+
+    
     
 }

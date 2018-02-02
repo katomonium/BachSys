@@ -43,6 +43,7 @@ public class TelaMusicas extends Tela {
     private JButton btnRemoverMusica;
     private JButton btnLogout;
     private JButton btnSair;
+    private JButton btnRecomendacoes;
     private Tabela tblMusicas;
     private JScrollPane painelDeRolagem;
     private JCheckBox boxMusicasUsuario;
@@ -241,6 +242,20 @@ public class TelaMusicas extends Tela {
             }
         });
         
+        btnRecomendacoes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    musicas = MusicaController.getInstancia().getRecomendacoes(email);
+                    criaTabelaMusicas(musicas, false);
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
     }
     
     private Integer confirmarSaida() {
@@ -279,21 +294,28 @@ public class TelaMusicas extends Tela {
         painelAcoes.adicionarComponente(btnAdicionarMusica, GridBagConstraints.CENTER,
                                         GridBagConstraints.BOTH, 0, 0, 1, 1, 0.5, 0);
 
+        
         btnRemoverMusica = new JButton("Remover");
         btnRemoverMusica.setToolTipText("Remover mussicas do catalogo");
         painelAcoes.adicionarComponente(btnRemoverMusica, GridBagConstraints.CENTER,
                                         GridBagConstraints.BOTH, 1, 0, 1, 1, 0.5, 0);
 
+        btnRecomendacoes = new JButton("Recomendaçoes");
+        btnRecomendacoes.setToolTipText("Musicas recomendadas");
+        painelAcoes.adicionarComponente(btnRecomendacoes, GridBagConstraints.CENTER,
+                                        GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
+        
         btnLogout = new JButton("Logout");
         btnLogout.setToolTipText("Fazer Logout do sistema");
         painelAcoes.adicionarComponente(btnLogout, GridBagConstraints.CENTER,
-                                        GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
+                                        GridBagConstraints.BOTH, 3, 0, 1, 1, 0.5, 0);
 
         btnSair = new JButton("Sair");
         btnSair.setToolTipText("Fazer logout e finalizar o programa");
         painelAcoes.adicionarComponente(btnSair, GridBagConstraints.CENTER,
-                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1, 0.5, 0);
-     
+                                        GridBagConstraints.HORIZONTAL, 4, 0, 1, 1, 0.5, 0);
+        
+        
     }
 
     
@@ -403,6 +425,9 @@ public class TelaMusicas extends Tela {
                             }
                             if(tdm.musicaAvaliada()) {
                                 setBoxMusicasFalse();
+                            }
+                            if(tdm.musicaAdicionada()) {
+                                setBoxMusicasTrue();
                             }
                         }
                     });

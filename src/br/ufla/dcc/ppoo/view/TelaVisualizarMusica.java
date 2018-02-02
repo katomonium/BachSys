@@ -7,7 +7,11 @@ package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.componentes.Painel;
 import br.ufla.dcc.ppoo.componentes.PainelDeRolagem;
+import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -45,17 +49,20 @@ public class TelaVisualizarMusica extends Tela {
     private JButton btnEditar;
     private JButton btnAvaliar;
     private JButton btnComentar;
+    private JButton btnAdicionar;
     private JButton btnFechar;
     
     private Musica musica;
 
     private Boolean editou;
     private Boolean avaliou;
+    private boolean adicionou;
     
     public TelaVisualizarMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
         editou = false;
         avaliou = false;
+        adicionou = false;
         this.musica = musica;
         
         construirTela();
@@ -117,11 +124,14 @@ public class TelaVisualizarMusica extends Tela {
         
         btnComentar = new JButton("Comentar");
         btnFechar = new JButton("Fechar");
+        btnAdicionar = new JButton("Adicionar");
         
         adicionarComponente(btnComentar, GridBagConstraints.EAST, 
                             GridBagConstraints.HORIZONTAL, 8, 0, 1, 1);
         adicionarComponente(btnFechar, GridBagConstraints.EAST, 
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
+        adicionarComponente(btnAdicionar, GridBagConstraints.EAST, 
+                    GridBagConstraints.HORIZONTAL, 9, 1, 1, 1);
         
         adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 0, 1, 1, 1);
@@ -190,6 +200,22 @@ public class TelaVisualizarMusica extends Tela {
                 //TODO: Comentar
             }
         });
+        btnAdicionar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    MusicaController.getInstancia().adicionarMusica(musica.getNome(), musica.getNome(), musica.getAutor(), 
+                                                            musica.getAlbum(), musica.getAno(), musica.getGenero(),
+                                                            email, musica.getTags());
+                    adicionou = true;
+                    setVisible(false);
+                } catch (MusicaJaCadastradaException | IOException | ClassNotFoundException | CampoVazioException | CampoMinimoException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
         
     }
     
@@ -197,7 +223,7 @@ public class TelaVisualizarMusica extends Tela {
         Tela t = this;
         btnEditar = new JButton("Editar");
         adicionarComponente(btnEditar, GridBagConstraints.WEST, 
-                    GridBagConstraints.NONE, 8, 1, 1, 1);
+                    GridBagConstraints.HORIZONTAL, 8, 1, 1, 1);
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -221,12 +247,15 @@ public class TelaVisualizarMusica extends Tela {
     public boolean musicaAvaliada() {
         return avaliou;
     }
-
+    public boolean musicaAdicionada() {
+        return adicionou;
+    }
+    
     private void adicionarBotaoAvaliar() {
         Tela t = this;
         btnAvaliar = new JButton("Avaliar");
         adicionarComponente(btnAvaliar, GridBagConstraints.WEST, 
-                    GridBagConstraints.NONE, 8, 1, 1, 1);
+                    GridBagConstraints.HORIZONTAL, 8, 1, 1, 1);
         btnAvaliar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {

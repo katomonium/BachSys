@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo;
 
+import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.ConfirmacaoDeSenhaException;
 import br.ufla.dcc.ppoo.exceptions.EmailInvalidoException;
@@ -11,8 +12,9 @@ import java.io.IOException;
 
 public class BachSys {
 
-    public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
-//
+    public static void main(String[] args) throws LoginInvalidoException, EmailJaCadastradoException, ConfirmacaoDeSenhaException, SenhaCurtaException, 
+                                                 CampoVazioException, EmailInvalidoException, IOException, ClassNotFoundException {
+        
         TelaInicial ti = new TelaInicial(null);
         ti.setVisible(true);
 //        TelaMusicas tp = new TelaMusicas(null);

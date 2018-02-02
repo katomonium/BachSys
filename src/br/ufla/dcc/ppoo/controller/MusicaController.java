@@ -55,7 +55,6 @@ public class MusicaController {
         if(INSTANCIA == null){
             INSTANCIA = new MusicaController();
         }
-        
         return INSTANCIA;
     }
     
@@ -179,6 +178,10 @@ public class MusicaController {
     public void adicionarPontos(String email, Musica musica, Integer pontosAdicionados) throws MusicaJaAvaliadaException, IOException {
         musica.adicionarPontos(email, pontosAdicionados);
         MUSICA_DAO.salvar();
+    }
+
+    public List<Musica> getRecomendacoes(String email) {
+        return MUSICA_DAO.getRecomendacoes(email);
     }
     
     
