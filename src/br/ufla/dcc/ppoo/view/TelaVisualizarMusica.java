@@ -177,6 +177,7 @@ public class TelaVisualizarMusica extends Tela {
 
     @Override
     protected void adicionarAcoes() {
+        Tela t = this;
         btnFechar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -187,7 +188,8 @@ public class TelaVisualizarMusica extends Tela {
         btnComentar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                //TODO: Comentar
+                TelaComentario tc = new TelaComentario("Comentario", 400, 600, musica, t);
+                tc.setVisible(true);
             }
         });
         
