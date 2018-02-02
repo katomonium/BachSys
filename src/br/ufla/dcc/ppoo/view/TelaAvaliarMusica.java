@@ -74,7 +74,6 @@ public class TelaAvaliarMusica extends Tela {
                 try {
                     String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     Integer pontosAdicionados = (Integer) pontos.getSelectedItem();
-                    System.out.println(email);
                     MusicaController.getInstancia().adicionarPontos(email, musica, pontosAdicionados);
                     setVisible(false);
                 } catch (IOException | ClassNotFoundException | MusicaJaAvaliadaException ex) {

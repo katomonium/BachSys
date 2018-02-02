@@ -50,7 +50,6 @@ public class Tabela extends JTable {
         
         if(musicas == null){
             Object objetos[][] = new Object[1][colunaCheckBox + 1];
-            System.out.println("Chegou null");
             return objetos;
         }
         

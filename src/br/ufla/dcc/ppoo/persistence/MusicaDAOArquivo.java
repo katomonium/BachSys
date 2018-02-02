@@ -179,8 +179,6 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
                 }
             }
             if(contador < contador2) {
-                System.out.println(generoAux);
-                System.out.println(contador2);
                 genero = generoAux;
                 contador = contador2;
             }

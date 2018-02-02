@@ -6,7 +6,6 @@
 package br.ufla.dcc.ppoo.view;
 
 import br.ufla.dcc.ppoo.componentes.Painel;
-import br.ufla.dcc.ppoo.componentes.PainelDeRolagem;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
@@ -73,6 +72,7 @@ public class TelaVisualizarMusica extends Tela {
                 adicionarBotaoEditar();
             } else {
                 adicionarBotaoAvaliar();
+                adicionarBotaoAdicionar();
             }
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -89,14 +89,7 @@ public class TelaVisualizarMusica extends Tela {
         lbAno = new JLabel("Ano:");
         lbAutor = new JLabel("Autor:");
         lbGenero = new JLabel("Gênero:");
-        lbTags = new JLabel("Tags:");
-        
-        System.out.println("asdkpaosdkpaosdkpasdspok");
-//
-//        Painel p = new Painel(800, 300);
-//        PainelDeRolagem pr = new PainelDeRolagem(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-//                                                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//        
+        lbTags = new JLabel("Tags:");     
         
         lbValorNome = new JTextArea();
         lbValorAutor = new JTextArea();
@@ -124,14 +117,11 @@ public class TelaVisualizarMusica extends Tela {
         
         btnComentar = new JButton("Comentar");
         btnFechar = new JButton("Fechar");
-        btnAdicionar = new JButton("Adicionar");
         
         adicionarComponente(btnComentar, GridBagConstraints.EAST, 
                             GridBagConstraints.HORIZONTAL, 8, 0, 1, 1);
         adicionarComponente(btnFechar, GridBagConstraints.EAST, 
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
-        adicionarComponente(btnAdicionar, GridBagConstraints.EAST, 
-                    GridBagConstraints.HORIZONTAL, 9, 1, 1, 1);
         
         adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
                             GridBagConstraints.NONE, 0, 1, 1, 1);
@@ -200,21 +190,7 @@ public class TelaVisualizarMusica extends Tela {
                 //TODO: Comentar
             }
         });
-        btnAdicionar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
-                    MusicaController.getInstancia().adicionarMusica(musica.getNome(), musica.getNome(), musica.getAutor(), 
-                                                            musica.getAlbum(), musica.getAno(), musica.getGenero(),
-                                                            email, musica.getTags());
-                    adicionou = true;
-                    setVisible(false);
-                } catch (MusicaJaCadastradaException | IOException | ClassNotFoundException | CampoVazioException | CampoMinimoException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        
         
         
     }
@@ -269,6 +245,29 @@ public class TelaVisualizarMusica extends Tela {
                         adicionarValores();
                     }
                 });
+            }
+        });
+    }
+    
+    
+    private void adicionarBotaoAdicionar() {
+        Tela t = this;
+        btnAdicionar = new JButton("Adicionar");
+        adicionarComponente(btnAdicionar, GridBagConstraints.EAST, 
+                    GridBagConstraints.HORIZONTAL, 9, 1, 1, 1);
+        btnAdicionar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    MusicaController.getInstancia().adicionarMusica(musica.getNome(), musica.getNome(), musica.getAutor(), 
+                                                            musica.getAlbum(), musica.getAno(), musica.getGenero(),
+                                                            email, musica.getTags());
+                    adicionou = true;
+                    setVisible(false);
+                } catch (MusicaJaCadastradaException | IOException | ClassNotFoundException | CampoVazioException | CampoMinimoException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
