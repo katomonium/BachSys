@@ -78,5 +78,11 @@ public class ComentarioDAOArquivo extends DAOArquivo implements ComentarioDAO {
         salvar();
     }
     
+    public void removerComentariosDaMusica(String nomeMusica, String emailDono) throws IOException {
+        this.comentarios.remove(Arrays.asList(emailDono, nomeMusica));
+        salvar();
+    
+    }
+    
     
 }

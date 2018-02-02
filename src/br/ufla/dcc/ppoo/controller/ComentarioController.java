@@ -36,8 +36,12 @@ public class ComentarioController {
         return COMENTARIO_DAO.getComentariosMusica(emailDono, musicaNome);
     }
 
-    public void modificarComentario(String nomeMusicaAntigo, String nomeMusicaNovo, String emailDono) throws IOException {
+    public void modificarChaveComentarios(String nomeMusicaAntigo, String nomeMusicaNovo, String emailDono) throws IOException {
         COMENTARIO_DAO.modificarComentario(nomeMusicaAntigo, nomeMusicaNovo, emailDono);
+    }
+    
+    public void removerComentariosDaMusica(String nomeMusica, String emailDono) throws IOException {
+        COMENTARIO_DAO.removerComentariosDaMusica(nomeMusica, emailDono);
     }
 
 }

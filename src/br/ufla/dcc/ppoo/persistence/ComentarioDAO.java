@@ -15,5 +15,7 @@ public interface ComentarioDAO {
     public List<Comentario> getComentariosMusica(String emailDono, String musicaNome);
     
     public void salvar() throws IOException;
+
+    public void removerComentariosDaMusica(String nomeMusica, String emailDono) throws IOException;
     
 }

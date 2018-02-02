@@ -109,7 +109,7 @@ public class MusicaController {
         
         MUSICA_DAO.editarMusica(nomeAntigo, m, usuario);
         
-        ComentarioController.getIntancia().modificarComentario(nomeAntigo, m.getNome(), m.getEmail());
+        ComentarioController.getIntancia().modificarChaveComentarios(nomeAntigo, m.getNome(), m.getEmail());
         
     }
 
@@ -121,6 +121,7 @@ public class MusicaController {
                                 ClassNotFoundException, MusicaNaoEncontradaException {
         
         MUSICA_DAO.remover(nome, email);
+        ComentarioController.getIntancia().removerComentariosDaMusica(nome, email);
     }
     
     
