@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.persistence;
 
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
@@ -166,7 +167,7 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
     }
 
     @Override
-    public String getGeneroMaiorNumero(String email) {
+    public String getMaiorGenero(String email) {
         List<Musica> musicas = getMusicas(email);
         int contador = 0;
         String genero = "";
@@ -187,8 +188,8 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
     }
 
     @Override
-    public List<Musica> getRecomendacoes(String email) {
-        String genero = getGeneroMaiorNumero(email);
+    public List<Musica> getRecomendacoes(String email) throws SemRecomendacaoException {
+        String genero = getMaiorGenero(email);
         List<Musica> musicasDoGenero = new ArrayList<Musica>();
         for (Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
             Musica musica = entry.getValue();
@@ -201,6 +202,9 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
                     musicasDoGenero.add(musica);
                 }
             }
+        }
+        if(musicasDoGenero.isEmpty()) {
+            throw new SemRecomendacaoException();
         }
         return musicasDoGenero;
     }

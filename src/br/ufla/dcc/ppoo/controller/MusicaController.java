@@ -5,6 +5,7 @@ import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaAvaliadaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import br.ufla.dcc.ppoo.persistence.MusicaDAOArquivo;
@@ -184,7 +185,7 @@ public class MusicaController {
         MUSICA_DAO.salvar();
     }
 
-    public List<Musica> getRecomendacoes(String email) {
+    public List<Musica> getRecomendacoes(String email) throws SemRecomendacaoException {
         List<Musica> musicas = MUSICA_DAO.getRecomendacoes(email);
         musicas = ordenarPelaNotaDecrescente(musicas);
         return musicas;

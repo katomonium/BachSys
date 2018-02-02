@@ -6,6 +6,7 @@ import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Color;
 import java.awt.Font;
@@ -250,7 +251,7 @@ public class TelaMusicas extends Tela {
                     String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
                     musicas = MusicaController.getInstancia().getRecomendacoes(email);
                     criaTabelaMusicas(musicas, false);
-                } catch (IOException | ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException | SemRecomendacaoException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
                                                 JOptionPane.ERROR_MESSAGE);
                 }
