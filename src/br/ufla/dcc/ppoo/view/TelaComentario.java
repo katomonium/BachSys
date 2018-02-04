@@ -5,7 +5,7 @@
  */
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.componentes.Painel;
+import br.ufla.dcc.ppoo.components.Painel;
 import br.ufla.dcc.ppoo.controller.ComentarioController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.exceptions.TamanhoMaximoComentario;
@@ -46,6 +46,7 @@ public class TelaComentario extends Tela {
         this.musica = musica;
         construirTela();
         adicionarAcoes();
+        pack();
     }
 
     @Override

@@ -31,6 +31,7 @@ public class TelaLogin extends Tela {
         this.construirTela();
         
         adicionarAcoes();
+        pack();
     }
     
     @Override

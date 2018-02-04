@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufla.dcc.ppoo.componentes;
+package br.ufla.dcc.ppoo.components;
 
 import br.ufla.dcc.ppoo.model.Musica;
 import java.util.List;

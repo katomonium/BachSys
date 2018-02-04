@@ -5,7 +5,7 @@
  */
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.componentes.Painel;
+import br.ufla.dcc.ppoo.components.Painel;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;

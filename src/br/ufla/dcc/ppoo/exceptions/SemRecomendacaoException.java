@@ -12,7 +12,7 @@ package br.ufla.dcc.ppoo.exceptions;
 public class SemRecomendacaoException extends Exception {
 
     public SemRecomendacaoException() {
-        super("Desculpe, não encontramos nada que possasmos recomendar para você");
+        super("Desculpe, não encontramos nada que possamos recomendar para você");
     }
     
 }
