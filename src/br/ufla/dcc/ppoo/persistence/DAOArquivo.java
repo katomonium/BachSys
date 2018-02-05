@@ -9,7 +9,7 @@ public abstract class DAOArquivo {
     private final String nomeArquivo;
 
     public DAOArquivo(String nomeArquivo) throws IOException {
-        this.nomeArquivo = nomeArquivo;
+        this.nomeArquivo = "arquivos/" + nomeArquivo;
         gerarArquivoSeNaoExiste();
     }
     

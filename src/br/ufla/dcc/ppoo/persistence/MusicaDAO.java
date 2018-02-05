@@ -7,6 +7,7 @@ package br.ufla.dcc.ppoo.persistence;
 
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.io.IOException;
 import java.util.List;
@@ -27,10 +28,15 @@ public interface MusicaDAO {
     public int getQtdMusicas();
     public int getQtdMusicas(String email);
     
+    public String getMaiorGenero(String email);
+    public List<Musica> getRecomendacoes(String email) throws SemRecomendacaoException;
+    
     public Musica getMusica(String nome, String email) throws MusicaNaoEncontradaException;
     public List<Musica> getMusicas(String email);
     public List<Musica> getMusicas();
     public List<Musica> getMusicasPeloNome(String nome);
     public List<Musica> getMusicasPelaTag(String tag);
+
+    
     
 }

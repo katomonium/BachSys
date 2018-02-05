@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufla.dcc.ppoo.componentes;
+package br.ufla.dcc.ppoo.components;
 
 import br.ufla.dcc.ppoo.model.Musica;
 import java.util.List;
@@ -50,7 +50,6 @@ public class Tabela extends JTable {
         
         if(musicas == null){
             Object objetos[][] = new Object[1][colunaCheckBox + 1];
-            System.out.println("Chegou null");
             return objetos;
         }
         
@@ -63,6 +62,7 @@ public class Tabela extends JTable {
             objetos[i][2] = musicas.get(i).getAlbum();
             objetos[i][3] = musicas.get(i).getGenero();
             objetos[i][4] = musicas.get(i).getAno();
+            objetos[i][5] = musicas.get(i).getPontos();
         }
         return objetos;
     } 

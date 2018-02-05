@@ -5,9 +5,12 @@
  */
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.componentes.Painel;
-import br.ufla.dcc.ppoo.componentes.PainelDeRolagem;
+import br.ufla.dcc.ppoo.components.Painel;
+import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
+import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.model.Musica;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -25,7 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
-public class TelaDadosMusica extends Tela {
+public class TelaVisualizarMusica extends Tela {
 
     private JLabel lbNome;
     private JLabel lbAutor;
@@ -43,16 +46,22 @@ public class TelaDadosMusica extends Tela {
     private JTextArea lbValorUsuario;
     
     private JButton btnEditar;
+    private JButton btnAvaliar;
     private JButton btnComentar;
+    private JButton btnAdicionar;
     private JButton btnFechar;
     
     private Musica musica;
 
     private Boolean editou;
+    private Boolean avaliou;
+    private boolean adicionou;
     
-    public TelaDadosMusica(Musica musica, Tela t) {
+    public TelaVisualizarMusica(Musica musica, Tela t) {
         super(musica.getNome(), 350, 450, t);
         editou = false;
+        avaliou = false;
+        adicionou = false;
         this.musica = musica;
         
         construirTela();
@@ -61,6 +70,9 @@ public class TelaDadosMusica extends Tela {
         try {
             if(UsuarioController.getInstancia().getEmailUsuarioLogado().equals(musica.getEmail())) {
                 adicionarBotaoEditar();
+            } else {
+                adicionarBotaoAvaliar();
+                adicionarBotaoAdicionar();
             }
         } catch (IOException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -77,14 +89,7 @@ public class TelaDadosMusica extends Tela {
         lbAno = new JLabel("Ano:");
         lbAutor = new JLabel("Autor:");
         lbGenero = new JLabel("Gênero:");
-        lbTags = new JLabel("Tags:");
-        
-        System.out.println("asdkpaosdkpaosdkpasdspok");
-//
-//        Painel p = new Painel(800, 300);
-//        PainelDeRolagem pr = new PainelDeRolagem(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-//                                                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-//        
+        lbTags = new JLabel("Tags:");     
         
         lbValorNome = new JTextArea();
         lbValorAutor = new JTextArea();
@@ -119,23 +124,19 @@ public class TelaDadosMusica extends Tela {
                     GridBagConstraints.HORIZONTAL, 9, 0, 1, 1);
         
         adicionarComponente(lbValorNome, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 0, 1, 1, 1);
+                            GridBagConstraints.NONE, 0, 1, 2, 1);
         adicionarComponente(lbValorAlbum, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 1, 1, 1, 1);
+                            GridBagConstraints.NONE, 1, 1, 2, 1);
         adicionarComponente(lbValorAno, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 2, 1, 1, 1);
+                            GridBagConstraints.NONE, 2, 1, 2, 1);
         adicionarComponente(lbValorAutor, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 3, 1, 1, 1);
+                            GridBagConstraints.NONE, 3, 1, 2, 1);
         adicionarComponente(lbValorGenero, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 4, 1, 1, 1);
+                            GridBagConstraints.NONE, 4, 1, 2, 1);
         adicionarComponente(lbValorTags, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 5, 1, 1, 1);
+                            GridBagConstraints.NONE, 5, 1, 2, 1);
         adicionarComponente(lbValorUsuario, GridBagConstraints.WEST, 
-                            GridBagConstraints.NONE, 6, 1, 1, 1);
-        
-        
-//        adicionarComponente(pr, GridBagConstraints.EAST, 
-//                    GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+                            GridBagConstraints.NONE, 6, 1, 2, 1);
         
         adicionarValores();
     }
@@ -172,6 +173,7 @@ public class TelaDadosMusica extends Tela {
 
     @Override
     protected void adicionarAcoes() {
+        Tela t = this;
         btnFechar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -182,7 +184,8 @@ public class TelaDadosMusica extends Tela {
         btnComentar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                //TODO: Comentar
+                TelaComentario tc = new TelaComentario("Comentario", 400, 600, musica, t);
+                tc.setVisible(true);
             }
         });
         
@@ -191,8 +194,9 @@ public class TelaDadosMusica extends Tela {
     private void adicionarBotaoEditar() {
         Tela t = this;
         btnEditar = new JButton("Editar");
+        btnEditar.setPreferredSize(btnComentar.getPreferredSize());
         adicionarComponente(btnEditar, GridBagConstraints.WEST, 
-                    GridBagConstraints.NONE, 8, 1, 1, 1);
+                    GridBagConstraints.HORIZONTAL, 8, 1, 1, 1);
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -204,13 +208,66 @@ public class TelaDadosMusica extends Tela {
                         musica = tem.getMusica();
                         editou = true;
                         adicionarValores();
+                        pack();
+
                     }
                 });
             }
         });
     } 
 
-    boolean musicaAlterada() {
+    public boolean musicaAlterada() {
         return editou;
+    }
+    public boolean musicaAvaliada() {
+        return avaliou;
+    }
+    public boolean musicaAdicionada() {
+        return adicionou;
+    }
+    
+    private void adicionarBotaoAvaliar() {
+        Tela t = this;
+        btnAvaliar = new JButton("Avaliar");
+        adicionarComponente(btnAvaliar, GridBagConstraints.WEST, 
+                    GridBagConstraints.HORIZONTAL, 8, 1, 1, 1);
+        btnAvaliar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                TelaAvaliarMusica tam = new TelaAvaliarMusica(musica.getNome(), musica, t);
+                tam.setVisible(true);
+                tam.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+                        musica = tam.getMusica();
+                        avaliou = true;
+                        adicionarValores();
+                    }
+                });
+            }
+        });
+    }
+    
+    
+    private void adicionarBotaoAdicionar() {
+        Tela t = this;
+        btnAdicionar = new JButton("Adicionar");
+        adicionarComponente(btnAdicionar, GridBagConstraints.EAST, 
+                    GridBagConstraints.HORIZONTAL, 9, 1, 1, 1);
+        btnAdicionar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    MusicaController.getInstancia().adicionarMusica(musica.getNome(), musica.getNome(), musica.getAutor(), 
+                                                            musica.getAlbum(), musica.getAno(), musica.getGenero(),
+                                                            email, musica.getTags());
+                    adicionou = true;
+                    setVisible(false);
+                } catch (MusicaJaCadastradaException | IOException | ClassNotFoundException | CampoVazioException | CampoMinimoException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 }

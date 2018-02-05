@@ -31,6 +31,7 @@ public class TelaLogin extends Tela {
         this.construirTela();
         
         adicionarAcoes();
+        pack();
     }
     
     @Override
@@ -78,7 +79,7 @@ public class TelaLogin extends Tela {
                 } finally {
                     if(UsuarioController.estaLogado()) {
                         setVisible(false);
-                        new TelaPrincipal(getTelaAnterior()).setVisible(true);
+                        new TelaMusicas(getTelaAnterior()).setVisible(true);
                         getTelaAnterior().setVisible(false);
                     }
                 }

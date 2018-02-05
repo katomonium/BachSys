@@ -2,8 +2,10 @@ package br.ufla.dcc.ppoo.controller;
 
 import br.ufla.dcc.ppoo.exceptions.CampoMinimoException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.MusicaJaAvaliadaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.model.Musica;
 import br.ufla.dcc.ppoo.persistence.MusicaDAO;
 import br.ufla.dcc.ppoo.persistence.MusicaDAOArquivo;
@@ -54,7 +56,6 @@ public class MusicaController {
         if(INSTANCIA == null){
             INSTANCIA = new MusicaController();
         }
-        
         return INSTANCIA;
     }
     
@@ -80,10 +81,10 @@ public class MusicaController {
         return musicas;
     }
     
-    public void modificarMusica(String chave, String nome, String autor, String album,
+    public void modificarMusica(String nomeAntigo, String nome, String autor, String album,
             Integer ano, String genero, String usuario, String[] tags) throws IOException, 
             CampoVazioException, CampoMinimoException, MusicaNaoEncontradaException, 
-            MusicaJaCadastradaException {
+            MusicaJaCadastradaException, ClassNotFoundException {
         
         
         if(nome.equals("")) {
@@ -105,9 +106,12 @@ public class MusicaController {
             throw new CampoMinimoException("tags", 2);
         }
         
+        Musica m = new Musica(nome, autor, album, ano, genero, usuario, tags);
         
-        MUSICA_DAO.editarMusica(chave, 
-            new Musica(nome, autor, album, ano, genero, usuario, tags), usuario);
+        MUSICA_DAO.editarMusica(nomeAntigo, m, usuario);
+        
+        ComentarioController.getIntancia().modificarChaveComentarios(nomeAntigo, m.getNome(), m.getEmail());
+        
     }
 
     public Musica getMusica(String nome, String email) throws MusicaNaoEncontradaException {
@@ -118,6 +122,7 @@ public class MusicaController {
                                 ClassNotFoundException, MusicaNaoEncontradaException {
         
         MUSICA_DAO.remover(nome, email);
+        ComentarioController.getIntancia().removerComentariosDaMusica(nome, email);
     }
     
     
@@ -144,8 +149,8 @@ public class MusicaController {
         for(int i = 0; i < musicas.size() - 1; i++) {
             posMaior = i;
             for(int j = i + 1; j < musicas.size(); j++) {
-                int notaJ = musicas.get(j).getNota();
-                int notaMaior = musicas.get(posMaior).getNota();
+                int notaJ = musicas.get(j).getPontos();
+                int notaMaior = musicas.get(posMaior).getPontos();
                 if(notaJ > notaMaior) {
                     posMaior = j;
                 }
@@ -172,8 +177,19 @@ public class MusicaController {
             throw new MusicaNaoEncontradaException();
         }
         m1 = ordenarPelaNotaDecrescente(m1);
-        return m1;
-        
+        return m1;    
     }
+    
+    public void adicionarPontos(String email, Musica musica, Integer pontosAdicionados) throws MusicaJaAvaliadaException, IOException {
+        musica.adicionarPontos(email, pontosAdicionados);
+        MUSICA_DAO.salvar();
+    }
+
+    public List<Musica> getRecomendacoes(String email) throws SemRecomendacaoException {
+        List<Musica> musicas = MUSICA_DAO.getRecomendacoes(email);
+        musicas = ordenarPelaNotaDecrescente(musicas);
+        return musicas;
+    }
+    
     
 }

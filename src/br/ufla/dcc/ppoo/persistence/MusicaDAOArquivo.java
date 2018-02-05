@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.persistence;
 
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.exceptions.MusicaJaCadastradaException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
 import br.ufla.dcc.ppoo.model.Musica;
@@ -110,14 +111,17 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
     @Override
     public void editarMusica(String chave ,Musica m, String email) throws IOException, MusicaNaoEncontradaException, MusicaJaCadastradaException {
         List<String> key = Arrays.asList(chave, email);
+        
         if(this.musicas.get(key) == null) {
             throw new MusicaNaoEncontradaException();
         }
+        Musica musicaAntiga = this.musicas.get(key);
+        this.musicas.remove(key);
         List<String> novaKey = Arrays.asList(m.getNome(), email);
         if(this.musicas.get(novaKey) != null) {
+            this.musicas.put(key, musicaAntiga);
             throw new MusicaJaCadastradaException();
         }
-        this.musicas.remove(key);
         this.musicas.put(novaKey, m);
         salvar();
     }
@@ -160,6 +164,49 @@ public class MusicaDAOArquivo extends DAOArquivo implements MusicaDAO {
             }
         }
         return retorno;
+    }
+
+    @Override
+    public String getMaiorGenero(String email) {
+        List<Musica> musicas = getMusicas(email);
+        int contador = 0;
+        String genero = "";
+        for(Musica m1 : musicas) {
+            int contador2 = 0;
+            String generoAux = m1.getGenero();
+            for(Musica m2 : musicas) {
+                if(m2.getGenero().equals(generoAux)) {
+                    contador2++;
+                }
+            }
+            if(contador < contador2) {
+                genero = generoAux;
+                contador = contador2;
+            }
+        }
+        return genero;
+    }
+
+    @Override
+    public List<Musica> getRecomendacoes(String email) throws SemRecomendacaoException {
+        String genero = getMaiorGenero(email);
+        List<Musica> musicasDoGenero = new ArrayList<Musica>();
+        for (Map.Entry<List<String>,Musica> entry : musicas.entrySet()) {
+            Musica musica = entry.getValue();
+            // se a musica nao pertence ao usuario e o genero é igual ao "favorito" do usuario
+            if(!(email.equals(musica.getEmail())) &&
+                    genero.equals(musica.getGenero())) {
+                // se o usuario nao cadastrou uma musica com aquele nome
+                List<String> key = Arrays.asList(musica.getNome(), email);                
+                if(this.musicas.get(key) == null) {
+                    musicasDoGenero.add(musica);
+                }
+            }
+        }
+        if(musicasDoGenero.isEmpty()) {
+            throw new SemRecomendacaoException();
+        }
+        return musicasDoGenero;
     }
     
 }

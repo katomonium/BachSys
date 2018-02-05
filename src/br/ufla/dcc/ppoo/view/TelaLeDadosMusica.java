@@ -37,7 +37,7 @@ public abstract class TelaLeDadosMusica  extends Tela {
     
     
     public TelaLeDadosMusica(String titulo, Tela t) {
-        super(titulo, 350, 200, t);
+        super(titulo, 350, 250, t);
     }
 
     

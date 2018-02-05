@@ -1,13 +1,13 @@
 package br.ufla.dcc.ppoo.view;
 
-import br.ufla.dcc.ppoo.componentes.Painel;
-import br.ufla.dcc.ppoo.componentes.Tabela;
+import br.ufla.dcc.ppoo.components.Painel;
+import br.ufla.dcc.ppoo.components.Tabela;
 import br.ufla.dcc.ppoo.controller.MusicaController;
 import br.ufla.dcc.ppoo.controller.UsuarioController;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.MusicaNaoEncontradaException;
+import br.ufla.dcc.ppoo.exceptions.SemRecomendacaoException;
 import br.ufla.dcc.ppoo.model.Musica;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -21,20 +21,17 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 
-public class TelaPrincipal extends Tela {
+public class TelaMusicas extends Tela {
     
     private Painel painelDadosUsuario;
     private Painel painelAcoes;
@@ -43,6 +40,7 @@ public class TelaPrincipal extends Tela {
     private JButton btnRemoverMusica;
     private JButton btnLogout;
     private JButton btnSair;
+    private JButton btnRecomendacoes;
     private Tabela tblMusicas;
     private JScrollPane painelDeRolagem;
     private JCheckBox boxMusicasUsuario;
@@ -55,8 +53,10 @@ public class TelaPrincipal extends Tela {
     private JLabel lbValorQtdMusica;
     private JLabel lbValorEmail;
     private JLabel lbValorNome;
+    private JLabel imagem;
+
     
-    public TelaPrincipal(Tela t) {
+    public TelaMusicas(Tela t) {
         super("BachSys", 800, 600, t);
         atualizarListaMusicas();
         painelDeRolagem = null;
@@ -164,7 +164,8 @@ public class TelaPrincipal extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if(boxMusicasUsuario.isSelected()) {
-                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente remover as musicas selecionadas?",
+                    String texto = "Deseja realmente remover as musicas selecionadas?\nOs comentários das músicas também serão removidos.";
+                    int confirmacao = JOptionPane.showConfirmDialog(null, texto,
                                                 "Remover musicas", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                     if(confirmacao == JOptionPane.NO_OPTION) {
                         return;
@@ -241,6 +242,20 @@ public class TelaPrincipal extends Tela {
             }
         });
         
+        btnRecomendacoes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
+                    musicas = MusicaController.getInstancia().getRecomendacoes(email);
+                    criaTabelaMusicas(musicas, false);
+                } catch (IOException | ClassNotFoundException | SemRecomendacaoException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", 
+                                                JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
     }
     
     private Integer confirmarSaida() {
@@ -279,57 +294,73 @@ public class TelaPrincipal extends Tela {
         painelAcoes.adicionarComponente(btnAdicionarMusica, GridBagConstraints.CENTER,
                                         GridBagConstraints.BOTH, 0, 0, 1, 1, 0.5, 0);
 
+        
         btnRemoverMusica = new JButton("Remover");
         btnRemoverMusica.setToolTipText("Remover mussicas do catalogo");
         painelAcoes.adicionarComponente(btnRemoverMusica, GridBagConstraints.CENTER,
                                         GridBagConstraints.BOTH, 1, 0, 1, 1, 0.5, 0);
 
+        btnRecomendacoes = new JButton("Recomendaçoes");
+        btnRecomendacoes.setToolTipText("Musicas recomendadas");
+        painelAcoes.adicionarComponente(btnRecomendacoes, GridBagConstraints.CENTER,
+                                        GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
+        
         btnLogout = new JButton("Logout");
         btnLogout.setToolTipText("Fazer Logout do sistema");
         painelAcoes.adicionarComponente(btnLogout, GridBagConstraints.CENTER,
-                                        GridBagConstraints.BOTH, 2, 0, 1, 1, 0.5, 0);
+                                        GridBagConstraints.BOTH, 3, 0, 1, 1, 0.5, 0);
 
         btnSair = new JButton("Sair");
         btnSair.setToolTipText("Fazer logout e finalizar o programa");
         painelAcoes.adicionarComponente(btnSair, GridBagConstraints.CENTER,
-                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1, 0.5, 0);
-     
+                                        GridBagConstraints.HORIZONTAL, 4, 0, 1, 1, 0.5, 0);
+        
+        
     }
 
     
     
     private void adicionarPainelDadosUsuario() {
         try {
-            painelDadosUsuario = new Painel(200, 200);
+            painelDadosUsuario = new Painel(200, 250);
         
 //            painelDadosUsuario.setBackground(Color.white);
             adicionarComponente(painelDadosUsuario, GridBagConstraints.WEST, 
                     GridBagConstraints.NONE, 0, 0, 1, 1);
-
+            
+            
             String nome = UsuarioController.getInstancia().getNomeUsuarioLogado();
             lbNome = new JLabel("Bem vindo,");
+            lbNome.setFont(new Font("Dialog", Font.BOLD, 15));
             painelDadosUsuario.adicionarComponente(lbNome, GridBagConstraints.CENTER, 
-                                        GridBagConstraints.HORIZONTAL, 0, 0, 1, 1);
+                                        GridBagConstraints.NONE, 0, 0, 1, 1);
+            
             lbValorNome = new JLabel(nome);
+            lbValorNome.setFont(new Font("Dialog", Font.BOLD, 15));
             painelDadosUsuario.adicionarComponente(lbValorNome, GridBagConstraints.CENTER, 
-                                        GridBagConstraints.HORIZONTAL, 1, 0, 1, 1);
+                                        GridBagConstraints.NONE, 1, 0, 1, 1);
+            
+            imagem = new JLabel(new ImageIcon("./images/music-player.png"));
+            painelDadosUsuario.adicionarComponente(imagem, GridBagConstraints.CENTER, 
+                                        GridBagConstraints.HORIZONTAL, 2, 0, 1, 1);
             
             String email = UsuarioController.getInstancia().getEmailUsuarioLogado();
             lbEmail = new JLabel("Email:");
             painelDadosUsuario.adicionarComponente(lbEmail, GridBagConstraints.CENTER, 
-                                        GridBagConstraints.HORIZONTAL, 2, 0, 1, 1);
+                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1);
             lbValorEmail = new JLabel(email);
             painelDadosUsuario.adicionarComponente(lbValorEmail, GridBagConstraints.CENTER, 
-                                        GridBagConstraints.HORIZONTAL, 3, 0, 1, 1);
+                                        GridBagConstraints.HORIZONTAL, 4, 0, 1, 1);
 
             Integer qtdMusicas;
             qtdMusicas = MusicaController.getInstancia().getQtdMusicas(email);
             lbQtdMusica = new JLabel("Quantidade de músicas: ");
             painelDadosUsuario.adicionarComponente(lbQtdMusica, GridBagConstraints.CENTER, 
-                                    GridBagConstraints.HORIZONTAL, 4 , 0, 1, 1);
+                                    GridBagConstraints.HORIZONTAL, 5 , 0, 1, 1);
             lbValorQtdMusica = new JLabel(qtdMusicas.toString());
             painelDadosUsuario.adicionarComponente(lbValorQtdMusica, GridBagConstraints.CENTER, 
-                                    GridBagConstraints.HORIZONTAL, 5 , 0, 1, 1);
+                                    GridBagConstraints.HORIZONTAL, 6 , 0, 1, 1);
+            
         } catch (ClassNotFoundException | IOException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -339,7 +370,7 @@ public class TelaPrincipal extends Tela {
     
     
     private void adicionarPainelListaMusica() {
-        painelListaMusica = new Painel(600, 550);
+        painelListaMusica = new Painel(650, 550);
         adicionarComponente(painelListaMusica, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 1, 1, 2);
 //        painelListaMusica.setBackground(Color.red);
         
@@ -361,7 +392,7 @@ public class TelaPrincipal extends Tela {
             painelListaMusica.remove(painelDeRolagem);
         }
         
-        String[] colunas = {"Nome", "Autor", "Album", "Gênero", "Ano" };
+        String[] colunas = {"Nome", "Autor", "Album", "Gênero", "Ano", "Pontos"};
         
         
         tblMusicas = new Tabela(musicas, colunas, mostrarCheckBox);
@@ -392,13 +423,19 @@ public class TelaPrincipal extends Tela {
                     if(column == tblMusicas.getColunaCheckBox()) {
                         return;
                     }
-                    TelaDadosMusica tdm = new TelaDadosMusica(musicas.get(row), t);
+                    TelaVisualizarMusica tdm = new TelaVisualizarMusica(musicas.get(row), t);
                     
                     tdm.setVisible(true);
                     tdm.addComponentListener(new ComponentAdapter() {
                         @Override
                         public void componentHidden(ComponentEvent e) {
                             if(tdm.musicaAlterada()) {
+                                setBoxMusicasTrue();
+                            }
+                            if(tdm.musicaAvaliada()) {
+                                setBoxMusicasFalse();
+                            }
+                            if(tdm.musicaAdicionada()) {
                                 setBoxMusicasTrue();
                             }
                         }

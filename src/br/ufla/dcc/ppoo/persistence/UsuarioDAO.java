@@ -14,7 +14,7 @@ import java.util.Map;
 
 public interface UsuarioDAO {
     
-    public void escreverNoArquivo() throws IOException;
+    public void salvar() throws IOException;
     public Usuario getUsuario(String email);
     public void adicionarUsuario(Usuario u) throws IOException, EmailJaCadastradoException;
     
